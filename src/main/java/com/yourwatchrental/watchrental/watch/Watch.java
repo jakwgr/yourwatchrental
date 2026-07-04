@@ -82,4 +82,134 @@ public class Watch {
 
     @OneToMany(mappedBy = "watch", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rental> rentals = new ArrayList<>();
+
+    public Watch() {
+    }
+
+    public Watch(String manufacturer, String model, String referenceNumber, String movement, int yearOfProduction, String description, BigDecimal pricePerDay, Condition condition, Gender gender, MovementType movementType, Status status, WatchType watchType) {
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.referenceNumber = referenceNumber;
+        this.movement = movement;
+        this.yearOfProduction = yearOfProduction;
+        this.description = description;
+        this.pricePerDay = pricePerDay;
+        this.condition = condition;
+        this.gender = gender;
+        this.movementType = movementType;
+        this.status = status;
+        this.watchType = watchType;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public String getMovement() {
+        return movement;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getYearOfProduction() {
+        return yearOfProduction;
+    }
+
+    public BigDecimal getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public Condition getCondition() {
+        return condition;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public MovementType getMovementType() {
+        return movementType;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public WatchType getWatchType() {
+        return watchType;
+    }
+
+    public List<WatchHistory> getHistory() {
+        return history;
+    }
+
+    public List<WatchPhoto> getPhotos() {
+        return photos;
+    }
+
+    public List<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
+    }
+
+    public void setMovement(String movement) {
+        this.movement = movement;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setYearOfProduction(int yearOfProduction) {
+        this.yearOfProduction = yearOfProduction;
+    }
+
+    public void setPricePerDay(BigDecimal pricePerDay) {
+        this.pricePerDay = pricePerDay;
+    }
+
+    public void setCondition(Condition condition) {
+        this.condition = condition;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public void setMovementType(MovementType movementType) {
+        this.movementType = movementType;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setWatchType(WatchType watchType) {
+        this.watchType = watchType;
+    }
 }

@@ -27,4 +27,41 @@ public class WatchHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "watch_id", nullable = false)
     private Watch watch;
+
+    public WatchHistory() {
+    }
+
+    public WatchHistory(String description, LocalDate date, Watch watch) {
+        this.description = description;
+        this.date = date;
+        this.watch = watch;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public Watch getWatch() {
+        return watch;
+    }
+
+    public void setWatch(Watch watch) {
+        this.watch = watch;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

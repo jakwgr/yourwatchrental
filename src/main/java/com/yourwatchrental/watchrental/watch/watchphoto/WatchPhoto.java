@@ -32,4 +32,50 @@ public class WatchPhoto {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "watch_id", nullable = false)
     private Watch watch;
+
+    public WatchPhoto() {
+    }
+
+    public WatchPhoto(String photoUrl, PhotoType photoType, String description, Watch watch) {
+        this.photoUrl = photoUrl;
+        this.photoType = photoType;
+        this.description = description;
+        this.watch = watch;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public PhotoType getPhotoType() {
+        return photoType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Watch getWatch() {
+        return watch;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public void setPhotoType(PhotoType photoType) {
+        this.photoType = photoType;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setWatch(Watch watch) {
+        this.watch = watch;
+    }
 }

@@ -38,6 +38,58 @@ public class Branch {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Rental> rentals = new ArrayList<>();
+    public Branch() {
+    }
+
+    public Branch(String email, String phoneNumber, String address, String name, String city) {
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.name = name;
+        this.city = city;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
