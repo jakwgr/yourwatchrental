@@ -4,16 +4,24 @@ import com.yourwatchrental.watchrental.watch.Watch;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "watches_history")
 public class WatchHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
+    @Setter(AccessLevel.NONE)
     private UUID id;
 
     @NotBlank
@@ -28,40 +36,9 @@ public class WatchHistory {
     @JoinColumn(name = "watch_id", nullable = false)
     private Watch watch;
 
-    public WatchHistory() {
-    }
-
     public WatchHistory(String description, LocalDate date, Watch watch) {
         this.description = description;
         this.date = date;
         this.watch = watch;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public Watch getWatch() {
-        return watch;
-    }
-
-    public void setWatch(Watch watch) {
-        this.watch = watch;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

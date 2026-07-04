@@ -6,17 +6,25 @@ import com.yourwatchrental.watchrental.watch.Watch;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "rentals")
 public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
+    @Setter(AccessLevel.NONE)
     private UUID id;
 
     @NotNull
@@ -59,9 +67,6 @@ public class Rental {
     @JoinColumn(name = "watch_id", nullable = false)
     private Watch watch;
 
-    public Rental() {
-    }
-
     public Rental(LocalDate startDate, LocalDate endDate, BigDecimal totalPrice, PaymentMethod paymentMethod, RentalStatus rentalStatus, PaymentStatus paymentStatus, Branch branch, User user, Watch watch) {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -74,79 +79,4 @@ public class Rental {
         this.watch = watch;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public RentalStatus getRentalStatus() {
-        return rentalStatus;
-    }
-
-    public PaymentStatus getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public Branch getBranch() {
-        return branch;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Watch getWatch() {
-        return watch;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public void setBranch(Branch branch) {
-        this.branch = branch;
-    }
-
-    public void setRentalStatus(RentalStatus rentalStatus) {
-        this.rentalStatus = rentalStatus;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setWatch(Watch watch) {
-        this.watch = watch;
-    }
 }

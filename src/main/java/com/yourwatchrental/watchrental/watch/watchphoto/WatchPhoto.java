@@ -4,16 +4,24 @@ import com.yourwatchrental.watchrental.watch.Watch;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "watch_photos")
 public class WatchPhoto {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
+    @Setter(AccessLevel.NONE)
     private UUID id;
 
     @NotBlank
@@ -33,49 +41,10 @@ public class WatchPhoto {
     @JoinColumn(name = "watch_id", nullable = false)
     private Watch watch;
 
-    public WatchPhoto() {
-    }
-
     public WatchPhoto(String photoUrl, PhotoType photoType, String description, Watch watch) {
         this.photoUrl = photoUrl;
         this.photoType = photoType;
         this.description = description;
-        this.watch = watch;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public PhotoType getPhotoType() {
-        return photoType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Watch getWatch() {
-        return watch;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
-
-    public void setPhotoType(PhotoType photoType) {
-        this.photoType = photoType;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setWatch(Watch watch) {
         this.watch = watch;
     }
 }
