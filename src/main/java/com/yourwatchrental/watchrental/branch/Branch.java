@@ -21,23 +21,18 @@ public class Branch {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
-    @NotBlank
     @Column(nullable = false)
     private String city;
 
-    @NotBlank
     @Column(nullable = false)
     private String name;
 
-    @NotBlank
     @Column(nullable = false)
     private String address;
 
-    @NotBlank
     @Column(nullable = false, unique = true, name = "phone_number")
     private String phoneNumber;
 
-    @NotBlank
     @Column(nullable = false, unique = true)
     private String email;
 

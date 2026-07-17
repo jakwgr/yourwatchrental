@@ -1,8 +1,9 @@
-package com.yourwatchrental.watchrental.branch;
+package com.yourwatchrental.watchrental.branch.dto;
 
 import java.util.UUID;
 
-public record BranchRequestDTO(
+public record BranchResponseDTO(
+        UUID id,
         String city,
         String name,
         String address,

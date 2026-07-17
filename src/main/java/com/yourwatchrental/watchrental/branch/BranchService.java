@@ -1,11 +1,18 @@
 package com.yourwatchrental.watchrental.branch;
 
+import com.yourwatchrental.watchrental.branch.dto.BranchFilterCriteriaRequest;
+import com.yourwatchrental.watchrental.branch.exceptions.BranchEmailUsedException;
+import com.yourwatchrental.watchrental.branch.exceptions.BranchNotFoundException;
+import com.yourwatchrental.watchrental.branch.dto.BranchRequestDTO;
+import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
+import com.yourwatchrental.watchrental.branch.exceptions.BranchPhoneNumberUsedException;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -16,25 +23,44 @@ public class BranchService {
     private final BranchRepository branchRepository;
     private final BranchMapper branchMapper;
 
-    public BranchResponseDTO createBranch(BranchRequestDTO request){
-        Branch branch = branchMapper.toEntity(request);
+        public BranchResponseDTO createBranch(BranchRequestDTO request){
+            if(branchRepository.existsByEmail(request.email()))
+            {
+                throw new BranchEmailUsedException();
+            }
+            else if(branchRepository.existsByPhoneNumber(request.phoneNumber()))
+            {
+                throw new BranchPhoneNumberUsedException();
+            }
+            Branch branch = branchMapper.toEntity(request);
+            Branch createdBranch = branchRepository.save(branch);
+            return branchMapper.toResponseDTO(createdBranch);
+        }
 
-        Branch createdBranch = branchRepository.save(branch);
-
-        return branchMapper.toResponseDTO(createdBranch);
-    }
-
-    public List<BranchResponseDTO> getBranchesByAddress(String address)
+    public BranchResponseDTO getBranchById(UUID id)
     {
-        return branchRepository.findByAddressContainingIgnoreCase(address)
-                .stream()
+        return branchRepository.findById(id)
                 .map(branchMapper::toResponseDTO)
-                .toList();
+                .orElseThrow(() -> new BranchNotFoundException(id));
     }
 
-    public List<BranchResponseDTO> getBranches()
+    public List<BranchResponseDTO> getBranches (@NonNull BranchFilterCriteriaRequest criteria)
     {
-        return branchRepository.findAll()
+        Branch probe = new Branch();
+        probe.setName(criteria.name());
+        probe.setEmail(criteria.email());
+        probe.setCity(criteria.city());
+        probe.setPhoneNumber(criteria.phoneNumber());
+        probe.setAddress(criteria.address());
+
+        ExampleMatcher matcher = ExampleMatcher.matchingAll()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreNullValues();
+
+        Example<Branch> example = Example.of(probe, matcher);
+
+        return branchRepository.findAll(example)
                 .stream()
                 .map(branchMapper::toResponseDTO)
                 .toList();
@@ -43,7 +69,7 @@ public class BranchService {
     public BranchResponseDTO updateBranch(UUID id, BranchRequestDTO request)
     {
         Branch entity = branchRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Branch not found with id: " + id));
+                .orElseThrow(() -> new BranchNotFoundException(id));
 
        branchMapper.updateEntityFromDTO(request, entity);
 
@@ -55,7 +81,7 @@ public class BranchService {
     void deleteBranch(UUID id)
     {
         Branch entity = branchRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Branch not found with id: " + id));
+                .orElseThrow(() -> new BranchNotFoundException(id));
 
         branchRepository.delete(entity);
     }

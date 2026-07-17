@@ -1,5 +1,8 @@
 package com.yourwatchrental.watchrental.branch;
 
+import com.yourwatchrental.watchrental.branch.dto.BranchFilterCriteriaRequest;
+import com.yourwatchrental.watchrental.branch.dto.BranchRequestDTO;
+import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +19,17 @@ public class BranchController {
     private final BranchService branchService;
 
     @GetMapping
-    public ResponseEntity<List<BranchResponseDTO>> getBranches(@RequestParam(required = false) String address)
+    public ResponseEntity<List<BranchResponseDTO>> getBranches(BranchFilterCriteriaRequest criteria)
     {
-        if(address != null && !address.isEmpty()) {
-            return ResponseEntity.ok(branchService.getBranchesByAddress(address));
-        }
-        else
-        {
-            return ResponseEntity.ok(branchService.getBranches());
-        }
+        return ResponseEntity.ok(branchService.getBranches(criteria));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BranchResponseDTO> getBranchById(@RequestParam UUID id)
+    {
+        return ResponseEntity.ok(branchService.getBranchById(id));
+    }
+
     @PostMapping
     public ResponseEntity<BranchResponseDTO> createBranch(@RequestBody BranchRequestDTO request)
     {

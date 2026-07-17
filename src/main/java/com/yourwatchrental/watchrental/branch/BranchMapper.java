@@ -1,5 +1,7 @@
 package com.yourwatchrental.watchrental.branch;
 
+import com.yourwatchrental.watchrental.branch.dto.BranchRequestDTO;
+import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
