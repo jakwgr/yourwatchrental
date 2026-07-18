@@ -44,7 +44,7 @@ public class BranchService {
                 .orElseThrow(() -> new BranchNotFoundException(id));
     }
 
-    public List<BranchResponseDTO> getBranches (@NonNull BranchFilterCriteriaRequest criteria)
+    public List<BranchResponseDTO> getBranches (BranchFilterCriteriaRequest criteria)
     {
         Branch probe = new Branch();
         probe.setName(criteria.name());
@@ -71,6 +71,14 @@ public class BranchService {
         Branch entity = branchRepository.findById(id)
                 .orElseThrow(() -> new BranchNotFoundException(id));
 
+        if(branchRepository.existsByPhoneNumber(request.phoneNumber()) && !entity.getPhoneNumber().equals(request.phoneNumber()))
+        {
+            throw new BranchPhoneNumberUsedException();
+        }
+        else if(branchRepository.existsByEmail(request.email()) && !entity.getEmail().equals(request.email()))
+        {
+            throw new BranchEmailUsedException();
+        }
        branchMapper.updateEntityFromDTO(request, entity);
 
        Branch updatedBranch = branchRepository.save(entity);

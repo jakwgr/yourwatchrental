@@ -3,6 +3,7 @@ package com.yourwatchrental.watchrental.branch;
 import com.yourwatchrental.watchrental.branch.dto.BranchFilterCriteriaRequest;
 import com.yourwatchrental.watchrental.branch.dto.BranchRequestDTO;
 import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class BranchController {
     }
 
     @PostMapping
-    public ResponseEntity<BranchResponseDTO> createBranch(@RequestBody BranchRequestDTO request)
+    public ResponseEntity<BranchResponseDTO> createBranch(@RequestBody @Valid BranchRequestDTO request)
     {
         BranchResponseDTO response = branchService.createBranch(request);
         return ResponseEntity
@@ -40,7 +41,7 @@ public class BranchController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BranchResponseDTO> updateBranch(@PathVariable UUID id, @RequestBody BranchRequestDTO request)
+    public ResponseEntity<BranchResponseDTO> updateBranch(@PathVariable UUID id, @Valid @RequestBody BranchRequestDTO request)
     {
         BranchResponseDTO response = branchService.updateBranch(id,request);
 

@@ -29,28 +29,21 @@ public class User {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
-    @NotBlank
     @Column(nullable = false, name = "first_name")
     private String firstName;
 
-    @NotBlank
     @Column(nullable = false, name = "last_name")
     private String lastName;
 
-    @NotNull
     @Column(nullable = false, name = "date_of_birth")
-    @Past
     private LocalDate dateOfBirth;
 
-    @NotBlank
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank
     @Column(nullable = false, unique = true, name = "phone_number")
     private String phoneNumber;
 
-    @NotBlank
     @Column(nullable = false)
     private String password;
 
@@ -59,7 +52,6 @@ public class User {
     @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
-    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -68,13 +60,12 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rental> rentals = new ArrayList<>();
 
-    public User(String firstName, String lastName, LocalDate dateOfBirth, String email, String password, String phoneNumber, Role role) {
+    public User(String firstName, String lastName, LocalDate dateOfBirth, String email, String password, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.role = role;
     }
 }

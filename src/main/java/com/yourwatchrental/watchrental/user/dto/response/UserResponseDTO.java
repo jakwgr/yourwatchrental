@@ -16,18 +16,4 @@ public record UserResponseDTO (
     String phoneNumber,
     LocalDateTime createdAt,
     Role role
-) {
-    public UserResponseDTO(User user)
-    {
-        this(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getDateOfBirth(),
-                user.getEmail(),
-                user.getPhoneNumber(),
-                user.getCreatedAt(),
-                user.getRole()
-        );
-    }
-}
+) { }
