@@ -84,7 +84,7 @@ public class UserController {
 
     @PreAuthorize("#id.toString() == authentication.name")
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id, UserDeleteRequestDTO request)
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id, @RequestBody @Valid UserDeleteRequestDTO request)
     {
         userService.deleteUser(request);
         return ResponseEntity

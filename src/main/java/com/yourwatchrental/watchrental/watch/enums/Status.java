@@ -1,4 +1,4 @@
-package com.yourwatchrental.watchrental.watch;
+package com.yourwatchrental.watchrental.watch.enums;
 
 public enum Status {
     AVAILABLE,

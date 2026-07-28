@@ -1,0 +1,30 @@
+package com.yourwatchrental.watchrental.watch.dto;
+
+import com.yourwatchrental.watchrental.watch.enums.*;
+import jakarta.validation.constraints.PositiveOrZero;
+
+import java.math.BigDecimal;
+
+public record WatchFilterRequestDTO(
+        String manufacturer,
+        String model,
+        String referenceNumber,
+        String movement,
+        Condition condition,
+        Gender gender,
+        MovementType movementType,
+        Status status,
+        WatchType watchType,
+
+        @PositiveOrZero(message = "Minimum price needs to be accurate")
+        BigDecimal minPrice,
+        @PositiveOrZero(message = "Maximum price needs to be accurate")
+        BigDecimal maxPrice,
+
+
+        @PositiveOrZero(message = "Minimum year needs to be accurate")
+        Integer minYear,
+        @PositiveOrZero(message = "Maximum year needs to be accurate")
+        Integer maxYear
+) {
+}

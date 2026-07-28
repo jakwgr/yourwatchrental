@@ -1,6 +1,7 @@
 package com.yourwatchrental.watchrental.watch;
 
 import com.yourwatchrental.watchrental.rental.Rental;
+import com.yourwatchrental.watchrental.watch.enums.*;
 import com.yourwatchrental.watchrental.watch.watchhistory.WatchHistory;
 import com.yourwatchrental.watchrental.watch.watchphoto.WatchPhoto;
 import jakarta.persistence.*;
