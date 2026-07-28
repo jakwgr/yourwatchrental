@@ -1,12 +1,16 @@
 package com.yourwatchrental.watchrental.branch;
 
 import com.yourwatchrental.watchrental.branch.dto.BranchFilterCriteriaRequest;
+import com.yourwatchrental.watchrental.branch.dto.BranchStatusUpdateRequestDTO;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchEmailUsedException;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchNotFoundException;
 import com.yourwatchrental.watchrental.branch.dto.BranchRequestDTO;
 import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchPhoneNumberUsedException;
-import lombok.NonNull;
+import com.yourwatchrental.watchrental.watch.Watch;
+import com.yourwatchrental.watchrental.watch.dto.request.WatchStatusUpdateRequestDTO;
+import com.yourwatchrental.watchrental.watch.dto.response.WatchResponseDTO;
+import com.yourwatchrental.watchrental.watch.exceptions.WatchNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -33,6 +37,7 @@ public class BranchService {
                 throw new BranchPhoneNumberUsedException();
             }
             Branch branch = branchMapper.toEntity(request);
+            branch.setStatus(BranchStatus.ACTIVE);
             Branch createdBranch = branchRepository.save(branch);
             return branchMapper.toResponseDTO(createdBranch);
         }
@@ -86,11 +91,20 @@ public class BranchService {
         return branchMapper.toResponseDTO(updatedBranch);
     }
 
-    void deleteBranch(UUID id)
+    public void hardDeleteBranch(UUID id)
     {
         Branch entity = branchRepository.findById(id)
                 .orElseThrow(() -> new BranchNotFoundException(id));
 
         branchRepository.delete(entity);
     }
+    public BranchResponseDTO updateBranchStatus(UUID id, BranchStatusUpdateRequestDTO request)
+    {
+        Branch branch = branchRepository.findById(id)
+                .orElseThrow(() -> new BranchNotFoundException(id));
+
+        branch.setStatus(request.status());
+        return branchMapper.toResponseDTO(branchRepository.save((branch)));
+    }
+
 }

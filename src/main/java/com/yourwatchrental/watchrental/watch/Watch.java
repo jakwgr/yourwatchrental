@@ -30,55 +30,47 @@ public class Watch {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
-    @NotBlank
     @Column(nullable = false)
     private String manufacturer;
 
-    @NotBlank
     @Column(nullable = false)
     private String model;
 
-    @NotBlank
     @Column(nullable = false, name = "reference_number")
     private String referenceNumber;
 
-    @NotBlank
+    @Column(unique = true, nullable = false)
+    private String serialNumber;
+
     @Column(nullable = false)
     private String movement;
 
     private String description;
 
-    @NotNull
     @Column(nullable = false, name = "year_of_production")
     @PositiveOrZero
     private int yearOfProduction;
 
-    @NotNull
     @Column(nullable = false, name = "price_per_day")
     @PositiveOrZero
     private BigDecimal pricePerDay;
 
-    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Condition condition;
 
-    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @NotNull
     @Column(nullable = false, name = "movement_type")
     @Enumerated(EnumType.STRING)
     private MovementType movementType;
 
-    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @NotNull
     @Column(nullable = false, name = "watch_type")
     @Enumerated(EnumType.STRING)
     private WatchType watchType;

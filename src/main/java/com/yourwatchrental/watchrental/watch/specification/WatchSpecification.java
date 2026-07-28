@@ -2,11 +2,8 @@ package com.yourwatchrental.watchrental.watch.specification;
 
 
 import com.yourwatchrental.watchrental.watch.Watch;
-import com.yourwatchrental.watchrental.watch.dto.WatchFilterRequestDTO;
-import com.yourwatchrental.watchrental.watch.enums.*;
+import com.yourwatchrental.watchrental.watch.dto.request.WatchFilterRequestDTO;
 import org.springframework.data.jpa.domain.Specification;
-
-import java.math.BigDecimal;
 
 public class WatchSpecification {
 
@@ -65,6 +62,8 @@ public class WatchSpecification {
                 .where(WatchSpecification.containsStringIgnoreCase("manufacturer", request.manufacturer()))
                 .and(WatchSpecification.containsStringIgnoreCase("model", request.model()))
                 .and(WatchSpecification.containsStringIgnoreCase("movement", request.movement()))
+                .and(WatchSpecification.containsStringIgnoreCase("referenceNumber", request.referenceNumber()))
+                .and(WatchSpecification.containsStringIgnoreCase("serialNumber", request.serialNumber()))
                 .and(WatchSpecification.equalsEnum("condition", request.condition()))
                 .and(WatchSpecification.equalsEnum("gender", request.gender()))
                 .and(WatchSpecification.equalsEnum("movementType", request.movementType()))

@@ -4,5 +4,6 @@ public enum Status {
     AVAILABLE,
     RENTED,
     IN_SERVICE,
-    UNAVAILABLE
+    UNAVAILABLE,
+    DISABLED
 }

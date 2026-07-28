@@ -8,6 +8,6 @@ import java.time.LocalDateTime;
 public abstract class ResourceAlreadyUsedException extends RuntimeException {
     public ResourceAlreadyUsedException(String message) {
         super(message);
-        log.error(message + LocalDateTime.now());
+        log.error(message + " " + LocalDateTime.now());
     }
 }

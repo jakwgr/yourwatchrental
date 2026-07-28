@@ -2,7 +2,7 @@ package com.yourwatchrental.watchrental.watch.enums;
 
 public enum WatchType {
     DRESS,
-    DIVE,
+    DIVER,
     FIELD,
     PILOT,
     CHRONOGRAPH

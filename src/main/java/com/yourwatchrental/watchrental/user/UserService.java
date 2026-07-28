@@ -6,6 +6,7 @@ import com.yourwatchrental.watchrental.user.dto.response.UserResponseDTO;
 
 import com.yourwatchrental.watchrental.user.exceptions.*;
 import com.yourwatchrental.watchrental.user.exceptions.userChangeEmail.UserUpdateSameEmailException;
+import com.yourwatchrental.watchrental.user.exceptions.UserDisabledException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdateNotSamePasswordException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdatePasswordChangeDoesNotMatchException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdateSamePasswordException;
@@ -17,7 +18,6 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +46,7 @@ public class UserService {
         String encodedPassword = encoder.encode(request.password());
         User user = userMapper.toEntitySingup(request, encodedPassword);
         user.setRole(Role.USER);
+        user.setStatus(UserStatus.ACTIVE);
         User createdUser = userRepository.save(user);
 
 
@@ -58,6 +59,8 @@ public class UserService {
                 .orElseThrow(() -> new UserWrongLoginException());
         if(encoder.matches(request.password(), user.getPassword()))
         {
+            if(user.getStatus() == UserStatus.DISABLED) throw new UserDisabledException(user.getId());
+
             Authentication authentication = authenticationManager.authenticate(
                     new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
                             user.getId(),
@@ -79,7 +82,7 @@ public class UserService {
     public List<UserResponseDTO> getUsers(UserFilterCriteriaRequestDTO criteria){
 //        tylko dla admina
 
-        System.out.println(criteria.id());
+//        System.out.println(criteria.id());
         if(criteria.id() != null && !criteria.id().isEmpty())
         {
             if(UUID_PATTERN.matcher(criteria.id().trim()).matches()) {
@@ -222,7 +225,7 @@ public class UserService {
 
 
     @Transactional
-    public void deleteUser(UserDeleteRequestDTO request)
+    public void softDeleteUser(UserSoftDeleteRequestDTO request)
     {
         Authentication authentication =
                 SecurityContextHolder
@@ -240,6 +243,30 @@ public class UserService {
         {
             throw new UserDeleteConfirmationException(user.getId());
         }
+
+        user.setStatus(UserStatus.DISABLED);
+    }
+
+    @Transactional
+    public UserResponseDTO updateUserStatus(UUID id, UserStatusChangeRequestDTO request)
+    {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        if(user.getStatus() == request.status()) {
+            throw new UserSameStatusException();
+        }
+
+        user.setStatus(request.status());
+        userRepository.save(user);
+        return userMapper.toResponseDTO(user);
+    }
+
+    public void hardDeleteUser(UUID id)
+    {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
         userRepository.delete(user);
     }
 }

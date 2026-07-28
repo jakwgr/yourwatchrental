@@ -1,4 +1,4 @@
-package com.yourwatchrental.watchrental.watch.dto;
+package com.yourwatchrental.watchrental.watch.dto.request;
 
 import com.yourwatchrental.watchrental.watch.enums.*;
 import jakarta.validation.constraints.NotBlank;
@@ -16,6 +16,9 @@ public record WatchRequestDTO(
 
         @NotBlank(message = "Reference number is required")
         String referenceNumber,
+
+        @NotBlank(message = "Serial number is required")
+        String serialNumber,
 
         @NotBlank(message = "Movement is required")
         String movement,

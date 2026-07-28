@@ -1,4 +1,4 @@
-package com.yourwatchrental.watchrental.watch.dto;
+package com.yourwatchrental.watchrental.watch.dto.request;
 
 import com.yourwatchrental.watchrental.watch.enums.*;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -9,6 +9,7 @@ public record WatchFilterRequestDTO(
         String manufacturer,
         String model,
         String referenceNumber,
+        String serialNumber,
         String movement,
         Condition condition,
         Gender gender,

@@ -3,6 +3,7 @@ package com.yourwatchrental.watchrental.branch;
 import com.yourwatchrental.watchrental.branch.dto.BranchFilterCriteriaRequest;
 import com.yourwatchrental.watchrental.branch.dto.BranchRequestDTO;
 import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
+import com.yourwatchrental.watchrental.branch.dto.BranchStatusUpdateRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,9 +50,15 @@ public class BranchController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBranch(@PathVariable UUID id)
+    public ResponseEntity<Void> hardDeleteBranch(@PathVariable UUID id)
     {
-        branchService.deleteBranch(id);
+        branchService.hardDeleteBranch(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<BranchResponseDTO> updateBranchStatus(@PathVariable UUID id, @RequestBody @Valid BranchStatusUpdateRequestDTO request)
+    {
+        return ResponseEntity.ok(branchService.updateBranchStatus(id, request));
     }
 }

@@ -3,10 +3,7 @@ package com.yourwatchrental.watchrental.user;
 import com.yourwatchrental.watchrental.user.dto.request.*;
 import com.yourwatchrental.watchrental.user.dto.response.UserResponseDTO;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.MappingTarget;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -83,12 +80,27 @@ public class UserController {
     }
 
     @PreAuthorize("#id.toString() == authentication.name")
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id, @RequestBody @Valid UserDeleteRequestDTO request)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> softDeleteUser(@PathVariable UUID id, @RequestBody @Valid UserSoftDeleteRequestDTO request)
     {
-        userService.deleteUser(request);
+        userService.softDeleteUser(request);
         return ResponseEntity
                 .noContent()
                 .build();
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<UserResponseDTO> changeStatusUser(@PathVariable UUID id, @RequestBody @Valid UserStatusChangeRequestDTO request)
+    {
+        return ResponseEntity.ok(userService.updateUserStatus(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> hardDeleteUser(@PathVariable UUID id)
+    {
+        userService.hardDeleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -57,14 +57,14 @@ public class WebSecurityConfig {
                                 org.springframework.security.config.http.SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(a->
-                        a.requestMatchers(
-                                        "/users/signup",
-                                        "/users/signin"
+                        a
+//                                .requestMatchers(
+//                                        ).authenticated()
 
-                                ).permitAll()
+
                                 .anyRequest(
                                 )
-                                .authenticated());
+                                .permitAll());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

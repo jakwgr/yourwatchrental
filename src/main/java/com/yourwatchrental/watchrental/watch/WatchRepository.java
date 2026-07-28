@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface WatchRepository  extends JpaRepository<Watch, UUID>,
         JpaSpecificationExecutor<Watch> {
 
-    boolean existsByReferenceNumber(String referenceNumber);
+    boolean existsBySerialNumber(String serialNumber);
 }

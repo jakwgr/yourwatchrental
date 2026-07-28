@@ -1,4 +1,4 @@
-package com.yourwatchrental.watchrental.watch.dto;
+package com.yourwatchrental.watchrental.watch.dto.response;
 
 import com.yourwatchrental.watchrental.watch.enums.*;
 
@@ -9,11 +9,12 @@ public record WatchPageResponseDTO(
         UUID id,
         String manufacturer,
         String model,
+        String referenceNumber,
+        String serialNumber,
         String mainPhotoUrl,
         int yearOfProduction,
         BigDecimal pricePerDay,
         Condition condition,
-        MovementType movementType,
         Status status,
         WatchType watchType
 ) {
