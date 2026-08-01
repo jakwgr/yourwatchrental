@@ -1,11 +1,9 @@
 package com.yourwatchrental.watchrental.watch;
 
-import com.yourwatchrental.watchrental.watch.dto.request.WatchFilterRequestDTO;
-import com.yourwatchrental.watchrental.watch.dto.request.WatchRequestDTO;
-import com.yourwatchrental.watchrental.watch.dto.request.WatchStatusUpdateRequestDTO;
-import com.yourwatchrental.watchrental.watch.dto.response.WatchPageResponseDTO;
-import com.yourwatchrental.watchrental.watch.dto.response.WatchResponseDTO;
-import com.yourwatchrental.watchrental.watch.dto.request.WatchUpdateRequestDTO;
+import com.yourwatchrental.watchrental.watch.dto.request.*;
+import com.yourwatchrental.watchrental.watch.dto.response.WatchCardResponseDTO;
+import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
+import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,32 +20,32 @@ public class WatchController {
     private final WatchService watchService;
 
     @PostMapping
-    public ResponseEntity<WatchResponseDTO> createWatch(@RequestBody @Valid WatchRequestDTO request) {
-        WatchResponseDTO watch = watchService.createWatch(request);
+    public ResponseEntity<WatchFullInfoResponseDTO> createWatch(@RequestBody @Valid WatchRequestDTO request) {
+        WatchFullInfoResponseDTO watch = watchService.createWatch(request);
 
         return ResponseEntity.ok(watch);
     }
 
     @GetMapping
-    public ResponseEntity<Page<WatchPageResponseDTO>> getWatchPage(WatchFilterRequestDTO request, Pageable pageable) {
-        Page<WatchPageResponseDTO> watches = watchService.getWatchPage(request, pageable);
+    public ResponseEntity<Page<WatchCardResponseDTO>> getWatchPage(@ModelAttribute WatchFilterRequestDTO request, Pageable pageable) {
+        Page<WatchCardResponseDTO> watches = watchService.getWatchPage(request, pageable);
 
         return ResponseEntity.ok(watches);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WatchResponseDTO> getWatch(@PathVariable UUID id) {
+    public ResponseEntity<WatchFullInfoResponseDTO> getWatch(@PathVariable UUID id) {
         return ResponseEntity.ok(watchService.getWatch(id));
     }
 
-    @PutMapping("/{id}/edit")
-    public ResponseEntity<WatchResponseDTO> updateWatch(@PathVariable UUID id, @RequestBody @Valid WatchUpdateRequestDTO request)
+    @PutMapping("/{id}")
+    public ResponseEntity<WatchFullInfoResponseDTO> updateWatch(@PathVariable UUID id, @RequestBody @Valid WatchUpdateRequestDTO request)
     {
         return ResponseEntity.ok(watchService.updateWatch(id, request));
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<WatchResponseDTO> updateWatchStatus(@PathVariable UUID id, @RequestBody @Valid WatchStatusUpdateRequestDTO request)
+    public ResponseEntity<WatchFullInfoResponseDTO> updateWatchStatus(@PathVariable UUID id, @RequestBody @Valid WatchStatusUpdateRequestDTO request)
     {
         return ResponseEntity.ok(watchService.updateWatchStatus(id, request));
     }
@@ -59,5 +57,19 @@ public class WatchController {
         return ResponseEntity
                 .noContent()
                 .build();
+    }
+
+    @PatchMapping("/{id}/branch")
+    public ResponseEntity<WatchFullInfoResponseDTO> updateWatchBranch(@PathVariable UUID id, @RequestBody @Valid WatchBranchUpdateRequestDTO request)
+    {
+        return ResponseEntity
+                .ok(watchService.updateWatchBranch(id, request));
+    }
+
+    @PatchMapping("/{id}/serial_number")
+    public ResponseEntity<WatchFullInfoResponseDTO> updateWatchSerialNumber(@PathVariable UUID id, @RequestBody @Valid WatchSerialNumberUpdateRequestDTO request)
+    {
+        return ResponseEntity
+                .ok(watchService.updateWatchSerialNumber(id, request));
     }
 }

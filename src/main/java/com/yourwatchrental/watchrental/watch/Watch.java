@@ -1,8 +1,10 @@
 package com.yourwatchrental.watchrental.watch;
 
+import com.yourwatchrental.watchrental.branch.Branch;
 import com.yourwatchrental.watchrental.rental.Rental;
 import com.yourwatchrental.watchrental.watch.enums.*;
 import com.yourwatchrental.watchrental.watch.watchhistory.WatchHistory;
+import com.yourwatchrental.watchrental.watch.watchphoto.PhotoType;
 import com.yourwatchrental.watchrental.watch.watchphoto.WatchPhoto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -84,10 +86,14 @@ public class Watch {
     private List<WatchPhoto> photos = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "watch", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "watch")
     private List<Rental> rentals = new ArrayList<>();
 
-    public Watch(String manufacturer, String model, String referenceNumber, String movement, int yearOfProduction, String description, BigDecimal pricePerDay, Condition condition, Gender gender, MovementType movementType, Status status, WatchType watchType) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id", nullable = false)
+    private Branch branch;
+
+    public Watch(String manufacturer, String model, String referenceNumber, String movement, int yearOfProduction, String description, BigDecimal pricePerDay, Condition condition, Gender gender, MovementType movementType, Status status, WatchType watchType, Branch branch) {
         this.manufacturer = manufacturer;
         this.model = model;
         this.referenceNumber = referenceNumber;
@@ -100,5 +106,20 @@ public class Watch {
         this.movementType = movementType;
         this.status = status;
         this.watchType = watchType;
+        this.branch = branch;
+    }
+
+    public WatchPhoto getThumbnail() {
+        return photos.stream()
+                .filter(photo -> photo.getPhotoType() == PhotoType.FRONT)
+                .findFirst()
+                .orElseGet(() -> photos.stream()
+                        .filter(photo -> photo.getPhotoType() == PhotoType.FULL)
+                        .findFirst()
+                        .orElseGet(() -> photos.stream()
+                                .filter(photo -> photo.getPhotoType() == PhotoType.BACK)
+                                .findFirst()
+                                .orElse(null)
+                        ));
     }
 }

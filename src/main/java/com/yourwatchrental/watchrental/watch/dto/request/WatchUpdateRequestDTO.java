@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record WatchUpdateRequestDTO(
         String manufacturer,
@@ -29,8 +30,6 @@ public record WatchUpdateRequestDTO(
         Gender gender,
 
         MovementType movementType,
-
-        Status status,
 
         WatchType watchType
 ) {

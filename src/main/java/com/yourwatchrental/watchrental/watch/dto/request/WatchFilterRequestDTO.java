@@ -1,5 +1,6 @@
 package com.yourwatchrental.watchrental.watch.dto.request;
 
+import com.yourwatchrental.watchrental.branch.Branch;
 import com.yourwatchrental.watchrental.watch.enums.*;
 import jakarta.validation.constraints.PositiveOrZero;
 
@@ -16,6 +17,7 @@ public record WatchFilterRequestDTO(
         MovementType movementType,
         Status status,
         WatchType watchType,
+        Branch branch,
 
         @PositiveOrZero(message = "Minimum price needs to be accurate")
         BigDecimal minPrice,

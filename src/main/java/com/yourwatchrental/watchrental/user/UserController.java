@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.name")
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable UUID id, @RequestBody @Valid UserInformationUpdateRequestDTO request)
     {
         UserResponseDTO response = userService.updateUser(id, request);
@@ -60,6 +60,16 @@ public class UserController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/admin/{id}/password")
+    public ResponseEntity<Void> updatePasswordAdmin(@PathVariable UUID id, @RequestBody @Valid UserPasswordUpdateAdminRequestDTO request)
+    {
+        userService.updatePasswordAdmin(id, request);
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
     @PreAuthorize("#id.toString() == authentication.name")
     @PatchMapping("/{id}/email")
     public ResponseEntity<Void> updateEmail(@PathVariable UUID id, @RequestBody @Valid UserEmailUpdateRequestDTO request)
@@ -71,11 +81,22 @@ public class UserController {
                 .build();
     }
 
-    @PreAuthorize("#id.toString() == authentication.name")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("admin/{id}/email")
+    public ResponseEntity<Void> updateEmailAdmin(@PathVariable UUID id, @RequestBody @Valid UserEmailUpdateAdminRequestDTO request)
+    {
+        userService.updateEmailAdmin(id, request);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.name")
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID id)
     {
-        UserResponseDTO response = userService.getUser();
+        UserResponseDTO response = userService.getUser(id);
         return ResponseEntity.ok(response);
     }
 
@@ -96,7 +117,15 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUserStatus(id, request));
     }
 
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/{id}/role")
+    public ResponseEntity<UserResponseDTO> changeUserRole(@PathVariable UUID id, @RequestBody @Valid UserRoleChangeRequestDTO request)
+    {
+        return ResponseEntity.ok(userService.updateUserRole(id, request));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> hardDeleteUser(@PathVariable UUID id)
     {
         userService.hardDeleteUser(id);

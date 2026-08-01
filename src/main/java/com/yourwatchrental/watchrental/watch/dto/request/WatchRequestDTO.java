@@ -1,11 +1,13 @@
 package com.yourwatchrental.watchrental.watch.dto.request;
 
+import com.yourwatchrental.watchrental.branch.Branch;
 import com.yourwatchrental.watchrental.watch.enums.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record WatchRequestDTO(
         @NotBlank(message = "Manufacturer is required")
@@ -46,6 +48,9 @@ public record WatchRequestDTO(
         Status status,
 
         @NotNull(message = "Watch type is required")
-        WatchType watchType
+        WatchType watchType,
+
+        @NotNull(message = "Branch is required")
+        UUID branchId
 ) {
 }

@@ -24,6 +24,7 @@ public record UserRequestDTO(
         String email,
 
         @NotBlank(message = "Password is required")
+        @Size(min = 5, message = "Password must contains 5 or more characters")
         String password
 
 )

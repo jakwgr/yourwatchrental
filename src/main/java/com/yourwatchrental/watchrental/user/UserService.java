@@ -1,6 +1,7 @@
 package com.yourwatchrental.watchrental.user;
 
 import com.yourwatchrental.watchrental.security.JwUtil;
+import com.yourwatchrental.watchrental.security.SecurityUtil;
 import com.yourwatchrental.watchrental.user.dto.request.*;
 import com.yourwatchrental.watchrental.user.dto.response.UserResponseDTO;
 
@@ -10,11 +11,16 @@ import com.yourwatchrental.watchrental.user.exceptions.UserDisabledException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdateNotSamePasswordException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdatePasswordChangeDoesNotMatchException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdateSamePasswordException;
+import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserSamePhoneNumberException;
+import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserSameStatusException;
+import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserWrongPasswordException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -36,6 +43,7 @@ public class UserService {
     private final JwUtil jwUtil;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder encoder;
+    private final SecurityUtil securityUtil;
 
     private static final Pattern UUID_PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
 
@@ -142,10 +150,6 @@ public class UserService {
                     throw new UserPhoneNumberUsedException();
                 }
             }
-            else
-            {
-                throw new UserSamePhoneNumberException();
-            }
         }
         User updatedUser = userRepository.save(user);
 
@@ -155,22 +159,33 @@ public class UserService {
     @Transactional
     public void updatePassword(UserPasswordUpdateRequestDTO request)
     {
-        Authentication authentication =
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
-
-        User user = userRepository.findById(UUID.fromString(authentication.getName()))
+        User user = userRepository.findById(securityUtil.getCurrentUserId())
                 .orElseThrow(() -> new UserNotFoundException(null));
+
         if(!request.newPassword().equals(request.newPassword1())) {
             throw new UserUpdateNotSamePasswordException(user.getId());
         }
-
         if(!encoder.matches(request.password(), user.getPassword())) {
             throw new UserUpdatePasswordChangeDoesNotMatchException(user.getId());
         }
-
         if(encoder.matches(request.newPassword(), user.getPassword()))
+        {
+            throw new UserUpdateSamePasswordException();
+        }
+        user.setPassword(encoder.encode(request.newPassword()));
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void updatePasswordAdmin(UUID userId, UserPasswordUpdateAdminRequestDTO request)
+    {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(null));
+
+        if(!request.newPassword().equals(request.newPassword1())) {
+            throw new UserUpdateNotSamePasswordException(user.getId());
+        }
+        if(!request.newPassword().equals(user.getPassword()))
         {
             throw new UserUpdateSamePasswordException();
         }
@@ -181,12 +196,7 @@ public class UserService {
     @Transactional
     public void updateEmail(UserEmailUpdateRequestDTO request)
     {
-        Authentication authentication =
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
-
-        User user = userRepository.findById(UUID.fromString(authentication.getName()))
+        User user = userRepository.findById(securityUtil.getCurrentUserId())
                 .orElseThrow(() -> new UserNotFoundException(null));
 
         if(!encoder.matches(request.password(), user.getPassword()))
@@ -205,14 +215,27 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserResponseDTO getUser()
+    @Transactional
+    public void updateEmailAdmin(UUID userId, UserEmailUpdateAdminRequestDTO request)
     {
-        Authentication authentication =
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
 
-        User user = userRepository.findById(UUID.fromString(authentication.getName()))
+        User user = userRepository.findById(securityUtil.getCurrentUserId())
+                .orElseThrow(() -> new UserNotFoundException(null));
+
+        if(request.email().equals(user.getEmail()))
+        {
+            throw new UserUpdateSameEmailException();
+        }
+
+        if(userRepository.existsByEmail(request.email())) throw new UserEmailUsedException();
+
+        user.setEmail(request.email());
+        userRepository.save(user);
+    }
+
+    public UserResponseDTO getUser(UUID id)
+    {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(null));
 
         return userMapper.toResponseDTO(user);
@@ -223,27 +246,21 @@ public class UserService {
 //
 //    }
 
-
     @Transactional
     public void softDeleteUser(UserSoftDeleteRequestDTO request)
     {
-        Authentication authentication =
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
-
-        User user = userRepository.findById(UUID.fromString(authentication.getName()))
+        User user = userRepository.findById(securityUtil.getCurrentUserId())
                 .orElseThrow(() -> new UserNotFoundException(null));
+
+        if(securityUtil.isAdmin())
+        {
+            throw new UserAdminDeactivateException(securityUtil.getCurrentUserId());
+        }
 
         if(!encoder.matches(request.password(), user.getPassword()))
         {
             throw new UserWrongPasswordException(user.getId());
         }
-        if(!Objects.equals(request.deleteConfirm(), "Delete my account"))
-        {
-            throw new UserDeleteConfirmationException(user.getId());
-        }
-
         user.setStatus(UserStatus.DISABLED);
     }
 
@@ -258,6 +275,21 @@ public class UserService {
         }
 
         user.setStatus(request.status());
+        userRepository.save(user);
+        return userMapper.toResponseDTO(user);
+    }
+
+    @Transactional
+    public UserResponseDTO updateUserRole(UUID id, UserRoleChangeRequestDTO request)
+    {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        if(user.getRole() == request.role()) {
+            throw new UserSameStatusException();
+        }
+
+        user.setRole(request.role());
         userRepository.save(user);
         return userMapper.toResponseDTO(user);
     }

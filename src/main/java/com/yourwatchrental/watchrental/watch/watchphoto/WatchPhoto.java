@@ -24,16 +24,13 @@ public class WatchPhoto {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
-    @NotBlank
     @Column(nullable = false, name = "photo_url")
     private String photoUrl;
 
-    @NotNull
     @Column(nullable = false, name = "photo_type")
     @Enumerated(EnumType.STRING)
     private PhotoType photoType;
 
-    @NotBlank
     @Column(nullable = false)
     private String description;
 

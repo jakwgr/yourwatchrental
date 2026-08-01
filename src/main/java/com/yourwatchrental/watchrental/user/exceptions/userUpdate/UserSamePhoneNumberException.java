@@ -1,4 +1,4 @@
-package com.yourwatchrental.watchrental.user.exceptions;
+package com.yourwatchrental.watchrental.user.exceptions.userUpdate;
 
 import com.yourwatchrental.watchrental.common.exceptions.ResourceAlreadyUsedException;
 import com.yourwatchrental.watchrental.common.handlers.ErrorMessages;

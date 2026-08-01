@@ -26,8 +26,14 @@ public class BranchController {
         return ResponseEntity.ok(branchService.getBranches(criteria));
     }
 
+    @GetMapping("/admin")
+    public ResponseEntity<List<BranchResponseDTO>> getBranchesAdmin(BranchFilterCriteriaRequest criteria)
+    {
+        return ResponseEntity.ok(branchService.getBranchesAdmin(criteria));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<BranchResponseDTO> getBranchById(@RequestParam UUID id)
+    public ResponseEntity<BranchResponseDTO> getBranchById(@PathVariable UUID id)
     {
         return ResponseEntity.ok(branchService.getBranchById(id));
     }

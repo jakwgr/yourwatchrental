@@ -23,7 +23,15 @@ public enum ErrorMessages {
     USER_DISABLED_LOGIN_REGISTER("You cannot login. This account is disabled or suspended. Contact support via email to get more information"),
 
     WATCH_SAME_SERIAL("This serial number is already used"),
-    WATCH_NOT_FOUND("This watch does not exist");
+    WATCH_NOT_FOUND("This watch does not exist"),
+    WATCH_SAME_SERIAL_AS_BEFORE("You cannot change serial number to same one"),
+
+    WATCH_HISTORY_NOT_FOUND("This watch history does not exist"),
+
+    WATCH_PHOTO_SAME_TYPE("Photo of this type is already used"),
+    WATCH_PHOTO_NOT_FOUND("This photo does not exist"),
+
+    ADMIN_SELF_DELETE("You cannot deactivate your own admin account");
 
     private final String message;
 

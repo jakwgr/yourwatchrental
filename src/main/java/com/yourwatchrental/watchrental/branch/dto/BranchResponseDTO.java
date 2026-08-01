@@ -12,4 +12,5 @@ public record BranchResponseDTO(
         String phoneNumber,
         String email,
         BranchStatus status
-) {};
+) {
+};

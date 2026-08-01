@@ -49,7 +49,7 @@ public class BranchService {
                 .orElseThrow(() -> new BranchNotFoundException(id));
     }
 
-    public List<BranchResponseDTO> getBranches (BranchFilterCriteriaRequest criteria)
+    public List<BranchResponseDTO> getBranches(BranchFilterCriteriaRequest criteria)
     {
         Branch probe = new Branch();
         probe.setName(criteria.name());
@@ -57,6 +57,32 @@ public class BranchService {
         probe.setCity(criteria.city());
         probe.setPhoneNumber(criteria.phoneNumber());
         probe.setAddress(criteria.address());
+
+        probe.setStatus(BranchStatus.ACTIVE);
+
+        ExampleMatcher matcher = ExampleMatcher.matchingAll()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreNullValues();
+
+        Example<Branch> example = Example.of(probe, matcher);
+
+        return branchRepository.findAll(example)
+                .stream()
+                .map(branchMapper::toResponseDTO)
+                .toList();
+    }
+
+    public List<BranchResponseDTO> getBranchesAdmin(BranchFilterCriteriaRequest criteria)
+    {
+        Branch probe = new Branch();
+        probe.setName(criteria.name());
+        probe.setEmail(criteria.email());
+        probe.setCity(criteria.city());
+        probe.setPhoneNumber(criteria.phoneNumber());
+        probe.setAddress(criteria.address());
+        probe.setStatus(criteria.status());
+
 
         ExampleMatcher matcher = ExampleMatcher.matchingAll()
                 .withIgnoreCase()
