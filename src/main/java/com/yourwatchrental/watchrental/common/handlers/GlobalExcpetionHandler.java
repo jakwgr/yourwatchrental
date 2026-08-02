@@ -6,7 +6,6 @@ import com.yourwatchrental.watchrental.common.exceptions.ResourceForbiddenExcept
 import com.yourwatchrental.watchrental.common.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

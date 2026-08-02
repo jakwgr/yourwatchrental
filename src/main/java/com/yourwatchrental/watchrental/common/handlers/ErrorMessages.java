@@ -31,10 +31,18 @@ public enum ErrorMessages {
     WATCH_PHOTO_SAME_TYPE("Photo of this type is already used"),
     WATCH_PHOTO_NOT_FOUND("This photo does not exist"),
 
-    ADMIN_SELF_DELETE("You cannot deactivate your own admin account");
+    ADMIN_SELF_DELETE("You cannot deactivate your own admin account"),
+
+    RENTAL_WATCH_NOT_AVAILABLE("This watch is not available"),
+    RENTAL_BAD_DATE_RANGE("Rental end date cannot be before start date and start needs to be at least today"),
+    RENTAL_NOT_FOUND("This rental does not exist"),
+    RENTAL_TOO_LATE_CHANGE_CANCEL("It is too late to cancel this rental. Please contact support for assistance."),
+    RENTAL_PAYMENT_STATUS_CHANGE_NOT_ALLOWED("Payment status change is not allowed from the current status"),
+
+    RESOURCE_FORBIDDEN("You don't have permission to access this resource");
+
 
     private final String message;
-
     ErrorMessages(String message){
         this.message = message;
     }

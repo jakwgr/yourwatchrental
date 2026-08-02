@@ -1,8 +1,9 @@
 package com.yourwatchrental.watchrental.watch;
 
+import com.yourwatchrental.watchrental.rental.RentalService;
 import com.yourwatchrental.watchrental.watch.dto.request.*;
+import com.yourwatchrental.watchrental.watch.dto.response.WatchAvailabilityResponseDTO;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchCardResponseDTO;
-import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @RestController
@@ -18,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class WatchController {
     private final WatchService watchService;
+    private final RentalService rentalService;
 
     @PostMapping
     public ResponseEntity<WatchFullInfoResponseDTO> createWatch(@RequestBody @Valid WatchRequestDTO request) {
@@ -71,5 +74,13 @@ public class WatchController {
     {
         return ResponseEntity
                 .ok(watchService.updateWatchSerialNumber(id, request));
+    }
+
+    @GetMapping("/{id/availabilty")
+    public ResponseEntity<WatchAvailabilityResponseDTO> watchAvailability(@PathVariable UUID id, @RequestParam LocalDate startDate,
+                                                                          @RequestParam LocalDate endDate)
+    {
+        return ResponseEntity
+                .ok(rentalService.watchAvailabilityStatus(id, startDate, endDate));
     }
 }
