@@ -21,6 +21,7 @@ public enum ErrorMessages {
     USER_DELETE_CONFIRM("The confirmation needs to be exact"),
     USER_UPDATE_SAME_STATUS("You cannot change status to same one"),
     USER_DISABLED_LOGIN_REGISTER("You cannot login. This account is disabled or suspended. Contact support via email to get more information"),
+    USER_UPDATE_SAME_ROLE("You cannot change role to same one"),
 
     WATCH_SAME_SERIAL("This serial number is already used"),
     WATCH_NOT_FOUND("This watch does not exist"),

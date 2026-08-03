@@ -12,6 +12,7 @@ import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUp
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdatePasswordChangeDoesNotMatchException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdateSamePasswordException;
 import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserSamePhoneNumberException;
+import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserSameRoleException;
 import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserSameStatusException;
 import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserWrongPasswordException;
 import jakarta.transaction.Transactional;
@@ -162,12 +163,15 @@ public class UserService {
         User user = userRepository.findById(securityUtil.getCurrentUserId())
                 .orElseThrow(() -> new UserNotFoundException(null));
 
+        //jedno i drugie nowe hasla sa rozne
         if(!request.newPassword().equals(request.newPassword1())) {
             throw new UserUpdateNotSamePasswordException(user.getId());
         }
+        //stare haslo jest nieprawidłowe
         if(!encoder.matches(request.password(), user.getPassword())) {
             throw new UserUpdatePasswordChangeDoesNotMatchException(user.getId());
         }
+        //nowe hasło = stare hasło
         if(encoder.matches(request.newPassword(), user.getPassword()))
         {
             throw new UserUpdateSamePasswordException();
@@ -286,7 +290,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
 
         if(user.getRole() == request.role()) {
-            throw new UserSameStatusException();
+            throw new UserSameRoleException();
         }
 
         user.setRole(request.role());
