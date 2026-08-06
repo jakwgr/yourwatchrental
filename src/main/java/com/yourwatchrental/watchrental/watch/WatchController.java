@@ -76,7 +76,7 @@ public class WatchController {
                 .ok(watchService.updateWatchSerialNumber(id, request));
     }
 
-    @GetMapping("/{id}/availabilty")
+    @GetMapping("/{id}/availability")
     public ResponseEntity<WatchAvailabilityResponseDTO> watchAvailability(@PathVariable UUID id, @RequestParam LocalDate startDate,
                                                                           @RequestParam LocalDate endDate)
     {

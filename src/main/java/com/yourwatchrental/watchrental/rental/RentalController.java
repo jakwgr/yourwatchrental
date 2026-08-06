@@ -69,11 +69,8 @@ public class RentalController {
 
     @PatchMapping("/{id}/payment")
     @PreAuthorize("hasRole('ADMIN')")
-    public RentalResponseDTO changePaymentStatus(UUID id, PaymentStatusChangeRequestDTO request)
+    public RentalResponseDTO changePaymentStatus( @PathVariable UUID id, @RequestBody PaymentStatusChangeRequestDTO request)
     {
         return rentalService.changePaymentStatus(id,request);
     }
-
-    //zrobic dto do wyswietlania oraz kryteria filtrowania dla admina
-    //kalendarz
 }
