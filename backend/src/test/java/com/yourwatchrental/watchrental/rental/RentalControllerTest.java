@@ -192,7 +192,10 @@ public class RentalControllerTest {
                 PaymentStatus.FAILED
         );
 
-        when(rentalService.changePaymentStatus(rentalId, request))
+        when(rentalService.changePaymentStatus(
+                any(UUID.class),
+                any(PaymentStatusChangeRequestDTO.class)
+        ))
                 .thenReturn(response);
 
         mockMvc.perform(

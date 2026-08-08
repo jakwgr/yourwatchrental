@@ -69,8 +69,9 @@ public class RentalController {
 
     @PatchMapping("/{id}/payment")
     @PreAuthorize("hasRole('ADMIN')")
-    public RentalResponseDTO changePaymentStatus( @PathVariable UUID id, @RequestBody PaymentStatusChangeRequestDTO request)
+    public ResponseEntity<RentalResponseDTO> changePaymentStatus( @PathVariable UUID id, @RequestBody PaymentStatusChangeRequestDTO request)
     {
-        return rentalService.changePaymentStatus(id,request);
+        return ResponseEntity
+                .ok(rentalService.changePaymentStatus(id, request));
     }
 }
