@@ -1,0 +1,43 @@
+<p>login works!</p>
+
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+
+    <input
+        type="email"
+        formControlName="email"
+        placeholder="Email"
+    >
+
+    @if (loginForm.controls.email.touched &&
+         loginForm.controls.email.hasError('required')) {
+        <span>Email is required</span>
+    }
+
+    @if (loginForm.controls.email.touched &&
+         loginForm.controls.email.hasError('email')) {
+        <span>Invalid email format</span>
+    }
+
+
+    <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+    >
+
+    @if (loginForm.controls.password.touched &&
+         loginForm.controls.password.hasError('required')) {
+        <span>Password is required</span>
+    }
+
+    @if (loginForm.controls.password.touched &&
+         loginForm.controls.password.hasError('minlength')) {
+        <span>Password must contain 5 or more characters</span>
+    }
+
+
+    <button type="submit">
+        Login
+    </button>
+
+</form>

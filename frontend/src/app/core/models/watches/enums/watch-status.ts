@@ -1,0 +1,7 @@
+export enum WatchStatus {
+    AVAILABLE = "AVAILABLE",
+    RENTED = "RENTED",
+    IN_SERVICE = "IN_SERVICE",
+    UNAVAILABLE = "UNAVAILABLE",
+    DISABLED = "DISABLED"
+}

@@ -1,0 +1,89 @@
+<h1>dziala</h1>
+<form [formGroup]="filterForm" (ngSubmit)="search()">
+
+    <input
+        type="text"
+        formControlName="manufacturer"
+        placeholder="Producent"
+    >
+
+    <input
+        type="text"
+        formControlName="model"
+        placeholder="Model"
+    >
+
+    <input
+        type="number"
+        formControlName="minPrice"
+        placeholder="Cena od"
+    >
+
+    <input
+        type="number"
+        formControlName="maxPrice"
+        placeholder="Cena do"
+    >
+
+    <input
+        type="number"
+        formControlName="minYear"
+        placeholder="Rok od"
+    >
+
+    <input
+        type="number"
+        formControlName="maxYear"
+        placeholder="Rok do"
+    >
+
+    <select formControlName="gender">
+        <option [ngValue]="null">Płeć</option>
+
+        @for (gender of genderOptions; track gender) {
+            <option [value]="gender">
+                {{ gender }}
+            </option>
+        }
+    </select>
+
+    <select formControlName="movementType">
+        <option [ngValue]="null">Typ mechanizmu</option>
+
+        @for (movementType of movementTypeOptions; track movementType) {
+            <option [value]="movementType">
+                {{ movementType }}
+            </option>
+        }
+    </select>
+
+    <select formControlName="status">
+        <option [ngValue]="null">Status</option>
+
+        @for (status of statusOptions; track status) {
+            <option [value]="status">
+                {{ status }}
+            </option>
+        }
+    </select>
+
+    <select formControlName="watchType">
+        <option [ngValue]="null">Typ zegarka</option>
+
+        @for (watchType of watchTypeOptions; track watchType) {
+            <option [value]="watchType">
+                {{ watchType }}
+            </option>
+        }
+    </select>
+
+    <button type="submit">
+        Szukaj
+    </button>
+    
+</form>
+
+<p>liczba zegarkow: {{watches().length}}</p>
+@for (watch of watches(); track watch.id) {
+    <app-watch-card [watch]="watch"></app-watch-card>
+}

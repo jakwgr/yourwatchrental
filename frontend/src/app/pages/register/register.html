@@ -1,0 +1,65 @@
+<p>register works!</p>
+
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+
+    <input type="text" formControlName="firstName" placeholder="Imię" />
+    @if (registerForm.controls.firstName.touched &&
+    registerForm.controls.firstName.hasError('required')) {
+    <span>First name is required</span>
+    }
+
+
+    <input type="text" formControlName="lastName" placeholder="Nazwisko" />
+    @if (registerForm.controls.lastName.touched &&
+    registerForm.controls.lastName.hasError('required')) {
+    <span>Last name is required</span>
+    }
+
+
+    <input type="date" formControlName="dateOfBirth" />
+    @if (registerForm.controls.dateOfBirth.touched &&
+    registerForm.controls.dateOfBirth.hasError('required')) {
+    <span>Date of birth is required</span>
+    }
+
+    @if (registerForm.controls.dateOfBirth.touched &&
+    registerForm.controls.dateOfBirth.hasError('pastDate')) {
+    <span>Invalid birth date</span>
+    }
+
+    <input type="tel" formControlName="phoneNumber" placeholder="Numer telefonu" />
+    @if (registerForm.controls.phoneNumber.touched &&
+    registerForm.controls.phoneNumber.hasError('required')) {
+    <span>Phone number is required</span>
+    }
+    @if (registerForm.controls.phoneNumber.touched &&
+    registerForm.controls.phoneNumber.hasError('pattern')) {
+    <span>Invalid phone number format. Expected format '123456789'</span>
+    }
+
+    <input type="email" formControlName="email" placeholder="Email" />
+    @if (registerForm.controls.email.touched &&
+    registerForm.controls.email.hasError('required')) {
+    <span>Email is required</span>
+    }
+    @if (registerForm.controls.email.touched &&
+    registerForm.controls.email.hasError('email')) {
+    <span>Invalid email format</span>
+    }
+
+    <input type="password" formControlName="password" placeholder="Hasło" />
+    @if (registerForm.controls.password.touched &&
+    registerForm.controls.password.hasError('required')) {
+    <span>Password is required</span>
+    }
+
+    @if (registerForm.controls.password.touched &&
+    registerForm.controls.password.hasError('minlength')) {
+    <span>Password must contain 5 or more characters</span>
+    }
+
+    <button type="submit">
+        zarejestruj
+    </button>
+
+</form>
