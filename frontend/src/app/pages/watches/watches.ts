@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { WatchesService } from '../../core/services/watches/watches';
+import { WatchesService } from '../../core/services/watches/watches-service';
 import { WatchCardResponseDTO } from '../../core/models/watches/watch-card-response.dto';
-import { WatchCard } from '../../shared/components/watch-card/watch-card';
+import { WatchCard } from '../../shared/components/watch-card-view/watch-card-view';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { WatchGender } from '../../core/models/watches/enums/watch-gender';
 import { WatchMovementType } from '../../core/models/watches/enums/watch-movement-type';

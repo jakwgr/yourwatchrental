@@ -7,5 +7,5 @@ export interface UserResponseDTO{
     phoneNumber: string;
     createdAt: string;
     role: string;
-    userStatus: string;
+    status: string;
 }

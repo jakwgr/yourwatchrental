@@ -1,0 +1,17 @@
+<nav>
+    <a routerLink="/">Strona główna</a>
+    <a routerLink="/watches">Zegarki</a>
+        @if (authService.isLoggedIn()) {
+        <a routerLink="/rentals">Wynajmy</a>
+        <a routerLink="/profile">Profil</a>
+    } @else {
+        <a routerLink="/login">Logowanie</a>
+        <a routerLink="/register">Rejestracja</a>
+    }
+    @if (authService.isLoggedIn()) {
+       <span>
+        Witaj, <span>{{profile()?.firstName}}</span>
+       </span>
+    }
+    
+</nav>

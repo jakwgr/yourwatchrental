@@ -50,7 +50,7 @@ public class UserService {
 
     public UserResponseDTO registerUser(UserRequestDTO request)
     {
-        if(userRepository.existsByEmail(request.email())) throw new UserEmailUsedException();
+        if(userRepository.existsByEmailIgnoreCase(request.email())) throw new UserEmailUsedException();
         if(userRepository.existsByPhoneNumber(request.phoneNumber())) throw new UserPhoneNumberUsedException();
         String encodedPassword = encoder.encode(request.password());
         User user = userMapper.toEntitySingup(request, encodedPassword);
@@ -129,11 +129,40 @@ public class UserService {
     };
 
     @Transactional
-    public UserResponseDTO updateUser(UUID id, UserInformationUpdateRequestDTO request)
+    public UserResponseDTO updateUserAdmin(UUID id, UserInformationUpdateRequestDTO request)
     {
         User user = userRepository
                 .findById(id)
                 .orElseThrow(()-> new UserNotFoundException(id));
+
+        if(request.firstName() != null) user.setFirstName(request.firstName());
+        if(request.lastName() != null) user.setLastName(request.lastName());
+        if(request.dateOfBirth() != null) user.setDateOfBirth(request.dateOfBirth());
+        if(request.phoneNumber() != null)
+        {
+            if(!Objects.equals(user.getPhoneNumber(), request.phoneNumber()))
+            {
+                if (!userRepository.existsByPhoneNumber(request.phoneNumber()))
+                {
+                    user.setPhoneNumber(request.phoneNumber());
+                }
+                else
+                {
+                    throw new UserPhoneNumberUsedException();
+                }
+            }
+        }
+        User updatedUser = userRepository.save(user);
+
+        return userMapper.toResponseDTO(updatedUser);
+    }
+
+    @Transactional
+    public UserResponseDTO updateUser(UserInformationUpdateRequestDTO request)
+    {
+        User user = userRepository
+                .findById(securityUtil.getCurrentUserId())
+                .orElseThrow(()-> new UserNotFoundException(null));
 
         if(request.firstName() != null) user.setFirstName(request.firstName());
         if(request.lastName() != null) user.setLastName(request.lastName());
@@ -213,7 +242,7 @@ public class UserService {
             throw new UserUpdateSameEmailException();
         }
 
-        if(userRepository.existsByEmail(request.email())) throw new UserEmailUsedException();
+        if(userRepository.existsByEmailIgnoreCase(request.email())) throw new UserEmailUsedException();
 
         user.setEmail(request.email());
         userRepository.save(user);
@@ -231,7 +260,7 @@ public class UserService {
             throw new UserUpdateSameEmailException();
         }
 
-        if(userRepository.existsByEmail(request.email())) throw new UserEmailUsedException();
+        if(userRepository.existsByEmailIgnoreCase(request.email())) throw new UserEmailUsedException();
 
         user.setEmail(request.email());
         userRepository.save(user);

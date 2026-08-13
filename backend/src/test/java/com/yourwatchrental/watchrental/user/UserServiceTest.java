@@ -81,7 +81,7 @@ public class UserServiceTest {
 
         user.setPassword(requestDTO.password());
 
-        when(userRepository.existsByEmail(requestDTO.email()))
+        when(userRepository.existsByEmailIgnoreCase(requestDTO.email()))
                 .thenReturn(false);
         when(userRepository.existsByPhoneNumber(requestDTO.phoneNumber()))
                 .thenReturn(false);
@@ -99,7 +99,7 @@ public class UserServiceTest {
         assertEquals(Role.USER, result.role());
         assertEquals(UserStatus.ACTIVE, result.status());
 
-        verify(userRepository).existsByEmail(requestDTO.email());
+        verify(userRepository).existsByEmailIgnoreCase(requestDTO.email());
         verify(userRepository).existsByPhoneNumber(requestDTO.phoneNumber());
         verify(encoder).encode(requestDTO.password());
         verify(userMapper).toEntitySingup(requestDTO, "encodedPassword");
@@ -110,19 +110,19 @@ public class UserServiceTest {
 
     @Test
     void shouldThrowUsedEmail1() {
-        when(userRepository.existsByEmail(requestDTO.email()))
+        when(userRepository.existsByEmailIgnoreCase(requestDTO.email()))
                 .thenReturn(true);
 
         assertThrows(UserEmailUsedException.class,
                 () -> userService.registerUser(requestDTO));
 
-        verify(userRepository).existsByEmail(requestDTO.email());
+        verify(userRepository).existsByEmailIgnoreCase(requestDTO.email());
         verify(userRepository, never()).save(any());
     }
 
     @Test
     void shouldThrowUsedPhone1() {
-        when(userRepository.existsByEmail(requestDTO.email()))
+        when(userRepository.existsByEmailIgnoreCase(requestDTO.email()))
                 .thenReturn(false);
         when(userRepository.existsByPhoneNumber(requestDTO.phoneNumber()))
                 .thenReturn(true);
@@ -130,7 +130,7 @@ public class UserServiceTest {
         assertThrows(UserPhoneNumberUsedException.class,
                 () -> userService.registerUser(requestDTO));
 
-        verify(userRepository).existsByEmail(requestDTO.email());
+        verify(userRepository).existsByEmailIgnoreCase(requestDTO.email());
         verify(userRepository).existsByPhoneNumber(requestDTO.phoneNumber());
         verify(userRepository, never()).save(any());
     }
@@ -184,7 +184,7 @@ public class UserServiceTest {
                 .thenReturn(userResponseDTO);
 
         UserResponseDTO result =
-                userService.updateUser(id, requestInformationUpdate);
+                userService.updateUserAdmin(id, requestInformationUpdate);
 
         assertEquals(result, userResponseDTO);
         assertEquals(requestInformationUpdate.firstName(), user.getFirstName());
@@ -207,7 +207,7 @@ public class UserServiceTest {
 
 
         assertThrows(UserNotFoundException.class,
-                () -> userService.updateUser(id, requestInformationUpdate));
+                () -> userService.updateUserAdmin(id, requestInformationUpdate));
 
 
         verify(userRepository).findById(id);
@@ -230,7 +230,7 @@ public class UserServiceTest {
 
 
         assertThrows(UserPhoneNumberUsedException.class,
-                () -> userService.updateUser(id, requestInformationUpdate));
+                () -> userService.updateUserAdmin(id, requestInformationUpdate));
 
 
         verify(userRepository).findById(id);

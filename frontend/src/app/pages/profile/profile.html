@@ -1,2 +1,9 @@
 <p>profile works!</p>
-<button (click)="logout()">Logout</button>
+@if (profile(); as data)
+{
+    <app-profile-view
+    [profile]="data">
+    </app-profile-view>
+}
+
+<button (click)="logout()" routerLink="/">Logout</button>

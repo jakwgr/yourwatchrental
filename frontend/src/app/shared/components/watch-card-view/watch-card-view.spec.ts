@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Navbar } from './navbar';
+import { WatchCard } from './watch-card-view';
 
-describe('Navbar', () => {
-  let component: Navbar;
-  let fixture: ComponentFixture<Navbar>;
+describe('WatchCard', () => {
+  let component: WatchCard;
+  let fixture: ComponentFixture<WatchCard>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Navbar],
+      imports: [WatchCard],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Navbar);
+    fixture = TestBed.createComponent(WatchCard);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

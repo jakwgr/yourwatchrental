@@ -120,7 +120,7 @@ public class UserControllerTest {
                 "123456789"
         );
 
-        when(userService.updateUser(userId, request))
+        when(userService.updateUserAdmin(userId, request))
                 .thenReturn(response);
 
         mockMvc.perform(
@@ -130,7 +130,7 @@ public class UserControllerTest {
         ).andExpect(status().isOk());
 
         verify(userService)
-                .updateUser(any(), any());
+                .updateUserAdmin(any(), any());
     }
 
     @Test

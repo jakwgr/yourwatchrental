@@ -1,0 +1,49 @@
+
+<div>
+    <h1>{{profile().firstName}} {{profile().lastName}}</h1>
+    <p>numer telefonu: {{profile().phoneNumber}}</p>
+    <p>data urodzenia: {{profile().dateOfBirth}}</p>
+    <p>email: {{profile().email}}</p>
+    <p>konto utworzone dnia: {{profile().createdAt}}</p>
+    <p>status konta: {{profile().status}}</p>
+    <p>rola użytkownika: {{profile().role}}</p>
+</div>
+        <button (click)="openChangePasswordModal()">zmien haslo</button>
+        @if (showChangePasswordModal())
+        {
+            <app-profile-change-password-view
+            (close)="closeChangePasswordModal()"
+            (save)="savePassword($event)"
+            >
+                
+            </app-profile-change-password-view>
+        }
+        <button (click)="openChangeEmailModal()">zmien email</button>
+        @if (showChangeEmailModal())
+        {
+            <app-profile-change-email-view
+            (close)="closeChangeEmailModal()"
+            (save)="saveEmail($event)">
+
+            </app-profile-change-email-view>
+        }
+        <button (click)="openUpdateInformationModal()">uaktualnij dane</button>
+        @if (showUpdateInformationModal())
+        {
+            <app-profile-update-information-view
+            (close)="closeUpdateInformationModal()"
+            (save)="updateInformation($event)"
+            [profile]="profile()">
+
+            </app-profile-update-information-view>
+        }
+
+        <button (click)="openSoftDeleteInformationModal()">usun konto</button>
+        @if (showSoftDeleteAccountModal())
+        {
+            <app-profile-soft-delete-view
+            (close)="closeSoftDeleteInformationModal()"
+            (save)="softDelete($event)">
+
+            </app-profile-soft-delete-view>
+        }

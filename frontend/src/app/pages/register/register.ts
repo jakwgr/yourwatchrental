@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { first } from 'rxjs';
-import { AuthService } from '../../core/services/auth/auth';
+import { AuthService } from '../../core/services/auth/auth-service';
 import { pastDateValidator } from '../../shared/util/validators/validator-past'
 import { Router } from '@angular/router';
 
@@ -16,6 +16,14 @@ export class Register {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+
+  ngOnInit()
+  {
+    if(this.authService.isLoggedIn())
+    {
+      this.router.navigate(['/']);
+    }
+  }
 
   registerForm = this.fb.nonNullable.group({
     firstName: ['', Validators.required],

@@ -4,8 +4,8 @@ import { WatchCardResponseDTO } from '../../../core/models/watches/watch-card-re
 @Component({
   selector: 'app-watch-card',
   imports: [],
-  templateUrl: './watch-card.html',
-  styleUrl: './watch-card.css',
+  templateUrl: './watch-card-view.html',
+  styleUrl: './watch-card-view.css',
 })
 export class WatchCard {
   watch = input.required<WatchCardResponseDTO>();

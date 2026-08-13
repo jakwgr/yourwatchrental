@@ -1,5 +1,7 @@
 package com.yourwatchrental.watchrental.user;
 
+import com.yourwatchrental.watchrental.security.JwUtil;
+import com.yourwatchrental.watchrental.security.SecurityUtil;
 import com.yourwatchrental.watchrental.user.dto.request.*;
 import com.yourwatchrental.watchrental.user.dto.response.UserResponseDTO;
 import jakarta.validation.Valid;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final SecurityUtil securityUtil;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
@@ -40,19 +43,27 @@ public class UserController {
         return userService.authenticateUser(request);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.name")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable UUID id, @RequestBody @Valid UserInformationUpdateRequestDTO request)
+    public ResponseEntity<UserResponseDTO> updateUserAdmin(@PathVariable UUID id, @RequestBody @Valid UserInformationUpdateRequestDTO request)
     {
-        UserResponseDTO response = userService.updateUser(id, request);
+        UserResponseDTO response = userService.updateUserAdmin(id, request);
 
         return ResponseEntity
                 .ok(response);
     }
 
-    @PreAuthorize("#id.toString() == authentication.name")
-    @PatchMapping("/{id}/password")
-    public ResponseEntity<Void> updatePassword(@PathVariable UUID id, @RequestBody @Valid UserPasswordUpdateRequestDTO request)
+    @PutMapping("/me")
+    public ResponseEntity<UserResponseDTO> updateUser(@RequestBody @Valid UserInformationUpdateRequestDTO request)
+    {
+        UserResponseDTO response = userService.updateUser(request);
+
+        return ResponseEntity
+                .ok(response);
+    }
+
+    @PatchMapping("/me/password")
+    public ResponseEntity<Void> updatePassword(@RequestBody @Valid UserPasswordUpdateRequestDTO request)
     {
         userService.updatePassword(request);
         return ResponseEntity
@@ -70,9 +81,8 @@ public class UserController {
                 .build();
     }
 
-    @PreAuthorize("#id.toString() == authentication.name")
-    @PatchMapping("/{id}/email")
-    public ResponseEntity<Void> updateEmail(@PathVariable UUID id, @RequestBody @Valid UserEmailUpdateRequestDTO request)
+    @PatchMapping("/me/email")
+    public ResponseEntity<Void> updateEmail(@RequestBody @Valid UserEmailUpdateRequestDTO request)
     {
         userService.updateEmail(request);
 
@@ -92,17 +102,24 @@ public class UserController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.name")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID id)
+    public ResponseEntity<UserResponseDTO> getUserAdmin(@PathVariable UUID id)
     {
         UserResponseDTO response = userService.getUser(id);
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("#id.toString() == authentication.name")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> softDeleteUser(@PathVariable UUID id, @RequestBody @Valid UserSoftDeleteRequestDTO request)
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> getUser()
+    {
+        UUID id = securityUtil.getCurrentUserId();
+        UserResponseDTO response = userService.getUser(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> softDeleteUser(@RequestBody @Valid UserSoftDeleteRequestDTO request)
     {
         userService.softDeleteUser(request);
         return ResponseEntity

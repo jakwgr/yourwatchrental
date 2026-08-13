@@ -1,0 +1,17 @@
+<br>
+czy na pewno?
+<br>
+<button (click)="openForm()">tak</button> <button (click)="close.emit()">cofnij</button> <br>
+
+@if (formOpen())
+{
+    <form [formGroup]="softDeleteForm">
+        <input type="password" formControlName="password"> podaj haslo <br>
+        <button (click)="saveSoftDeleteModal()">
+            zmien
+        </button>
+    </form>
+}
+
+
+<br>

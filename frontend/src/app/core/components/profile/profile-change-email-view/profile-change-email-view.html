@@ -1,0 +1,12 @@
+<form [formGroup]="changeEmailForm">
+    <input type="email" formControlName="email"> email <br>
+    <input type="password" formControlName="password"> haslo <br>
+
+
+    <button (click)="close.emit()">
+        zamknij
+    </button>
+    <button (click)="saveChangeEmailModal()">
+        zmien
+    </button>
+</form>

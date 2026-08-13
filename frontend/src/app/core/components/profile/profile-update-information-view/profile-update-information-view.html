@@ -1,0 +1,14 @@
+<form [formGroup]="updateInformationForm">
+    <input type="text" formControlName="firstName"> imie <br>
+    <input type="text" formControlName="lastName"> nazwisko <br>
+    <input type="text" formControlName="phoneNumber"> nr telefonu <br>
+    <input type="date" formControlName="dateOfBirth"> data urodzenia <br>
+
+
+    <button (click)="close.emit()">
+        zamknij
+    </button>
+    <button (click)="saveUpdateInformationdModal()">
+        zmien
+    </button>
+</form>
