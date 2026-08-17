@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, signal } from '@angular/core';
-import { UserRegisterRequestDTO } from '../../models/profile/register-login/user-register-request.dto';
+import { UserRegisterRequestDTO } from '../../models/profile/register/user-register-request.dto';
 import { UserResponseDTO } from '../../models/profile/user-response.dto';
-import { UserLoginRequestDTO } from '../../models/profile/register-login/user-login-request.dto';
+import { UserLoginRequestDTO } from '../../models/profile/register/user-login-request.dto';
 import { TokenStorageService } from './token-storage-service';
 import { tap } from 'rxjs';
 
@@ -55,7 +55,7 @@ export class AuthService {
             return false;
         }
     }
-
+    
     logout(): void {
         this.tokenStorageService.removeToken();
         this.isLoggedIn.set(false);

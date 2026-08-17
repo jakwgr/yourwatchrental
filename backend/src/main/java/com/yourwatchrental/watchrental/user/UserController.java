@@ -6,6 +6,8 @@ import com.yourwatchrental.watchrental.user.dto.request.*;
 import com.yourwatchrental.watchrental.user.dto.response.UserResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,9 +25,11 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getUsers(UserFilterCriteriaRequestDTO criteria)
+    public ResponseEntity<Page<UserResponseDTO>> getUsers(
+            UserFilterCriteriaRequestDTO criteria,
+            Pageable pageable)
     {
-        return ResponseEntity.ok(userService.getUsers(criteria));
+        return ResponseEntity.ok(userService.getUsers(criteria, pageable));
     }
 
     @PostMapping("/signup")

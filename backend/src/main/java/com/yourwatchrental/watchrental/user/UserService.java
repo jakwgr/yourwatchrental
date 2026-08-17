@@ -20,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -88,24 +90,10 @@ public class UserService {
 
     }
 
-    public List<UserResponseDTO> getUsers(UserFilterCriteriaRequestDTO criteria){
-//        tylko dla admina
-
-//        System.out.println(criteria.id());
-        if(criteria.id() != null && !criteria.id().isEmpty())
-        {
-            if(UUID_PATTERN.matcher(criteria.id().trim()).matches()) {
-                UUID searchUUID = UUID.fromString(criteria.id());
-                return userRepository.findById(searchUUID)
-                        .stream()
-                        .map(userMapper::toResponseDTO)
-                        .toList();
-            }
-            else
-            {
-                throw new UserIdNotFoundExcpetion();
-            }
-        }
+    public Page<UserResponseDTO> getUsers(
+            UserFilterCriteriaRequestDTO criteria,
+            Pageable pageable)
+    {
         User probe = new User();
         probe.setEmail(criteria.email());
         probe.setFirstName(criteria.firstName());
@@ -120,12 +108,10 @@ public class UserService {
 
         Example<User> example = Example.of(probe, exampleMatcher);
 
-        List<User> users = userRepository.findAll(example);
+        Page<User> users = userRepository.findAll(example, pageable);
 
         return users
-                .stream()
-                .map(userMapper::toResponseDTO)
-                .toList();
+                .map(userMapper::toResponseDTO);
     };
 
     @Transactional
@@ -134,6 +120,9 @@ public class UserService {
         User user = userRepository
                 .findById(id)
                 .orElseThrow(()-> new UserNotFoundException(id));
+
+        System.out.println("ID: " + id);
+        System.out.println("FIRST NAME: " + request.firstName());
 
         if(request.firstName() != null) user.setFirstName(request.firstName());
         if(request.lastName() != null) user.setLastName(request.lastName());
@@ -153,6 +142,8 @@ public class UserService {
             }
         }
         User updatedUser = userRepository.save(user);
+
+        System.out.println("AFTER SAVE: " + updatedUser.getFirstName());
 
         return userMapper.toResponseDTO(updatedUser);
     }

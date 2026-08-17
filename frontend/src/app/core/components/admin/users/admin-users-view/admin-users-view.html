@@ -1,0 +1,128 @@
+
+
+<form [formGroup]="adminUserUpdate" style="border: solid 1px black;">
+    <h1>imie:
+        @if(this.saveType != null && this.saveType === 1)
+        {
+                <input type="text" formControlName="firstName">
+        }@else
+        {
+               {{profile().firstName}} 
+        }
+        
+        nazwisko:
+        @if(this.saveType != null && this.saveType === 1)
+        {
+                <input type="text" formControlName="lastName">
+        }@else
+        {
+               {{profile().lastName}} 
+        }
+</h1>
+    <p>
+        numer telefonu:
+        @if(this.saveType != null && this.saveType === 1)
+        {
+                <input type="text" formControlName="phoneNumber">
+        }@else
+        {
+               {{profile().phoneNumber}} 
+        }
+    <br>
+        data urodzenia: @if(this.saveType != null && this.saveType === 1)
+        {
+                <input type="date" formControlName="dateOfBirth">
+        }@else
+        {
+               {{profile().dateOfBirth}} 
+        }
+        <br>
+        email: @if(this.saveType != null && this.saveType === 2)
+        {
+                <input type="text" formControlName="email">
+        }@else
+        {
+               {{profile().email}} 
+        }
+        <br>
+status konta: @if(this.saveType != null && this.saveType === 3)
+        {
+                <select formControlName ="status">
+                        @for (status of statusOptions; track status) {
+                                  <option [value]="status">
+                                        {{status}}
+                                </option>       
+                                     
+                        }
+                </select>
+        }@else
+        {
+               {{profile().status}} 
+        }
+<!-- @if(){} -->
+        <br>
+rola użytkownika: @if(this.saveType != null && this.saveType === 4)
+        {
+                <select formControlName="role">
+                        @for (role of roleOptions; track role) {
+                                  <option [value]="role">
+                                        {{role}}
+                                </option>       
+                        }
+                </select>
+        }@else
+        {
+               {{profile().role}} 
+        }
+<!-- @if(){} -->
+ <br>
+ konto utworzone dnia: {{profile().createdAt}}
+<!-- @if(){} -->
+        <br>
+haslo : @if(this.saveType != null && this.saveType === 5)
+        {
+                <input type="text" formControlName="newPassword"> &nbsp;
+                <input type="text" formControlName="newPassword1">
+        }@else
+        {
+               **********
+        }
+        </p>
+        <p>
+            <button
+            (click)="updateInformation()"
+            [class.disabledButton]="buttonVanish"
+            >zmien dane</button>
+            <button
+            (click)="updatePassword()"
+            [class.disabledButton]="buttonVanish"
+            >zmien haslo</button>
+            <button
+            (click)="updateEmail()"
+            [class.disabledButton]="buttonVanish"
+            >zmien email</button>
+            <button
+            (click)="updateStatus()"
+            [class.disabledButton]="buttonVanish"
+            >zmien status konta</button>
+            <button
+            (click)="updateRole()"
+            [class.disabledButton]="buttonVanish"
+            >zmien role</button>
+            <button
+            [class.disabledButton]="buttonVanish"
+            >zobacz wypozyczenia</button>
+
+            <button
+                (click)="save(profile().id)"
+                [class.disabledButton]="!buttonVanish"
+                >zapisz
+            </button>
+
+                <button
+                [class.disabledButton]="!buttonVanish"
+                (click)="cancel()"
+                >cofnij
+            </button>
+        </p>
+</form>

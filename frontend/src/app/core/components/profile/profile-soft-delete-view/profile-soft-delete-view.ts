@@ -1,7 +1,7 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { UserSoftDeleteRequestDTO } from '../../../models/profile/put-patch-delete/user-soft-delete-request.dto';
+import { UserSoftDeleteRequestDTO } from '../../../models/profile/put-patch/user-soft-delete-request.dto';
 import { UserResponseDTO } from '../../../models/profile/user-response.dto';
 import { single } from 'rxjs';
 

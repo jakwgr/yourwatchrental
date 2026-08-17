@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Pattern;
 import java.util.UUID;
 
 public record UserFilterCriteriaRequestDTO(
-        String id,
         String firstName,
         String lastName,
         String email,

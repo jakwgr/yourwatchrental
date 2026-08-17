@@ -1,7 +1,7 @@
 import { Component, inject, input, output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { UserInformationUpdateRequestDTO } from '../../../models/profile/put-patch-delete/user-information-update-request.dto';
+import { UserInformationUpdateRequestDTO } from '../../../models/profile/put-patch/user-information-update-request.dto';
 import { UserResponseDTO } from '../../../models/profile/user-response.dto';
 
 @Component({

@@ -3,16 +3,16 @@ import { RouterLink } from "@angular/router";
 import { FormBuilder, FormControl, Validators, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UserResponseDTO } from '../../../models/profile/user-response.dto';
-import { UserEmailUpdateRequestDTO } from '../../../models/profile/put-patch-delete/user-email-update-request.dto';
-import { UserPasswordUpdateRequestDTO } from '../../../models/profile/put-patch-delete/user-password-update-request.dto';
-import { UserSoftDeleteRequestDTO } from '../../../models/profile/put-patch-delete/user-soft-delete-request.dto';
+import { UserEmailUpdateRequestDTO } from '../../../models/profile/put-patch/user-email-update-request.dto';
+import { UserPasswordUpdateRequestDTO } from '../../../models/profile/put-patch/user-password-update-request.dto';
+import { UserSoftDeleteRequestDTO } from '../../../models/profile/put-patch/user-soft-delete-request.dto';
 
 import { ProfileSoftDeleteView } from '../profile-soft-delete-view/profile-soft-delete-view';
 import { ProfileChangeEmailView } from '../profile-change-email-view/profile-change-email-view';
 import { ProfileChangePasswordView } from '../profile-change-password-view/profile-change-password-view';
 import { ProfileUpdateInformationView } from '../profile-update-information-view/profile-update-information-view';
 import { ProfileService } from '../../../services/profile/profile-service';
-import { UserInformationUpdateRequestDTO } from '../../../models/profile/put-patch-delete/user-information-update-request.dto';
+import { UserInformationUpdateRequestDTO } from '../../../models/profile/put-patch/user-information-update-request.dto';
 
 @Component({
   selector: 'app-profile-view',

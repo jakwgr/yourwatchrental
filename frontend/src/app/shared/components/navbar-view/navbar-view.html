@@ -4,14 +4,21 @@
         @if (authService.isLoggedIn()) {
         <a routerLink="/rentals">Wynajmy</a>
         <a routerLink="/profile">Profil</a>
+        @if (profile()?.role === 'ADMIN')
+        {
+        <a routerLink="/admin">Panel administratora</a>
+
+        }
     } @else {
         <a routerLink="/login">Logowanie</a>
         <a routerLink="/register">Rejestracja</a>
     }
     @if (authService.isLoggedIn()) {
        <span>
-        Witaj, <span>{{profile()?.firstName}}</span>
+        Witaj, <span>{{profile()?.firstName}} </span>
        </span>
+
+       <button (click)="logout()" routerLink="/">Logout</button>
     }
     
 </nav>

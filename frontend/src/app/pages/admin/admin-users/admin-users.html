@@ -1,0 +1,45 @@
+<form [formGroup]="filterForm" (ngSubmit)="search()">
+
+    <input
+        type="text"
+        formControlName="firstName"
+        placeholder="Imie"
+    >
+
+    <input
+        type="text"
+        formControlName="lastName"
+        placeholder="nawisko"
+    >
+
+    <input
+        type="email"
+        formControlName="email"
+        placeholder="email"
+    >
+
+    <input
+        type="number"
+        formControlName="phoneNumber"
+        placeholder="nr telefonu"
+    >
+
+    <button type="submit">
+        Szukaj
+    </button>
+>
+
+<p>
+    @for (user of users(); track user.id)
+    {
+        @if(user.id != profile()?.id)
+        {
+            <app-user-view
+            [profile]="user"
+             (profileUpdated)="loadProfile()">
+
+            </app-user-view>
+        }
+        
+    }
+</p>

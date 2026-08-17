@@ -2,7 +2,7 @@ import { Component, inject, output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { UserResponseDTO } from '../../../models/profile/user-response.dto';
-import { UserPasswordUpdateRequestDTO } from '../../../models/profile/put-patch-delete/user-password-update-request.dto';
+import { UserPasswordUpdateRequestDTO } from '../../../models/profile/put-patch/user-password-update-request.dto';
 @Component({
   selector: 'app-profile-change-password-view',
   imports: [ReactiveFormsModule],

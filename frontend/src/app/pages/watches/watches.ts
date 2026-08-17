@@ -42,8 +42,6 @@ export class Watches implements OnInit {
       this.watchesService.getWatches().subscribe(response => {
 
         this.watches.set(response.content);
-
-        console.log("test" + this.watches.length)
       }
     );
   }

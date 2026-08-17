@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, input, output, signal } from '@angular/core';
 import { FormBuilder, FormControl, Validators, ɵInternalFormsSharedModule, ReactiveFormsModule  } from '@angular/forms';
 
-import { UserEmailUpdateRequestDTO } from '../../../models/profile/put-patch-delete/user-email-update-request.dto';
+import { UserEmailUpdateRequestDTO } from '../../../models/profile/put-patch/user-email-update-request.dto';
 
 @Component({
   selector: 'app-profile-change-email-view',
