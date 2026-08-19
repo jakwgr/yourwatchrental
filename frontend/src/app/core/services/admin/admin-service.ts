@@ -27,6 +27,8 @@ export class AdminService {
         );
     }
 
+    // ------------------------- user
+
     updateUserInformation(id: string, request: UserInformationUpdateRequestDTO)
     {
         return this.http.put<UserResponseDTO>(`api/users/${id}`,
@@ -61,4 +63,6 @@ export class AdminService {
             request
         )
     }
+
+    // ------------------------- watches
 }

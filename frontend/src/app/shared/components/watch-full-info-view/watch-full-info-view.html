@@ -1,0 +1,79 @@
+@if (watchFullInfo(); as watch) {
+    
+    <h2>
+        {{ watch.manufacturer }} {{ watch.model }}
+    </h2>
+
+    <p>
+        Numer referencyjny: {{ watch.referenceNumber }}
+    </p>
+
+    <p>
+        Numer seryjny: {{ watch.serialNumber }}
+    </p>
+
+    <p>
+        Opis: {{ watch.description }}
+    </p>
+
+    <p>
+        Rok produkcji: {{ watch.yearOfProduction }}
+    </p>
+
+    <p>
+        Cena za dzień: {{ watch.pricePerDay }} zł
+    </p>
+
+    <p>
+        Stan: {{ watch.condition }}
+    </p>
+
+    <p>
+        Płeć: {{ watch.gender }}
+    </p>
+
+    <p>
+        Mechanizm: {{ watch.movementType }}
+    </p>
+
+    <p>
+        Status: {{ watch.status }}
+    </p>
+
+    <p>
+        Typ zegarka: {{ watch.watchType }}
+    </p>
+
+    <p>
+        Oddział: {{ watch.branch.name }}
+    </p>
+
+    @if (watchFullInfo(); as watch) {
+
+    @for (photo of watch.photos; track photo.id) {
+        <img
+            [src]="photo.photoUrl"
+            [alt]="photo.description"
+        >
+    }
+
+} <br>
+@if (watchFullInfo(); as watchInfo) {
+<app-watch-calendar [watch]="watchInfo"></app-watch-calendar>
+}
+    @if( isLogged )
+    {
+        <button>wypozycz</button>
+        @if (profile()?.role === "ADMIN")
+        {
+            <button>edytuj ogloszenie</button>
+        }
+        @else {
+        }
+    }
+    @else {
+        <h1>zaloguj sie by wypozyczyc</h1>
+    }
+
+    <button (click)="closeModal()">zamknij</button>
+}

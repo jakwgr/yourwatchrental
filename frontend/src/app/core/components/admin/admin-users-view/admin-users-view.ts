@@ -1,18 +1,18 @@
 import { Component, effect, inject, input, output, signal } from '@angular/core';
-import { UserResponseDTO } from '../../../../models/profile/user-response.dto';
+import { UserResponseDTO } from '../../../models/profile/user-response.dto';
 import { single } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
 import { ComponentInputBindingOptions } from '@angular/router';
-import { userStatus } from '../../../../models/profile/enums/user-status';
-import { role } from '../../../../models/profile/enums/role';
-import { AdminService } from '../../../../services/admin/admin-service';
+import { userStatus } from '../../../models/profile/enums/user-status';
+import { role } from '../../../models/profile/enums/role';
+import { AdminService } from '../../../services/admin/admin-service';
 
-import { UserInformationUpdateRequestDTO } from '../../../../models/profile/put-patch/user-information-update-request.dto';
+import { UserInformationUpdateRequestDTO } from '../../../models/profile/put-patch/user-information-update-request.dto';
 import { email } from '@angular/forms/signals';
-import { UserEmailUpdateAdminRequestDTO } from '../../../../models/admin/users/user-email-update-admin-request.dto';
-import { UserStatusChangeRequestDTO } from '../../../../models/admin/users/user-status-change-admin-request.dto';
-import { UserRoleChangeRequestDTO } from '../../../../models/admin/users/user-role-change-request.dto';
-import { UserPasswordUpdateAdminRequestDTO } from '../../../../models/admin/users/user-password-update-admin-request.dto';
+import { UserEmailUpdateAdminRequestDTO } from '../../../models/admin/users/user-email-update-admin-request.dto';
+import { UserStatusChangeRequestDTO } from '../../../models/admin/users/user-status-change-admin-request.dto';
+import { UserRoleChangeRequestDTO } from '../../../models/admin/users/user-role-change-request.dto';
+import { UserPasswordUpdateAdminRequestDTO } from '../../../models/admin/users/user-password-update-admin-request.dto';
 
 @Component({
   selector: 'app-user-view',

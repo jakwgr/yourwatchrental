@@ -1,0 +1,14 @@
+<h1>{{branch().name}}</h1>
+<p>{{branch().address}}
+<br>
++48 {{ formatPhoneNumber(branch().phoneNumber) }}, {{branch().email}}
+<br>
+<button
+  routerLink="/watches"
+  [queryParams]="{
+    page: 0,
+    size: 10,
+    branchId: branch().id
+  }"
+>szukaj zegarkow w tym oddziale</button>
+</p>

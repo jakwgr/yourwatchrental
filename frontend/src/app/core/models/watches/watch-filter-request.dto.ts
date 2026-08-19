@@ -15,7 +15,7 @@ export interface WatchFilterRequestDTO {
     movementType?: WatchMovementType | null;
     status?: WatchStatus | null;
     watchType?: WatchType | null;
-    branch?: string | null;
+    branchId?: string | null;
     minPrice?: number | null;
     maxPrice?: number | null;
     minYear?: number | null;

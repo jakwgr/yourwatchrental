@@ -77,6 +77,16 @@
         }
     </select>
 
+    <select formControlName="branchId" []>
+        @for (branch of branches(); track branch.id)
+        {
+            <option [value]="branch.id"
+            >
+                {{branch.name}}
+            </option> 
+        }
+    </select>
+
     <button type="submit">
         Szukaj
     </button>

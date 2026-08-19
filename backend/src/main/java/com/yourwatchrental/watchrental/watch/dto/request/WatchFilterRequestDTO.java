@@ -5,6 +5,7 @@ import com.yourwatchrental.watchrental.watch.enums.*;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record WatchFilterRequestDTO(
         String manufacturer,
@@ -17,7 +18,7 @@ public record WatchFilterRequestDTO(
         MovementType movementType,
         Status status,
         WatchType watchType,
-        Branch branch,
+        UUID branchId,
 
         @PositiveOrZero(message = "Minimum price needs to be accurate")
         BigDecimal minPrice,

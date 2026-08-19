@@ -62,6 +62,15 @@ public class SpecificationUtil {
                 return null;
             }
 
+            if (field.contains(".")) {
+                String[] fields = field.split("\\.");
+
+                return cb.equal(
+                        root.get(fields[0]).get(fields[1]),
+                        value
+                );
+            }
+
             return cb.equal(root.get(field), value);
         };
     }

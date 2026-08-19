@@ -1,0 +1,25 @@
+<form [formGroup]="criteriaForm">
+    <input type="text" placeholder="city" formControlName="city">
+    <input type="text" placeholder="name" formControlName="name" >
+    <input type="text" placeholder="address" formControlName="address">
+    @if(false)
+    {
+        <input type="text" placeholder="phone number">
+        <input type="text" placeholder="email">
+        <select>
+            @for ( status of branchOptions; track $index)
+            {
+                <option>{{status}}</option>
+            }
+        </select>
+    }
+    <button (click)="save()">szukaj</button>
+</form>
+
+@for (branch of branches(); track branch.id)
+{
+    <app-branches-info-view
+    [branch]="branch">
+
+    </app-branches-info-view>
+}

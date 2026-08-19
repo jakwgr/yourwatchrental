@@ -7,6 +7,12 @@ import { WatchGender } from '../../core/models/watches/enums/watch-gender';
 import { WatchMovementType } from '../../core/models/watches/enums/watch-movement-type';
 import { WatchStatus } from '../../core/models/watches/enums/watch-status';
 import { WatchType } from '../../core/models/watches/enums/watch-type';
+import { BranchesService } from '../../core/services/branches/branches-service';
+import { BranchShortResponseDTO } from '../../core/models/branch/branch-short-response.dto';
+import { ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs';
+import { WatchFilterRequestDTO } from '../../core/models/watches/watch-filter-request.dto';
+
 @Component({
   selector: 'app-watches',
   imports: [WatchCard, ReactiveFormsModule],
@@ -17,6 +23,8 @@ export class Watches implements OnInit {
 
   private watchesService = inject(WatchesService);
   private fb = inject(FormBuilder);
+  private branchesService = inject(BranchesService);
+  private route = inject(ActivatedRoute);
 
   genderOptions = Object.values(WatchGender);
   movementTypeOptions = Object.values(WatchMovementType);
@@ -33,32 +41,56 @@ export class Watches implements OnInit {
     gender: [null],
     movementType: [null],
     status: [null],
-    watchType: [null]
-});
+    watchType: [null],
+    branchId: ['']
+  });
 
   watches = signal<WatchCardResponseDTO[]>([]);
+  branches = signal<BranchShortResponseDTO[]>([]);
 
-    ngOnInit() {
-      this.watchesService.getWatches().subscribe(response => {
+  branch = signal<string | null>(null);
 
-        this.watches.set(response.content);
+  branchesGenerate() {
+    this.branchesService.getBranches().subscribe(
+      response => {
+        this.branches.set(response);
       }
-    );
+    )
   }
+
+  ngOnInit() {
+    const branchId = this.route.snapshot.queryParams['branchId'];
+
+    const filter: WatchFilterRequestDTO = {};
+
+    if (branchId) {
+      filter.branchId = branchId;
+      this.filterForm.patchValue({
+        branchId: branchId ?? null
+    });
+    }
+    this.watchesService.getWatches(0, 10, filter).subscribe(response => {
+
+      this.watches.set(response.content);
+    }
+    );
+    this.branchesGenerate();
+  }
+
 
   search() {
     const filter = this.filterForm.getRawValue();
 
     this.watchesService.getWatches(0, 10, filter).subscribe({
-        next: response => {
-            console.log('NOWA ODPOWIEDŹ:', response.content);
-            this.watches.set(response.content);
-        },
-        error: error => {
-            console.error('BŁĄD:', error);
-        }
+      next: response => {
+        console.log('NOWA ODPOWIEDŹ:', response.content);
+        this.watches.set(response.content);
+      },
+      error: error => {
+        console.error('BŁĄD:', error);
+      }
     });
-    }
   }
-  
+}
+
 

@@ -1,0 +1,33 @@
+<div class="calendar">
+
+    <div class="calendar-header">
+
+        <button (click)="monthBefore()">←</button>
+
+        <h2>
+            {{ currentDate().toLocaleString('pl-PL', { month: 'long', year: 'numeric' }) }}
+        </h2>
+
+        <button (click)="monthAfter()">→</button>
+
+    </div>
+
+    <div class="weekdays">
+        <div>Pn</div>
+        <div>Wt</div>
+        <div>Śr</div>
+        <div>Cz</div>
+        <div>Pt</div>
+        <div>Sb</div>
+        <div>Nd</div>
+    </div>
+
+    <div class="days">
+        @for (day of days; track $index) {
+            <div [class.rented]="
+                day !== null && isRented(day)">
+                {{ day }}
+            </div>
+        }
+    </div>
+</div>

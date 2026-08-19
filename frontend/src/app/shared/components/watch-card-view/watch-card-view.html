@@ -1,7 +1,13 @@
-test
-    <div>
+   <div>
         <h2>{{ watch().manufacturer }} {{ watch().model }}</h2>
         <p>{{ watch().pricePerDay }} zł / dzień</p>
         <p>{{ watch().status }}</p>
         <p>{{ watch().branchName }}</p>
+        
+        <button (click)="openFullInfoModal()">sprawdz pelnie informacje</button>
+        @if (showFullInfoModal()) {
+            <app-watch-full-info-view
+            [watch]="watch()"
+            (close)="closeFullInfoModal()"></app-watch-full-info-view>
+        } 
     </div>

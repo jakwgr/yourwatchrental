@@ -13,11 +13,17 @@ import { AdminUsers } from './pages/admin/admin-users/admin-users';
 import { AdminBranches } from './pages/admin/admin-branches/admin-branches';
 import { AdminRentals } from './pages/admin/admin-rentals/admin-rentals';
 import { AdminWatches } from './pages/admin/admin-watches/admin-watches';
+import { Branches } from './pages/branches/branches';
+import { BreadCrumbStyle } from 'primeng/breadcrumb';
 
 export const routes: Routes = [
     {
         path: "login",
         component: Login
+    },
+    {
+        path: "branches",
+        component: Branches
     },
     {
         path: "profile",

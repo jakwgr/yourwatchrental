@@ -4,7 +4,7 @@ import { UserResponseDTO } from '../../../core/models/profile/user-response.dto'
 import { UserFilterCriteriaRequestDTO } from '../../../core/models/admin/users/user-filter-criteria-request.dto';
 import { AdminService } from '../../../core/services/admin/admin-service';
 import { ProfileView } from '../../../core/components/profile/profile-view/profile-view';
-import { AdminUsersView } from '../../../core/components/admin/users/admin-users-view/admin-users-view';
+import { AdminUsersView } from '../../../core/components/admin/admin-users-view/admin-users-view';
 import { ProfileService } from '../../../core/services/profile/profile-service';
 
 

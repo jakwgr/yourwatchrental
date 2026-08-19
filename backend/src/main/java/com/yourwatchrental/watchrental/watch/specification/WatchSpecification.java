@@ -32,6 +32,7 @@ public class WatchSpecification {
                         "yearOfProduction",
                         request.minYear(),
                         request.maxYear()
-                ));
+                ))
+                .and(SpecificationUtil.equals("branch.id", request.branchId()));
     }
 }
