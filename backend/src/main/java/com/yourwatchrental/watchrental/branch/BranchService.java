@@ -57,8 +57,7 @@ public class BranchService {
         probe.setCity(criteria.city());
         probe.setPhoneNumber(criteria.phoneNumber());
         probe.setAddress(criteria.address());
-
-        probe.setStatus(BranchStatus.ACTIVE);
+        probe.setStatus(criteria.status());
 
         ExampleMatcher matcher = ExampleMatcher.matchingAll()
                 .withIgnoreCase()

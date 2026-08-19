@@ -1,14 +1,70 @@
-<h1>{{branch().name}}</h1>
-<p>{{branch().address}}
+<form [formGroup]="branchUpdate">
+    <h1>
+        @if (!showUpdate()){
+        {{branch().name}}
+        }@else {
+        <input type="text" formControlName="name">
+        }
+    </h1>
+    <h2>
+        @if (!showUpdate()){
+        {{branch().city}}
+        }@else {
+        <input type="text" formControlName="city">
+        }
+    </h2>
+    <p>@if (!showUpdate()){
+        {{branch().address}}
+        }@else {
+        <input type="text" formControlName="address">
+        }
+        <br>
+        @if (!showUpdate()){
+        +48 {{formatPhoneNumber(branch().phoneNumber)}}
+        }@else {
+        +48 <input type="number" formControlName="phoneNumber">
+        },
+        @if (!showUpdate()){
+        {{branch().email}}
+        }@else {
+        <input type="text" formControlName="email">
+        }
+    </p>
+    </form>
+    
+        @if (showUpdateStatus()) {
+            <form [formGroup]="branchUpdateStatus">
+                <select formControlName="status">
+                @for ( status of branchOptions; track $index)
+                    {
+                        <option [value]="status">{{status}}</option>
+                    }   
+            </select>
+        </form>
+        }
+    
+
 <br>
-+48 {{ formatPhoneNumber(branch().phoneNumber) }}, {{branch().email}}
-<br>
-<button
-  routerLink="/watches"
-  [queryParams]="{
+@if(role() === "ADMIN")
+{
+<button (click)="openUpdate()"
+[class.disabledButton]="buttonVanish">
+    edytuj informacje
+</button>
+<button (click)="openUpdateStatus()"
+[class.disabledButton]="buttonVanish">
+    zmien status
+</button>
+<button (click)="save(branch().id)" [class.disabledButton]="!buttonVanish">zapisz
+</button>
+
+<button [class.disabledButton]="!buttonVanish" (click)="cancel()">cofnij
+</button>
+}
+
+
+<button routerLink="/watches" [queryParams]="{
     page: 0,
     size: 10,
     branchId: branch().id
-  }"
->szukaj zegarkow w tym oddziale</button>
-</p>
+  }">szukaj zegarkow w tym oddziale</button>
