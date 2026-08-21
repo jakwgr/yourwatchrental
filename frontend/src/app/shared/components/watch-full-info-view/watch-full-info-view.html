@@ -1,79 +1,214 @@
-@if (watchFullInfo(); as watch) {
-    
+<form [formGroup]="watchUpdate">
+    @if (watchFullInfo(); as watch) {
     <h2>
-        {{ watch.manufacturer }} {{ watch.model }}
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <input type="text" formControlName="manufacturer">
+        }@else{
+            {{ watch.manufacturer }}
+        }
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <input type="text" formControlName="model">
+        }@else{
+            {{ watch.model }}
+        }
     </h2>
 
-    <p>
-        Numer referencyjny: {{ watch.referenceNumber }}
+    <p>Numer referencyjny: 
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <input type="text" formControlName="referenceNumber">
+        }@else{
+            {{ watch.referenceNumber }}
+        }
+    </p>
+
+    <p>Numer seryjny: 
+        @if(this.saveType != null && this.saveType === 4)
+        {
+            <input type="text" formControlName="serialNumber">
+        }@else{
+            {{ watch.serialNumber }}
+        }
+        
+    </p>
+
+    <p>Opis: 
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <input type="text" formControlName="description">
+        }@else{
+            {{ watch.description }}
+        }
+    </p>
+
+    <p>Mechanizm: 
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <input type="text" formControlName="movement">
+        }@else{
+            {{ watch.movement }}
+        }
+    </p>
+
+    <p>Rok produkcji: 
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <input type="text" formControlName="description">
+        }@else{
+            {{ watch.yearOfProduction }}
+        }
+        
+    </p>
+
+    <p>Cena za dzień: 
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <input type="number" formControlName="pricePerDay">
+        }@else{
+            {{ watch.pricePerDay }}
+        }
+         zł
     </p>
 
     <p>
-        Numer seryjny: {{ watch.serialNumber }}
+        Stan:
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <select formControlName="condition">
+                @for(condition of conditionOptions; track $index)
+                {
+                    <option [value]="condition">{{condition}}</option>
+                }
+            </select>
+        }@else{
+            {{ watch.condition }}
+        }
     </p>
 
     <p>
-        Opis: {{ watch.description }}
+        Płeć:
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <select formControlName="gender">
+                @for(gender of genderOptions; track $index)
+                {
+                    <option [value]="gender">{{gender}}</option>
+                }
+            </select>
+        }@else{
+            {{ watch.gender }}
+        }
     </p>
 
     <p>
-        Rok produkcji: {{ watch.yearOfProduction }}
+        Mechanizm:
+         @if(this.saveType != null && this.saveType === 1)
+        {
+            <select formControlName="movementType">
+                @for(movementType of movementTypeOptions; track $index)
+                {
+                    <option [value]="movementType">{{movementType}}</option>
+                }
+            </select>
+        }@else{
+            {{ watch.movementType }}
+        }
     </p>
 
     <p>
-        Cena za dzień: {{ watch.pricePerDay }} zł
+        Status:
+         @if(this.saveType != null && this.saveType === 2)
+        {
+            <select formControlName="status">
+                @for(status of watchStatusOptions; track $index)
+                {
+                    <option [value]="status">{{status}}</option>
+                }
+            </select>
+        }@else{
+            {{ watch.status }}
+        }
     </p>
 
     <p>
-        Stan: {{ watch.condition }}
+        Typ zegarka:
+        @if(this.saveType != null && this.saveType === 1)
+        {
+            <select formControlName="watchType">
+                @for(watchType of watchTypeOptions; track $index)
+                {
+                    <option [value]="watchType">{{watchType}}</option>
+                }
+            </select>
+        }@else{
+            {{ watch.watchType }}
+        }
     </p>
 
     <p>
-        Płeć: {{ watch.gender }}
-    </p>
-
-    <p>
-        Mechanizm: {{ watch.movementType }}
-    </p>
-
-    <p>
-        Status: {{ watch.status }}
-    </p>
-
-    <p>
-        Typ zegarka: {{ watch.watchType }}
-    </p>
-
-    <p>
-        Oddział: {{ watch.branch.name }}
+        Oddział:
+        @if(this.saveType != null && this.saveType === 3)
+        {
+            <select formControlName="branchId">
+                @for(branch of branchOptions(); track $index)
+                {
+                    <option [value]="branch.id">{{branch.name}}</option>
+                }
+            </select>
+        }@else{
+            {{ watch.branch.name }}
+        }
     </p>
 
     @if (watchFullInfo(); as watch) {
 
     @for (photo of watch.photos; track photo.id) {
-        <img
-            [src]="photo.photoUrl"
-            [alt]="photo.description"
-        >
+    <img [src]="photo.photoUrl" [alt]="photo.description">
     }
 
-} <br>
-@if (watchFullInfo(); as watchInfo) {
-<app-watch-calendar [watch]="watchInfo"></app-watch-calendar>
-}
+    }
+    <br>
+    @if (watchFullInfo(); as watchInfo) {
+    <app-watch-calendar
+    [watch]="watchInfo"
+    [isDatePicker]="false"></app-watch-calendar>
+    }
     @if( isLogged )
     {
-        <button>wypozycz</button>
-        @if (profile()?.role === "ADMIN")
-        {
-            <button>edytuj ogloszenie</button>
-        }
-        @else {
-        }
+    <button [class.disabledButton]="buttonVanish" (click)="newRental()">wypozycz</button>
+    @if (profile()?.role === "ADMIN")
+    {
+    <button type="button" (click)="updateInformation()" [class.disabledButton]="buttonVanish">edytuj ogloszenie</button>
+    <button type="button" (click)="updateStatus()" [class.disabledButton]="buttonVanish">zmien status</button>
+    <button type="button" (click)="updateBranch()" [class.disabledButton]="buttonVanish">zmien oddzial</button>
+    <button type="button" (click)="updateSerialNumber()" [class.disabledButton]="buttonVanish">zmien numer seryjny</button>
+
+    <button type="button" (click)="save(watch.id)" [class.disabledButton]="!buttonVanish">zapisz
+    </button>
+
+    <button type="button" [class.disabledButton]="!buttonVanish" (click)="cancel()">cofnij
+    </button>
     }
     @else {
-        <h1>zaloguj sie by wypozyczyc</h1>
+    }
+    }
+    @else {
+    <h1>zaloguj sie by wypozyczyc</h1>
     }
 
-    <button (click)="closeModal()">zamknij</button>
-}
+    <button type="button" (click)="closeModal()" [class.disabledButton]="buttonVanish">zamknij</button>
+    <button type="button" (click)="openPhotosModal()">
+    zarządzaj zdjęciami
+</button>
+
+    @if (showPhotosModal()) {
+        <app-watch-photos-view
+            [watchId]="watch.id"
+            (close)="closePhotosModal()"
+            (reload)="watchReload(watch.id)">
+        </app-watch-photos-view>
+    }
+    }
+</form>

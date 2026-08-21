@@ -14,7 +14,7 @@ import { AdminBranches } from './pages/admin/admin-branches/admin-branches';
 import { AdminRentals } from './pages/admin/admin-rentals/admin-rentals';
 import { AdminWatches } from './pages/admin/admin-watches/admin-watches';
 import { Branches } from './pages/branches/branches';
-import { BreadCrumbStyle } from 'primeng/breadcrumb';
+import { RentalCreate } from './pages/rental-create/rental-create';
 
 export const routes: Routes = [
     {
@@ -37,6 +37,11 @@ export const routes: Routes = [
     {
         path: 'rentals',
         component: Rentals,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'rentals/create/:id',
+        component: RentalCreate,
         canActivate: [authGuard]
     },
     {

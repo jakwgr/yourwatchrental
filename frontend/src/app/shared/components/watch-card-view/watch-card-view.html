@@ -8,6 +8,7 @@
         @if (showFullInfoModal()) {
             <app-watch-full-info-view
             [watch]="watch()"
-            (close)="closeFullInfoModal()"></app-watch-full-info-view>
+            (close)="closeFullInfoModal()"
+            (watchUpdated)="onWatchUpdated()"></app-watch-full-info-view>
         } 
     </div>

@@ -1,0 +1,27 @@
+<div>
+    <br>
+    @for (photoType of photoTypes(); track photoType) {
+    <div>
+        @if (photos().find(photo => photo.photoType === photoType); as photo) {
+            <img [src]="photo.photoUrl" [alt]="photo.description">
+            <p>photo of: {{ photo.photoType }}</p>
+            <button (click)="delete(photo.id)">usuń zdjęcie</button>
+        } @else {
+            brak zdjęcia: {{ photoType }}
+            dodaje zdjecie typu : {{ photoType }}
+            <form [formGroup]="addPhoto">
+                <input
+                type="file"
+    accept="image/jpeg,image/png,image/webp"
+    (change)="onFileSelected($event)">
+                <input
+                formControlName="description"
+                type="text"
+                placeholder="opis zdjecia w przypadku nie wyswietlania sei">
+                <button (click)="add(photoType)">dodaj</button>
+            </form>
+            <br><br>
+        }
+    </div>
+}
+</div>

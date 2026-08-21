@@ -10,7 +10,12 @@ import com.yourwatchrental.watchrental.watch.watchphoto.exceptions.WatchPhotoTyp
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,21 +28,57 @@ public class WatchPhotoService {
     private final WatchPhotoMapper watchPhotoMapper;
 
     @Transactional
-    public WatchPhotoResponseDTO createPhoto(UUID watchId, WatchPhotoRequestDTO request) {
-
+    public WatchPhotoResponseDTO createPhoto(
+            UUID watchId,
+            MultipartFile file,
+            WatchPhotoRequestDTO request
+    ) {
         Watch watch = watchRepository.findById(watchId)
                 .orElseThrow(() -> new WatchNotFoundException(watchId));
-
 
         if (watchPhotoRepository.existsByWatchAndPhotoType(watch, request.photoType())) {
             throw new WatchPhotoTypeAlreadyExistsException();
         }
 
-        WatchPhoto photo = watchPhotoMapper.toEntity(request, watch);
+        String originalFileName = file.getOriginalFilename();
 
-        WatchPhoto savedPhoto = watchPhotoRepository.save(photo);
+        if (originalFileName == null || !originalFileName.contains(".")) {
+            throw new IllegalArgumentException("Wrong file");
+        }
 
-        return watchPhotoMapper.toResponseDTO(savedPhoto);
+        String extension = originalFileName.substring(
+                originalFileName.lastIndexOf(".")
+        );
+
+        String fileName = UUID.randomUUID()
+                + "_" + request.photoType().name().toLowerCase()
+                + extension;
+
+        Path uploadPath = Paths.get("uploads/watches");
+
+        try {
+            Files.createDirectories(uploadPath);
+
+            Path filePath = uploadPath.resolve(fileName);
+
+            file.transferTo(filePath);
+
+            String photoUrl = "/uploads/watches/" + fileName;
+
+            WatchPhoto photo = new WatchPhoto(
+                    photoUrl,
+                    request.photoType(),
+                    request.description(),
+                    watch
+            );
+
+            WatchPhoto savedPhoto = watchPhotoRepository.save(photo);
+
+            return watchPhotoMapper.toResponseDTO(savedPhoto);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Photo cannot be saved", e);
+        }
     }
 
     @Transactional
@@ -76,9 +117,17 @@ public class WatchPhotoService {
     public void deletePhoto(UUID id) {
 
         WatchPhoto photo = watchPhotoRepository.findById(id)
-                .orElseThrow(() -> new WatchPhotoNotFoundException(null));
+                .orElseThrow(() -> new WatchPhotoNotFoundException(id));
 
+        try {
+            Path filePath = Paths.get("." + photo.getPhotoUrl());
 
-        watchPhotoRepository.delete(photo);
+            Files.deleteIfExists(filePath);
+
+            watchPhotoRepository.delete(photo);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Nie udało się usunąć zdjęcia", e);
+        }
     }
 }

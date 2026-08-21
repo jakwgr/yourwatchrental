@@ -95,5 +95,6 @@
 
 <p>liczba zegarkow: {{watches().length}}</p>
 @for (watch of watches(); track watch.id) {
-    <app-watch-card [watch]="watch"></app-watch-card>
+    <app-watch-card [watch]="watch"
+    (watchUpdated)="loadWatches()"></app-watch-card>
 }

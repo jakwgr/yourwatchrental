@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { first } from 'rxjs';
 import { RentalPeriodResponseDTO } from '../../../core/models/watches/rental-peroid-response.dto';
 import { WatchFullInfoResponseDTO } from '../../../core/models/watches/watch-full-info-response.dto';
@@ -15,10 +15,20 @@ export class WatchCalendar {
   days: (number | null)[] = [];
   private watchesService = inject(WatchesService);
 
-  // rental = input.required<RentalPeriodResponseDTO[]>();
+  selectedDayStart = signal<number | null>(null);
+  selectedDayEnd = signal<number | null>(null);
+
+  datePickerDays = signal<number>(0);
+  datePickerMaxEnd = signal<number>(0);
+  datePickerFinish = signal<number>(-1);
+
   watch = input.required<WatchFullInfoResponseDTO>();
+  isDatePicker = input.required<boolean>();
 
   unavailableDays = signal<number[]>([]);
+
+  datePickerStartFinish = output<number>();
+  datePickerEndFinish = output<number>();
 
   formatDate(date: Date): string {
     const year = date.getFullYear();
@@ -49,9 +59,6 @@ export class WatchCalendar {
           lastDayOfMonth.getMonth(),
           i
         )
-
-        // console.log(this.formatDate(date));
-
         if (
           response.unavailablePeriods.some(rental =>
             this.formatDate(date) >= rental.startDate &&
@@ -66,8 +73,8 @@ export class WatchCalendar {
   }
 
   isRented(day: number): boolean {
-  return this.unavailableDays().includes(day);
-}
+    return this.unavailableDays().includes(day);
+  }
 
   monthBefore() {
     const date = new Date(this.currentDate());
@@ -113,7 +120,75 @@ export class WatchCalendar {
     for (var i = 0; i < amountOfDays; i++) {
       this.days.push(i + 1);
     }
+    this.datePickerDays.set(amountOfDays);
+    console.log(this.datePickerDays());
     this.loadUnavailableDays(firstDayOfMonth, lastDayOfMonth, amountOfDays);
+  }
+
+  datePickerStart(day: number | null) {
+    if(this.isDatePicker() == false) return
+    const date = new Date(this.currentDate());
+    if (!day || this.datePickerDays() === 0) {
+      return
+
+    }
+    if (this.isRented(day)) {
+
+    } else {
+
+      if (this.selectedDayStart() == null) {
+
+        this.selectedDayStart.set(day);
+        for (var i = day; i < this.datePickerDays(); i++) {
+
+          if (this.unavailableDays().includes(i)) {
+            console.log("tych dni nie ma " + this.unavailableDays());
+            this.datePickerMaxEnd.set(i - 1);
+            break;
+          }
+        }
+        if(this.datePickerMaxEnd() == 0) this.datePickerMaxEnd.set(this.datePickerDays());
+        console.log(this.datePickerMaxEnd());
+        console.log(this.selectedDayStart());
+      }
+    }
+  }
+
+  datePickerEnd(day: number | null) {
+    if(this.isDatePicker() == false) return
+    if (!day || this.datePickerDays() === 0 || this.datePickerMaxEnd() === 0) {
+      return
+    }
+    if (this.isRented(day)) {
+
+    } else {
+      if (this.selectedDayStart() != null && this.selectedDayEnd() == null) {
+        if (day <= this.datePickerMaxEnd() && day >= this.selectedDayStart()!) {
+          this.selectedDayEnd.set(day);
+          this.datePickerFinish.set(day + 1)
+
+          console.log(this.selectedDayEnd());
+
+          this.datePickerStartFinish.emit(this.selectedDayStart()!);
+          this.datePickerEndFinish.emit(this.selectedDayEnd()!);
+        }
+        else {
+          return
+        }
+      };
+    }
+  }
+
+  datePickerReset()
+  {
+    if(this.isDatePicker() == false) return
+    this.selectedDayStart.set(null);
+    this.selectedDayEnd.set(null);
+    this.datePickerMaxEnd.set(0);
+    this.datePickerFinish.set(-1);
+
+    this.datePickerStartFinish.emit(-1);
+    this.datePickerEndFinish.emit(-1);
   }
 
   ngOnInit() {

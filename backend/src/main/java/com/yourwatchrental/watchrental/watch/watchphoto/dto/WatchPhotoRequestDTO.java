@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record WatchPhotoRequestDTO(
-        @NotBlank
-        String photoUrl,
 
         @NotNull
         PhotoType photoType,

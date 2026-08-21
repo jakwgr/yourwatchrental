@@ -26,4 +26,19 @@
 
 .rented{
     background-color: red;
+    cursor: not-allowed;
+}
+
+.selected-day{
+    background-color: green !important;
+}
+
+.available-day{
+    background-color: yellow;
+}
+
+.unavailable-day
+{
+    background-color: red;
+    cursor: not-allowed;
 }

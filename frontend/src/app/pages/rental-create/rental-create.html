@@ -1,0 +1,24 @@
+<p>rental-create works!</p>
+@if (watchInfo(); as watch) {
+    <app-watch-calendar
+        [watch]="watch"
+        [isDatePicker]="true"
+        (datePickerStartFinish)="datePickerStartFinish($event)"
+        (datePickerEndFinish)="datePickerEndFinish($event)">
+    </app-watch-calendar>
+}
+
+data startu: 
+@if(datePickerStartDate() === -1)
+{
+    prosze wybrac date
+} @else {
+{{datePickerStartDate()}}
+}
+,data konca: 
+@if(datePickerEndDate() === -1)
+{
+    prosze wybrac date
+} @else {
+{{datePickerEndDate()}}
+}

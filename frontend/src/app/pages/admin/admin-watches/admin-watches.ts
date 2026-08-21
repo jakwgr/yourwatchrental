@@ -7,10 +7,11 @@ import { WatchGender } from '../../../core/models/watches/enums/watch-gender';
 import { WatchMovementType } from '../../../core/models/watches/enums/watch-movement-type';
 import { WatchStatus } from '../../../core/models/watches/enums/watch-status';
 import { WatchType } from '../../../core/models/watches/enums/watch-type';
+import { Watches } from '../../watches/watches';
 
 @Component({
   selector: 'app-admin-watches',
-  imports: [WatchCard, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Watches],
   templateUrl: './admin-watches.html',
   styleUrl: './admin-watches.css',
 })

@@ -77,6 +77,16 @@ export class Watches implements OnInit {
     this.branchesGenerate();
   }
 
+  loadWatches()
+  {
+    const filter = this.filterForm.getRawValue();
+
+    this.watchesService.getWatches(0, 10, filter).subscribe(response => {
+
+      this.watches.set(response.content);
+    }
+  )
+  }
 
   search() {
     const filter = this.filterForm.getRawValue();

@@ -10,6 +10,7 @@ export interface WatchFullInfoResponseDTO {
     id: string;
     manufacturer: string;
     model: string;
+    movement: string;
     referenceNumber: string;
     serialNumber: string;
     description: string;

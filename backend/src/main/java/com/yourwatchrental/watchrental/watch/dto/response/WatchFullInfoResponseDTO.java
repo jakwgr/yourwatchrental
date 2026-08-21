@@ -16,6 +16,7 @@ public record WatchFullInfoResponseDTO(
         String model,
         String referenceNumber,
         String serialNumber,
+        String movement,
         String description,
         Integer yearOfProduction,
         BigDecimal pricePerDay,

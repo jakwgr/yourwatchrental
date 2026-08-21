@@ -2,13 +2,17 @@
 
     <div class="calendar-header">
 
-        <button (click)="monthBefore()">←</button>
+        @if(datePickerFinish() < 0) { <button (click)="monthBefore()">←</button>
+            }
 
-        <h2>
-            {{ currentDate().toLocaleString('pl-PL', { month: 'long', year: 'numeric' }) }}
-        </h2>
 
-        <button (click)="monthAfter()">→</button>
+            <h2>
+                {{ currentDate().toLocaleString('pl-PL', { month: 'long', year: 'numeric' }) }}
+            </h2>
+
+            @if(datePickerFinish() < 0) { <button (click)="monthAfter()">→</button>
+                }
+
 
     </div>
 
@@ -24,10 +28,37 @@
 
     <div class="days">
         @for (day of days; track $index) {
-            <div [class.rented]="
-                day !== null && isRented(day)">
-                {{ day }}
-            </div>
+        <div (click)="datePickerEnd(day)" (click)="datePickerStart(day)" [class.available-day]="
+            selectedDayStart() != null
+            && day != null
+            && day <= datePickerMaxEnd()
+            && day >= selectedDayStart()!" [class.unavailable-day]="
+            selectedDayStart() != null
+            && day != null
+            && day > datePickerMaxEnd()
+            ||
+            selectedDayStart() != null
+            && day != null
+            && day < selectedDayStart()!
+            ||
+            datePickerFinish() > 0
+            && selectedDayStart() != null
+            && day != null
+            && day >= datePickerFinish()!
+            " [class.selected-day]="
+            datePickerFinish() > 0
+            && selectedDayStart() != null
+            && day != null
+            && day < datePickerFinish()!
+            && day >= selectedDayStart()!
+            " [class.rented]="day !== null && isRented(day)">
+            {{ day }}
+        </div>
         }
     </div>
+
+    @if(isDatePicker() === true)
+    {
+        <button (click)="datePickerReset()">restart</button>
+    }
 </div>

@@ -94,7 +94,7 @@ public class WatchService {
 
         watch.setBranch(branch);
 
-        return watchMapper.toFullInfoDTO(watch);
+        return watchMapper.toFullInfoDTO(watchRepository.save(watch));
     }
 
 
