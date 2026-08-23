@@ -1,0 +1,130 @@
+<form [formGroup]="watchForm" (ngSubmit)="createWatch()">
+
+    <h2>Dodaj zegarek</h2>
+
+    <label>Producent</label>
+    <input
+        type="text"
+        formControlName="manufacturer"
+        placeholder="Producent"
+    >
+
+    <label>Model</label>
+    <input
+        type="text"
+        formControlName="model"
+        placeholder="Model"
+    >
+
+    <label>Numer referencyjny</label>
+    <input
+        type="text"
+        formControlName="referenceNumber"
+        placeholder="Numer referencyjny"
+    >
+
+    <label>Numer seryjny</label>
+    <input
+        type="text"
+        formControlName="serialNumber"
+        placeholder="Numer seryjny"
+    >
+
+    <label>Mechanizm</label>
+    <input
+        type="text"
+        formControlName="movement"
+        placeholder="Mechanizm"
+    >
+
+    <label>Opis</label>
+    <textarea
+        formControlName="description"
+        placeholder="Opis zegarka"
+    ></textarea>
+
+    <label>Rok produkcji</label>
+    <input
+        type="number"
+        formControlName="yearOfProduction"
+        placeholder="Rok produkcji"
+    >
+
+    <label>Cena za dzień</label>
+    <input
+        type="number"
+        formControlName="pricePerDay"
+        placeholder="Cena za dzień"
+    >
+
+    <label>Stan</label>
+    <select formControlName="condition">
+        <option [ngValue]="null">Wybierz stan</option>
+
+        @for (condition of conditionOptions; track condition) {
+            <option [value]="condition">
+                {{ condition }}
+            </option>
+        }
+    </select>
+
+    <label>Płeć</label>
+    <select formControlName="gender">
+        <option [ngValue]="null">Wybierz płeć</option>
+
+        @for (gender of genderOptions; track gender) {
+            <option [value]="gender">
+                {{ gender }}
+            </option>
+        }
+    </select>
+
+    <label>Typ mechanizmu</label>
+    <select formControlName="movementType">
+        <option [ngValue]="null">Wybierz typ mechanizmu</option>
+
+        @for (movementType of movementTypeOptions; track movementType) {
+            <option [value]="movementType">
+                {{ movementType }}
+            </option>
+        }
+    </select>
+
+    <label>Status</label>
+    <select formControlName="status">
+        <option [ngValue]="null">Wybierz status</option>
+
+        @for (status of statusOptions; track status) {
+            <option [value]="status">
+                {{ status }}
+            </option>
+        }
+    </select>
+
+    <label>Typ zegarka</label>
+    <select formControlName="watchType">
+        <option [ngValue]="null">Wybierz typ zegarka</option>
+
+        @for (watchType of watchTypeOptions; track watchType) {
+            <option [value]="watchType">
+                {{ watchType }}
+            </option>
+        }
+    </select>
+
+    <label>Oddział</label>
+    <select formControlName="branchId">
+        <option value="">Wybierz oddział</option>
+
+        @for (branch of branchOptions(); track branch.id) {
+            <option [value]="branch.id">
+                {{ branch.name }} — {{ branch.city }}
+            </option>
+        }
+    </select>
+
+    <button type="submit">
+        Dodaj zegarek
+    </button>
+
+</form>

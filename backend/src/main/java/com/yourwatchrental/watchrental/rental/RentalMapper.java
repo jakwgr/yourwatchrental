@@ -1,15 +1,20 @@
 package com.yourwatchrental.watchrental.rental;
 
+import com.yourwatchrental.watchrental.branch.BranchMapper;
 import com.yourwatchrental.watchrental.rental.dto.request.RentalRequestDTO;
 import com.yourwatchrental.watchrental.rental.dto.response.RentalResponseDTO;
+import com.yourwatchrental.watchrental.user.UserMapper;
+import com.yourwatchrental.watchrental.watch.WatchMapper;
 import org.mapstruct.*;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        uses = {
+                BranchMapper.class,
+                UserMapper.class,
+                WatchMapper.class
+        })
 public interface RentalMapper {
 
-    @Mapping(source = "watch.id", target = "watchId")
-    @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "branch.id", target = "branchId")
     RentalResponseDTO toResponseDTO(Rental rental);
 
 

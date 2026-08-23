@@ -2,7 +2,7 @@ import { Component, effect, inject, input, output, signal } from '@angular/core'
 import { UserResponseDTO } from '../../../models/profile/user-response.dto';
 import { single } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
-import { ComponentInputBindingOptions } from '@angular/router';
+import { ComponentInputBindingOptions, RouterLink } from '@angular/router';
 import { userStatus } from '../../../models/profile/enums/user-status';
 import { role } from '../../../models/profile/enums/role';
 import { AdminService } from '../../../services/admin/admin-service';
@@ -17,8 +17,7 @@ import { UserPasswordUpdateAdminRequestDTO } from '../../../models/admin/users/u
 @Component({
   selector: 'app-user-view',
   imports: [ɵInternalFormsSharedModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule, RouterLink],
   templateUrl: './admin-users-view.html',
   styleUrl: './admin-users-view.css',
 })

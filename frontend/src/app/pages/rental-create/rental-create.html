@@ -1,24 +1,62 @@
-<p>rental-create works!</p>
+{{watchInfo()?.manufacturer}}
+{{watchInfo()?.model}} <br>
+{{watchInfo()?.pricePerDay}} zł/dzien
+
+
 @if (watchInfo(); as watch) {
     <app-watch-calendar
-        [watch]="watch"
-        [isDatePicker]="true"
-        (datePickerStartFinish)="datePickerStartFinish($event)"
-        (datePickerEndFinish)="datePickerEndFinish($event)">
+    [watch]="watch"
+    [isDatePicker]="true"
+    (datePickerStartFinish)="datePickerStartFinish($event)"
+    (datePickerEndFinish)="datePickerEndFinish($event)"
+    (summaryRental)="reloadSummary($event)">
     </app-watch-calendar>
 }
-
 data startu: 
-@if(datePickerStartDate() === -1)
-{
-    prosze wybrac date
+@if (datePickerStartDate() === null) {
+    proszę wybrać datę początkową
 } @else {
-{{datePickerStartDate()}}
+    data początku:
+    {{ datePickerStartDate() | date:'dd.MM.yyyy' }}
 }
-,data konca: 
-@if(datePickerEndDate() === -1)
-{
-    prosze wybrac date
+
+<br>
+
+@if (datePickerEndDate() === null) {
+    proszę wybrać datę końcową
 } @else {
-{{datePickerEndDate()}}
+    data końca:
+    {{ datePickerEndDate() | date:'dd.MM.yyyy' }}
+}
+
+<br>
+
+@if (datePickerStartDate() !== null && datePickerEndDate() !== null) {
+    koszt: {{ fullPrice() }}
+}
+<form [formGroup]="rentalForm">
+    <select formControlName="paymentMethod">
+        @for (method of paymentMethodOptions; track $index) {
+            <option [value]="method">{{method}}</option>
+        }
+    </select>
+
+    @if(amoutOfDays() != 0)
+    {
+    <button (click)="openRentalModal()">podsumowanie wypozyczenia</button>
+    }
+</form>
+<br> <br>
+@if(showRentalModal())
+{
+    PODSUMOWANIE
+    <br>
+    wypozyczony zegarek {{watchInfo()?.manufacturer}}
+{{watchInfo()?.model}} nr ser {{watchInfo()?.serialNumber}}<br>
+{{watchInfo()?.pricePerDay}} zł/dzien, okres wypozyczenia {{ datePickerStartDate() | date:'dd.MM.yyyy' }} do {{ datePickerEndDate() | date:'dd.MM.yyyy' }}, razem dni {{amoutOfDays()}}, łączny koszt to {{ fullPrice() }}. <br><br>Wymagany odbiór zegarka jest w oddziale {{watchInfo()?.branch?.name}} {{watchInfo()?.branch?.address}}. Zegarka nie da się odebrać w innym oddziale.
+Płatność: {{rentalForm.value.paymentMethod}} <br>
+W przpypadku platnosci na miejscu w momencie odwolania trzeba wysylac maila do administratora na adres@email.com. Przy zaplacie karta mozna odwolac wypozyczenie tylko przed uisczeniem opłaty. 
+    <br>
+    <button (click)="closeRentalModal()">cofnij</button>
+    <button (click)="createRental()">wypozycz</button>
 }

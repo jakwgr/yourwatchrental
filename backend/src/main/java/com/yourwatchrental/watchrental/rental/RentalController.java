@@ -51,9 +51,13 @@ public class RentalController {
 
     @GetMapping("/my")
     @PreAuthorize("isAuthenticated()")
-    public Page<RentalResponseDTO> getMyRentals(Pageable page)
+    public Page<RentalResponseDTO> getMyRentals(RentalFilterRequestDTO request,
+                                                @PageableDefault(
+                                                        sort = "startDate",
+                                                        direction = Sort.Direction.DESC
+                                                )Pageable page)
     {
-        return rentalService.getMyRentals(page);
+        return rentalService.getMyRentals(request, page);
     }
 
     @GetMapping
@@ -68,7 +72,6 @@ public class RentalController {
     }
 
     @PatchMapping("/{id}/payment")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RentalResponseDTO> changePaymentStatus( @PathVariable UUID id, @RequestBody PaymentStatusChangeRequestDTO request)
     {
         return ResponseEntity

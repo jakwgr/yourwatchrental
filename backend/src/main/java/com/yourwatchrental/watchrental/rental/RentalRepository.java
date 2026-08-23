@@ -16,6 +16,10 @@ import java.util.UUID;
 @Repository
 public interface RentalRepository extends JpaRepository<Rental, UUID>,
         JpaSpecificationExecutor<Rental> {
+    List<Rental> findByRentalStatusAndEndDateLessThan(
+            RentalStatus rentalStatus,
+            LocalDate date
+    );
 
     List<Rental> findByStartDateLessThanEqualAndEndDateGreaterThanEqual(
             LocalDate startDate,

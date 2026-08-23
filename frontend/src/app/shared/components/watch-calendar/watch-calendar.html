@@ -1,64 +1,62 @@
 <div class="calendar">
 
-    <div class="calendar-header">
+  <div class="calendar-header">
 
-        @if(datePickerFinish() < 0) { <button (click)="monthBefore()">←</button>
-            }
+    <button (click)="monthBefore()">←</button>
 
+    <h2>
+      {{ currentDate().toLocaleString('pl-PL', { month: 'long', year: 'numeric' }) }}
+    </h2>
 
-            <h2>
-                {{ currentDate().toLocaleString('pl-PL', { month: 'long', year: 'numeric' }) }}
-            </h2>
+    <button (click)="monthAfter()">→</button>
 
-            @if(datePickerFinish() < 0) { <button (click)="monthAfter()">→</button>
-                }
+  </div>
 
+  <div class="weekdays">
+    <div>Pn</div>
+    <div>Wt</div>
+    <div>Śr</div>
+    <div>Cz</div>
+    <div>Pt</div>
+    <div>Sb</div>
+    <div>Nd</div>
+  </div>
 
+  <div class="days">
+
+  @for (day of days; track $index) {
+
+    <div
+        (click)="datePickerClick(day)"
+
+  [class.available-day]="
+    selectedDateEnd() === null &&
+    isDayInAllowedRange(day)
+  "
+
+  [class.rented]="
+    isRented(day)
+  "
+
+  [class.past-day]="
+    isPastDay(day)
+  "
+
+  [class.selected-day]="
+    isDaySelected(day)
+  "
+    >
+      {{ day }}
     </div>
 
-    <div class="weekdays">
-        <div>Pn</div>
-        <div>Wt</div>
-        <div>Śr</div>
-        <div>Cz</div>
-        <div>Pt</div>
-        <div>Sb</div>
-        <div>Nd</div>
-    </div>
+  }
 
-    <div class="days">
-        @for (day of days; track $index) {
-        <div (click)="datePickerEnd(day)" (click)="datePickerStart(day)" [class.available-day]="
-            selectedDayStart() != null
-            && day != null
-            && day <= datePickerMaxEnd()
-            && day >= selectedDayStart()!" [class.unavailable-day]="
-            selectedDayStart() != null
-            && day != null
-            && day > datePickerMaxEnd()
-            ||
-            selectedDayStart() != null
-            && day != null
-            && day < selectedDayStart()!
-            ||
-            datePickerFinish() > 0
-            && selectedDayStart() != null
-            && day != null
-            && day >= datePickerFinish()!
-            " [class.selected-day]="
-            datePickerFinish() > 0
-            && selectedDayStart() != null
-            && day != null
-            && day < datePickerFinish()!
-            && day >= selectedDayStart()!
-            " [class.rented]="day !== null && isRented(day)">
-            {{ day }}
-        </div>
-        }
-    </div>
+</div>
 
-    @if(isDatePicker() === true)
-    {
-        <button (click)="datePickerReset()">restart</button>
-    }
+  @if (isDatePicker()) {
+    <button (click)="datePickerReset()">
+      Reset
+    </button>
+  }
+
 </div>

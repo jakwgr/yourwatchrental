@@ -1,1 +1,95 @@
 <p>rentals works!</p>
+<form [formGroup]="rentalFilterForm" (ngSubmit)="searchRentals()">
+
+  <select formControlName="rentalStatus">
+    <option [ngValue]="null">Każdy status</option>
+
+    @for (status of rentalStatusOptions; track status) {
+      <option [ngValue]="status">
+        {{ status }}
+      </option>
+    }
+  </select>
+
+  <select formControlName="paymentStatus">
+    <option [ngValue]="null">Każdy status płatności</option>
+
+    @for (status of paymentStatusOptions; track status) {
+      <option [ngValue]="status">
+        {{ status }}
+      </option>
+    }
+  </select>
+
+  <select formControlName="paymentMethod">
+    <option [ngValue]="null">Każda metoda</option>
+
+    @for (method of paymentMethodOptions; track method) {
+      <option [ngValue]="method">
+        {{ method }}
+      </option>
+    }
+  </select>
+
+  <select formControlName="watchId">
+  <option [ngValue]="null">Wszystkie zegarki</option>
+
+  @for (watch of watches(); track watch.id) {
+    <option [ngValue]="watch.id">
+      {{ watch.manufacturer }} {{ watch.model }}
+    </option>
+  }
+</select>
+
+<select formControlName="branchId">
+  <option [ngValue]="null">Wszystkie oddziały</option>
+
+  @for (branch of branches(); track branch.id) {
+    <option [ngValue]="branch.id">
+      {{ branch.name }} - {{ branch.city }}
+    </option>
+  }
+</select>
+
+  <label>Data rozpoczęcia od:</label>
+  <input type="date" formControlName="startDateFrom">
+
+  <label>Data rozpoczęcia do:</label>
+  <input type="date" formControlName="startDateTo">
+
+  <label>Data zakończenia od:</label>
+  <input type="date" formControlName="endDateFrom">
+
+  <label>Data zakończenia do:</label>
+  <input type="date" formControlName="endDateTo">
+
+  <button (click)="searchRentals()">Szukaj</button>
+
+</form>
+<div class="rentals">
+
+  <h1>Moje wypożyczenia</h1>
+
+  @for (rental of rentals(); track rental.id) {
+
+    <app-rental-view
+[rental] = "rental"
+(reloadRental)="reloadRental()"
+[admin]="admin()"
+[seeUser]="userId()">
+
+</app-rental-view>
+  }
+
+  @if (rentals().length === 0) {
+    <p>Nie masz jeszcze żadnych wypożyczeń.</p>
+  }
+
+</div>
+
+ <app-pagination-buttons
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    (previous)="previousPage()"
+    (next)="nextPage()">
+</app-pagination-buttons>

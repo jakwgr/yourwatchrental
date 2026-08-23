@@ -12,6 +12,7 @@ import { WatchBranchUpdateRequestDTO } from '../../models/watches/watch-branch-u
 import { WatchSerialNumberUpdateRequestDTO } from '../../models/watches/watch-serial-number-update-request.dto';
 import { PhotoType } from '../../models/watches/photos/photo-type';
 import { WatchPhotoResponseDTO } from '../../models/watches/photos/watch-photo-response.dto';
+import { WatchRequestDTO } from '../../models/watches/watch-request.dto';
 @Service()
 
 export class WatchesService {
@@ -99,5 +100,12 @@ export class WatchesService {
     return this.http.delete(
       `/api/watches/photos/${id}`
     );
+  }
+
+  createWatch(request: WatchRequestDTO)
+  {
+    return this.http.post<WatchFullInfoResponseDTO>(
+        '/api/watches', request
+    )
   }
 }

@@ -1,0 +1,54 @@
+<form [formGroup]="branchForm" (ngSubmit)="createBranch()">
+
+    <h2>Dodaj oddział</h2>
+
+    <div>
+        <label for="city">Miasto</label>
+        <input
+            id="city"
+            type="text"
+            formControlName="city"
+        >
+    </div>
+
+    <div>
+        <label for="name">Nazwa</label>
+        <input
+            id="name"
+            type="text"
+            formControlName="name"
+        >
+    </div>
+
+    <div>
+        <label for="address">Adres</label>
+        <input
+            id="address"
+            type="text"
+            formControlName="address"
+        >
+    </div>
+
+    <div>
+        <label for="phoneNumber">Numer telefonu</label>
+        <input
+            id="phoneNumber"
+            type="text"
+            formControlName="phoneNumber"
+        >
+    </div>
+
+    <div>
+        <label for="email">Email</label>
+        <input
+            id="email"
+            type="email"
+            formControlName="email"
+        >
+    </div>
+
+    <button type="submit">
+        Dodaj oddział
+    </button>
+
+</form>

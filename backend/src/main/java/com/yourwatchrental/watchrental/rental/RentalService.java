@@ -82,6 +82,12 @@ public class RentalService {
         User user = userRepository.findById(securityUtil.getCurrentUserId())
                 .orElseThrow(() -> new UserNotFoundException(securityUtil.getCurrentUserId()));
 
+        if(watch.getStatus() == Status.UNAVAILABLE ||
+                watch.getStatus() == Status.DISABLED ||
+                watch.getStatus() == Status.IN_SERVICE)
+        {
+            throw new RentalWatchNotAvailableException();
+        }
         if(isWatchRented(request.watchId(), request.startDate(), request.endDate()))
         {
             throw new RentalWatchNotAvailableException();
@@ -90,7 +96,11 @@ public class RentalService {
         {
             throw new RentalBadDateRangeException(null);
         }
-        if(request.startDate().isBefore(LocalDate.now()))
+        if(!request.startDate().isAfter(LocalDate.now()))
+        {
+            throw new RentalBadDateRangeException(null);
+        }
+        if(request.endDate().isAfter(request.startDate().plusDays(20)))
         {
             throw new RentalBadDateRangeException(null);
         }
@@ -124,39 +134,41 @@ public class RentalService {
                 watch
         );
 
-        WatchStatusUpdateRequestDTO watchStatusUpdateRequestDTO = new WatchStatusUpdateRequestDTO(Status.RENTED);
-
-        watchService.updateWatchStatus(watch.getId(), watchStatusUpdateRequestDTO);
-
         return rentalMapper.toResponseDTO(rentalRepository.save(rental));
     }
 
     @Transactional
-    public RentalResponseDTO cancelRental(UUID rentalId){
+    public RentalResponseDTO cancelRental(UUID rentalId) {
 
         UUID userId = securityUtil.getCurrentUserId();
 
         Rental rental = rentalRepository.findById(rentalId)
                 .orElseThrow(() -> new RentalNotFoundException(rentalId));
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        if(!securityUtil.isAdmin())
-        {
-            if(!rental.getUser().getId().equals(user.getId()))
-            {
+        if (!securityUtil.isAdmin()) {
+            if (!rental.getUser().getId().equals(user.getId())) {
                 throw new RentalForbiddenExcpetion(userId);
             }
         }
 
-        if(rental.getRentalStatus() == RentalStatus.CANCELLED ||
+        if (rental.getRentalStatus() == RentalStatus.CANCELLED ||
                 rental.getRentalStatus() == RentalStatus.IN_PROGRESS ||
-                rental.getRentalStatus() == RentalStatus.COMPLETED)
-        {
+                rental.getRentalStatus() == RentalStatus.COMPLETED) {
+
             throw new RentalTooLateStatusChangeException(null);
         }
 
         rental.setRentalStatus(RentalStatus.CANCELLED);
+
+        if (rental.getPaymentStatus() == PaymentStatus.SUCCESSFUL) {
+            rental.setPaymentStatus(PaymentStatus.REFUNDED);
+        } else {
+            rental.setPaymentStatus(PaymentStatus.CANCELLED);
+        }
+
         Rental savedRental = rentalRepository.save(rental);
 
         return rentalMapper.toResponseDTO(savedRental);
@@ -193,11 +205,21 @@ public class RentalService {
     }
 
     @Transactional
-    public Page<RentalResponseDTO> getMyRentals(Pageable page)
+    public Page<RentalResponseDTO> getMyRentals(
+            RentalFilterRequestDTO request,
+            Pageable page)
     {
         UUID userId = securityUtil.getCurrentUserId();
 
-        return rentalRepository.findByUserIdOrderByStartDateDesc(userId, page)
+        Specification<Rental> specification =
+                RentalSpecification.buildSpecification(request);
+
+        specification = specification.and(
+                (root, query, cb) ->
+                        cb.equal(root.get("user").get("id"), userId)
+        );
+
+        return rentalRepository.findAll(specification, page)
                 .map(rentalMapper::toResponseDTO);
     }
 
@@ -214,21 +236,45 @@ public class RentalService {
     @Transactional
     public RentalResponseDTO changePaymentStatus(UUID id, PaymentStatusChangeRequestDTO request)
     {
+        UUID userId = securityUtil.getCurrentUserId();
+
         Rental rental = rentalRepository.findById(id)
                 .orElseThrow(() -> new RentalNotFoundException(null));
+
+        if(!securityUtil.isAdmin())
+        {
+            if(!rental.getUser().getId().equals(userId))
+            {
+                throw new RentalNotFoundException(null);
+            }
+        }
 
         PaymentStatus currentStatus = rental.getPaymentStatus();
         PaymentStatus newStatus = request.paymentStatus();
 
-        if(currentStatus == PaymentStatus.SUCCESSFUL)
+        if(currentStatus == PaymentStatus.ON_SPOT ||
+                currentStatus == PaymentStatus.SUCCESSFUL)
+        {
+            throw new PaymentStatusChangeException(id);
+        }
+
+        if(currentStatus == PaymentStatus.PENDING &&
+                newStatus != PaymentStatus.SUCCESSFUL &&
+                newStatus != PaymentStatus.FAILED)
+        {
+            throw new PaymentStatusChangeException(id);
+        }
+
+        if(currentStatus == PaymentStatus.FAILED &&
+                newStatus != PaymentStatus.SUCCESSFUL)
         {
             throw new PaymentStatusChangeException(id);
         }
 
         rental.setPaymentStatus(newStatus);
 
-        if(newStatus == PaymentStatus.SUCCESSFUL
-                && rental.getRentalStatus() == RentalStatus.PENDING)
+        if(newStatus == PaymentStatus.SUCCESSFUL &&
+                rental.getRentalStatus() == RentalStatus.PENDING)
         {
             rental.setRentalStatus(RentalStatus.CONFIRMED);
         }
@@ -244,7 +290,8 @@ public class RentalService {
     {
         List<Rental> rentals = rentalRepository.findActiveRentalsByWatchId(id, startDate, endDate, List.of(
                 RentalStatus.CONFIRMED,
-                RentalStatus.IN_PROGRESS
+                RentalStatus.IN_PROGRESS,
+                RentalStatus.PENDING
         ));
 
         return new WatchAvailabilityResponseDTO(

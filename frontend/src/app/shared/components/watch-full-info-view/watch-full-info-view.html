@@ -128,7 +128,22 @@
                 }
             </select>
         }@else{
-            {{ watch.status }}
+            @if (watch.status === watchStatus.AVAILABLE ||
+                    watch.status === watchStatus.RENTED) {
+                    sprawdz dostepnosc
+
+                } @else if (watch.status === watchStatus.IN_SERVICE) {
+
+                    <p>W serwisie</p>
+
+                } @else if (watch.status === watchStatus.UNAVAILABLE) {
+
+                    <p>Niedostępny</p>
+
+                } @else if (watch.status === watchStatus.DISABLED) {
+
+                    <p>Wyłączony</p>
+                }
         }
     </p>
 

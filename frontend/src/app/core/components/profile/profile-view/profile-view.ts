@@ -22,8 +22,9 @@ import { UserInformationUpdateRequestDTO } from '../../../models/profile/put-pat
     ProfileChangeEmailView,
     ProfileChangePasswordView,
     ProfileUpdateInformationView,
-    ProfileSoftDeleteView
-  ],
+    ProfileSoftDeleteView,
+    RouterLink
+],
   templateUrl: './profile-view.html',
   styleUrl: './profile-view.css',
 })

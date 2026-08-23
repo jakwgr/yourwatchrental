@@ -1,0 +1,46 @@
+<div class="pagination">
+
+    <button
+        type="button"
+        (click)="previousPage()"
+        [disabled]="currentPage() === 0">
+        <
+    </button>
+
+    <span>
+        Strona {{ currentPage() + 1 }} / {{ totalPages() }}
+    </span>
+
+    <button
+        type="button"
+        (click)="nextPage()"
+        [disabled]="currentPage() >= totalPages() - 1">
+        >
+    </button>
+
+</div>
+
+<!-- <app-pagination-buttons
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    (previous)="previousPage()"
+    (next)="nextPage()">
+</app-pagination-buttons>
+
+previousPage() {
+  if (this.currentPage() > 0) {
+    this.currentPage.update(page => page - 1);
+    this.searchRentals();
+  }
+}
+
+nextPage() {
+  if (this.currentPage() < this.totalPages() - 1) {
+    this.currentPage.update(page => page + 1);
+    this.searchRentals();
+  }
+}
+  
+  currentPage = signal(0);
+  totalPages = signal(0);
+  -->

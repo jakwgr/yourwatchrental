@@ -1,8 +1,11 @@
 package com.yourwatchrental.watchrental.rental.dto.response;
 
+import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import com.yourwatchrental.watchrental.rental.PaymentMethod;
 import com.yourwatchrental.watchrental.rental.PaymentStatus;
 import com.yourwatchrental.watchrental.rental.RentalStatus;
+import com.yourwatchrental.watchrental.user.dto.response.UserResponseDTO;
+import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,11 +27,11 @@ public record RentalResponseDTO(
 
         PaymentStatus paymentStatus,
 
-        UUID branchId,
+        BranchResponseDTO branch,
 
-        UUID userId,
+        UserResponseDTO user,
 
-        UUID watchId
+        WatchFullInfoResponseDTO watch
 
 ) {
 }

@@ -42,3 +42,7 @@
     background-color: red;
     cursor: not-allowed;
 }
+
+.past-day{
+    background-color: grey;
+}

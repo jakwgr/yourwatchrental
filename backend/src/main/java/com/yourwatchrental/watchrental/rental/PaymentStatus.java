@@ -4,5 +4,7 @@ public enum PaymentStatus {
     PENDING,     // oczekuje na płatność
     SUCCESSFUL,  // płatność zakończona poprawnie
     FAILED,      // płatność nieudana
-    ON_SPOT
+    ON_SPOT,
+    CANCELLED,
+    REFUNDED
 }

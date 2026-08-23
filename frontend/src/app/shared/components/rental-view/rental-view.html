@@ -1,0 +1,147 @@
+@if (rental() != null) {
+        <div class="rental-card">
+    <h2>{{ rental().watch.model }}</h2>
+
+    <p>
+        <strong>{{ rental().startDate }}</strong>
+        →
+        <strong>{{ rental().endDate }}</strong>
+    </p>
+
+    <p>{{ rental().totalPrice }} zł</p>
+
+    <p>
+        Wypożyczenie: {{ rental().rentalStatus }}
+    </p>
+
+    <p>
+        Płatność: {{ rental().paymentStatus }}
+    </p>
+
+    @if(rental().paymentStatus === paymentStatus.PENDING &&
+        rental().rentalStatus === rentalStatus.PENDING)
+    {
+        <button (click)="payRental()">
+            Opłać
+        </button>
+    }
+
+    @if(rental().rentalStatus === rentalStatus.PENDING ||
+        rental().rentalStatus === rentalStatus.CONFIRMED)
+    {
+        <button (click)="cancelRental()">
+            Anuluj
+        </button>
+    }
+
+    <button (click)="openRentalModal()">
+        Szczegóły
+    </button>
+</div>
+    @if(rentalViewModal()){
+        <div>
+    <h2>Wypożyczenie</h2>
+
+    <h3>Informacje o wypożyczeniu</h3>
+
+    <p>
+        <strong>Od:</strong>
+        {{ rental().startDate }}
+    </p>
+
+    <p>
+        <strong>Do:</strong>
+        {{ rental().endDate }}
+    </p>
+
+    <p>
+        <strong>Cena:</strong>
+        {{ rental().totalPrice }} zł
+    </p>
+
+    <p>
+        <strong>Metoda płatności:</strong>
+        {{ rental().paymentMethod }}
+    </p>
+
+    <p>
+        <strong>Status wypożyczenia:</strong>
+        {{ rental().rentalStatus }}
+    </p>
+
+    <p>
+        <strong>Status płatności:</strong>
+        {{ rental().paymentStatus }}
+    </p>
+
+
+    <h3>Informacje o zegarku</h3>
+
+    <p>
+        <strong>Producent:</strong>
+        {{ rental().watch.manufacturer }}
+    </p>
+
+    <p>
+        <strong>Model:</strong>
+        {{ rental().watch.model }}
+    </p>
+
+    <p>
+        <strong>Numer referencyjny:</strong>
+        {{ rental().watch.referenceNumber }}
+    </p>
+
+
+    <h3>Informacje o oddziale</h3>
+
+    <p>
+        <strong>Nazwa:</strong>
+        {{ rental().branch.name }}
+    </p>
+
+    <p>
+        <strong>Miasto:</strong>
+        {{ rental().branch.city }}
+    </p>
+
+
+    @if(admin() || seeUser() != null)
+    {
+        <h3>Informacje o uzytkowniku</h3>
+
+    <p>
+        <strong>imie i nazwisko:</strong>
+        {{ rental().user.firstName }} {{ rental().user.lastName }} 
+    </p>
+
+    <p>
+        <strong>dane kontaktowe:</strong>
+        {{ rental().user.email }} <br>
+        {{rental().user.phoneNumber}}
+    </p>
+    }
+
+    @if(rental().paymentStatus === paymentStatus.PENDING &&
+        rental().rentalStatus === rentalStatus.PENDING)
+    {
+        <button (click)="payRental()">
+            Opłać zamówienie
+        </button>
+    }
+
+    @if(rental().rentalStatus === rentalStatus.PENDING ||
+        rental().rentalStatus === rentalStatus.CONFIRMED)
+    {
+        <button (click)="cancelRental()">
+            Anuluj zamówienie
+        </button>
+    }
+
+    <button (click)="closeRentalModal()">
+        Zamknij
+    </button>
+</div>
+    }
+
+}

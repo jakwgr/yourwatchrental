@@ -15,6 +15,8 @@ import { AdminRentals } from './pages/admin/admin-rentals/admin-rentals';
 import { AdminWatches } from './pages/admin/admin-watches/admin-watches';
 import { Branches } from './pages/branches/branches';
 import { RentalCreate } from './pages/rental-create/rental-create';
+import { WatchCreate } from './pages/watch-create/watch-create';
+import { BranchCreate } from './pages/branch-create/branch-create';
 
 export const routes: Routes = [
     {
@@ -31,11 +33,20 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: "branches/create",
+        component: BranchCreate
+    },
+    {
         path: 'register',
         component: Register
     },
     {
         path: 'rentals',
+        component: Rentals,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'rentals/:id',
         component: Rentals,
         canActivate: [authGuard]
     },
@@ -72,6 +83,10 @@ export const routes: Routes = [
     {
         path: 'watches',
         component: Watches
+    },
+    {
+        path : 'watches/create',
+        component: WatchCreate
     },
     {
         path: 'watches/:id',

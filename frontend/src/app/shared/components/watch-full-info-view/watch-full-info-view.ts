@@ -55,6 +55,8 @@ export class WatchFullInfoView {
   watchTypeOptions = Object.values(WatchType);
   watchStatusOptions = Object.values(WatchStatus);
 
+  watchStatus = WatchStatus;
+
   changeInfomationAdmin = signal(false);
   buttonVanish: boolean = false;
   saveType?: number | null = null;

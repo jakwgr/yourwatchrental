@@ -51,4 +51,9 @@ export class BranchesService {
     {
         return this.http.patch<BranchResponseDTO>(`api/branches/${id}/status`, request);
     }
+
+    createBranch(request: BranchRequestDTO)
+    {
+        return this.http.post<BranchResponseDTO>('/api/branches', request);
+    }
 }
