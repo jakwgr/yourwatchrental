@@ -1,0 +1,83 @@
+<footer class="text-white py-5 px-4 mt-auto"
+    style="background-color: var(--luxury-dark); border-top: 1px solid var(--luxury-border);">
+    <div class="container py-4">
+        <div class="container-fluid px-0">
+            <div class="row g-5 justify-content-between">
+
+                <!-- Kolumna 1: O marce -->
+                <div class="col-12 col-md-5 d-flex flex-column align-items-center text-center">
+                    <!-- Logo wyśrodkowane nad tekstem -->
+                    <img src="/images/c4963248-efd7-4451-b619-8c9a42dd3d91_removalai_preview.png" alt="Logo"
+                        class="mb-4" style="height: 55px; width: auto; object-fit: contain;">
+
+                    <!-- Paragraf -->
+                    <p class="small fw-light leading-relaxed mb-4 mx-auto"
+                        style="color: var(--luxury-muted); max-width: 400px;">
+                        Synonim luksusu, precyzji i niezależnego kunsztu zegarmistrzowskiego. Tworzymy czasomierze dla
+                        pasjonatów unikalnej mechaniki.
+                    </p>
+
+                    <!-- Miasta -->
+                    <div class="d-flex gap-3 text-uppercase small justify-content-center"
+                        style="color: var(--luxury-gold);">
+                        <span>Genewa</span> &bull; <span>Zurych</span> &bull; <span>Warszawa</span>
+                    </div>
+                </div>
+
+                <!-- Kolumna 2: Szybkie linki -->
+                <div class="col-6 col-md-3">
+                    <h5 class="text-white text-xs uppercase tracking-[0.2em] fw-semibold mb-4">Nawigacja</h5>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small fw-light">
+                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/">Strona główna</a></li>
+                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/watches">Zegarki</a></li>
+                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/branches">Współpracujące firmy</a></li>
+                        @if (authService.isLoggedIn()) {
+                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/rentals">Wynajmy</a></li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- Kolumna 3: Strefa klienta / Konto -->
+                <div class="col-6 col-md-3">
+                    <h5 class="text-white text-xs uppercase tracking-[0.2em] fw-semibold mb-4">Klient</h5>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small fw-light">
+                        @if (authService.isLoggedIn()) {
+                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/profile">Mój profil</a></li>
+                        @if (profile()?.role === 'ADMIN') {
+                        <li><a class="text-decoration-none fw-semibold" style="color: var(--luxury-gold);"
+                                routerLink="/admin">Panel admina</a></li>
+                        }
+                        } @else {
+                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/login">Logowanie</a></li>
+                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/register">Rejestracja</a></li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Dolny pasek (Copyright i polityka) -->
+            <div class="row pt-5 mt-5 align-items-center justify-content-between"
+                style="border-top: 1px solid var(--luxury-border);">
+                <div class="col-12 col-md-auto text-center text-md-start mb-3 mb-md-0">
+                    <p class="small fw-light mb-0" style="color: var(--luxury-muted);">&copy; 2026 AURELIA Horlogerie.
+                        Wszelkie prawa zastrzeżone.</p>
+                </div>
+                <div class="col-12 col-md-auto text-center text-md-end">
+                    <div class="d-flex justify-content-center justify-content-md-end gap-4 small fw-light"
+                        style="color: var(--luxury-muted);">
+                        <a href="#" class="text-decoration-none text-secondary hover-gold">Polityka prywatności</a>
+                        <a href="#" class="text-decoration-none text-secondary hover-gold">Regulamin serwisu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

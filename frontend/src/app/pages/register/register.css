@@ -1,0 +1,18 @@
+/* Podświetlenie ramki aktywnego pola */
+.form-control:focus {
+    border-color: var(--luxury-gold) !important;
+    box-shadow: 0 0 0 1px var(--luxury-gold) !important;
+}
+
+/* Efekt najechania na link logowania */
+.hover-gold:hover {
+    color: #fff !important;
+    transition: color 0.3s ease;
+}
+
+/* Wypełnienie pełnej wysokości ekranu */
+:host {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}

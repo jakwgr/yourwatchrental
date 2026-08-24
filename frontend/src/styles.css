@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --luxury-dark: #0a0a0a;
+  /* ^ navbar tło */
+
+
+  --luxury-card: #121212;
+  --luxury-gold: #d4af37;
+  /* ^ zloty do tekstu */
+
+  --luxury-gold-light: #f3e5ab;
+  --luxury-muted: #888888;
+  --luxury-border: rgba(255, 255, 255, 0.1);
+
+  --background-main: whitesmoke;
+}
+
+*{
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body{
+    background-color: var(--background-main);
+    padding-top: 98px;
+}

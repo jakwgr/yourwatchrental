@@ -1,0 +1,15 @@
+.advanced-filters {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.45s ease;
+}
+
+.advanced-filters.expanded {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+#section{
+    transform: translateY(-300px);
+}

@@ -1,1 +1,285 @@
-<p>home works!</p>
+<div class="slider-container position-relative overflow-hidden" style="height: calc(100vh - 98px);">
+
+    <!-- TRACK -->
+    <div class="slider-track d-flex h-100" [style.transform]="'translateX(-' + (currentIndex() * 33.333333) + '%)'">
+
+        @for (slide of slides; track $index) {
+
+        <div class="slider-slide position-relative flex-shrink-0 h-100">
+            <div class="parallax-bg" [style.background-image]="'url(' + slide.bgImage + ')'"
+                [style.transform]="'translateY(' + (scrollY() * 0.25) + 'px)'"></div>
+
+            <!-- Przyciemnienie -->
+            <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+
+            <!-- Treść -->
+            <div class="position-relative h-100 d-flex align-items-center">
+
+                <div class="container text-light">
+
+                    <div class="col-12 col-lg-7">
+
+                        <div class="text-uppercase fw-semibold mb-3">
+                            {{ slide.eyebrow }}
+                        </div>
+
+                        <h1 class="display-2 fw-bold mb-4">
+                            {{ slide.title }}
+                        </h1>
+
+                        <p class="fs-5 mb-4">
+                            {{ slide.description }}
+                        </p>
+
+                        <a [routerLink]="slide.buttonLink" class="btn btn-light btn-lg px-4">
+                            {{ slide.buttonText }}
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+
+    <!-- KROPKI -->
+    <div class="position-absolute bottom-0 start-50 translate-middle-x
+               d-flex gap-3 mb-4" style="z-index: 10;">
+
+        @for (slide of slides; track $index) {
+
+        <button type="button" class="slider-dot rounded-circle border border-light p-0"
+            [class.active]="currentIndex() === $index" (click)="goToSlide($index)"
+            aria-label="Przejdź do slajdu {{ $index + 1 }}"></button>
+
+        }
+
+    </div>
+
+</div>
+<!-- utworz konto - wybierz miejsce odbioru - wybierz zegarek - kup i oplac zegarek - odbierz zegarek w oddziale wybranym podczas rezerwacji -->
+<!-- ========================================== -->
+<!-- SEKCJA: JAK DZIAŁA WYPOŻYCZALNIA (5 ETAPÓW)-->
+<!-- ========================================== -->
+<section class="py-5 bg-white text-center border-bottom border-light">
+    <div class="container py-4">
+        <span class="text-uppercase tracking-widest small fw-bold d-block mb-2"
+            style="color: #bfa130; letter-spacing: 2px;">
+            Prosty Proces
+        </span>
+        <h2 class="h3 fw-light text-dark mb-5 font-serif">
+            Jak działa wypożyczalnia
+        </h2>
+
+        <div class="row g-4 text-start">
+            <!-- Etap 1 -->
+            <div class="col-12 col-md-4">
+                <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
+                    <span
+                        class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">01</span>
+                    <span class="text-uppercase small fw-bold d-block mb-2"
+                        style="color: #bfa130; letter-spacing: 1px;">Krok Pierwszy</span>
+                    <h4 class="h5 fw-bold text-dark mb-3">Wybór modelu</h4>
+                    <p class="text-secondary small fw-light mb-0">Przeglądaj naszą ekskluzywną kolekcję czasomierzy i
+                        znajdź zegarek idealnie dopasowany do swojego stylu.</p>
+                </div>
+            </div>
+
+            <!-- Etap 2 -->
+            <div class="col-12 col-md-4">
+                <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
+                    <span
+                        class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">02</span>
+                    <span class="text-uppercase small fw-bold d-block mb-2"
+                        style="color: #bfa130; letter-spacing: 1px;">Krok Drugi</span>
+                    <h4 class="h5 fw-bold text-dark mb-3">Rezerwacja terminu</h4>
+                    <p class="text-secondary small fw-light mb-0">Wybierz dogodny okres najmu oraz preferowany oddział
+                        stacjonarny odbioru.</p>
+                </div>
+            </div>
+
+            <!-- Etap 3 -->
+            <div class="col-12 col-md-4">
+                <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
+                    <span
+                        class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">03</span>
+                    <span class="text-uppercase small fw-bold d-block mb-2"
+                        style="color: #bfa130; letter-spacing: 1px;">Krok Trzeci</span>
+                    <h4 class="h5 fw-bold text-dark mb-3">Weryfikacja i akceptacja</h4>
+                    <p class="text-secondary small fw-light mb-0">Szybkie i bezpieczne zatwierdzenie dokumentów oraz
+                        formalności związanych z wypożyczeniem.</p>
+                </div>
+            </div>
+
+            <!-- Etap 4 -->
+            <div class="col-12 col-md-6">
+                <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
+                    <span
+                        class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">04</span>
+                    <span class="text-uppercase small fw-bold d-block mb-2"
+                        style="color: #bfa130; letter-spacing: 1px;">Krok Czwarty</span>
+                    <h4 class="h5 fw-bold text-dark mb-3">Odbiór czasomierza</h4>
+                    <p class="text-secondary small fw-light mb-0">Odbierz gotowy do noszenia, w pełni ubezpieczony
+                        zegarek w wybranym przez siebie oddziale.</p>
+                </div>
+            </div>
+
+            <!-- Etap 5 -->
+            <div class="col-12 col-md-6">
+                <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
+                    <span
+                        class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">05</span>
+                    <span class="text-uppercase small fw-bold d-block mb-2"
+                        style="color: #bfa130; letter-spacing: 1px;">Krok Piąty</span>
+                    <h4 class="h5 fw-bold text-dark mb-3">Ciesz się prestiżem</h4>
+                    <p class="text-secondary small fw-light mb-0">Korzystaj z luksusowego dodatku przez cały okres
+                        najmu, a po zakończeniu po prostu go zwróć.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ========================================== -->
+<!-- PRZERYWNIK STRONY (FULL-WIDTH BANNER)      -->
+<!-- ========================================== -->
+<section class="position-relative py-5 overflow-hidden text-center text-light bg-dark"
+    style="min-height: 400px; background-image: url('TUTAJ_WKLEJ_LINK_DO_ZDJECIA'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <!-- Przyciemnienie tła, żeby tekst był czytelny -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-60"></div>
+
+    <!-- Treść przerywnika -->
+    <div class="container position-relative py-5 d-flex flex-column align-items-center justify-content-center"
+        style="z-index: 2; min-height: 300px;">
+        <span class="text-uppercase tracking-widest small fw-bold mb-2" style="color: #bfa130; letter-spacing: 3px;">
+            Ekskluzywna Selekcja
+        </span>
+        <h3 class="display-5 fw-light mb-4 font-serif" style="max-width: 700px;">
+            Poznaj rzadkie czasomierze z limitowanych edycji
+        </h3>
+        <p class="fs-6 fw-light mb-4 opacity-75" style="max-width: 550px;">
+            Odkryj modele, które na co dzień są niedostępne w standardowej sprzedaży i wyróżnij się unikalnym dodatkiem.
+        </p>
+        <a routerLink="/zegarki" class="btn btn-light rounded-0 text-uppercase py-3 px-5 fw-semibold transition-all"
+            style="letter-spacing: 0.15em; font-size: 0.75rem;">
+            Sprawdź dostępność
+        </a>
+    </div>
+
+</section>
+
+<!-- ========================================== -->
+<!-- SEKCJA: NASZE ZEGARKI (MIEJSCE NA BAZĘ)    -->
+<!-- ========================================== -->
+<section class="py-5 bg-light border-top border-light">
+    <div class="container py-4">
+
+        <!-- Nagłówek sekcji + Szybkie filtry -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3">
+            <div>
+                <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
+                    style="color: #bfa130; letter-spacing: 2px;">
+                    Kolekcja
+                </span>
+                <h3 class="h4 fw-light text-dark mb-0 font-serif">
+                    Nasze zegarki
+                </h3>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a type="button" class="btn btn-outline-dark rounded-0 btn-sm text-uppercase px-3"
+                    style="font-size: 0.7rem; letter-spacing: 1px;" routerLink="/watches">Wszystkie</a>
+                <button type="button"
+                     class="btn btn-outline-dark rounded-0 btn-sm text-uppercase px-3"
+                    style="font-size: 0.7rem; letter-spacing: 1px;"
+                    [routerLink]="['/watches']" [queryParams]="{movementType: 'AUTOMATIC',page: 0}">Automatyczne</button>
+                <button type="button"
+                     class="btn btn-outline-dark rounded-0 btn-sm text-uppercase px-3"
+                    style="font-size: 0.7rem; letter-spacing: 1px;" [routerLink]="['/watches']" [queryParams]="{gender: 'MALE',page: 0}">Męskie</button>
+            </div>
+        </div>
+
+        <!-- Siatka pod Twoje zegarki z bazy danych -->
+        <div class="row g-4">
+
+            @for (watch of watches(); track watch.id) {
+            <div class="col-12 col-md-6 col-lg-4">
+                <app-watch-card [watch]="watch"></app-watch-card>
+            </div>
+            }
+
+        </div>
+
+    </div>
+</section>
+<!-- ========================================== -->
+<!-- 1. SEKCYJNY ELEMENT: MIĘDZY ETAPAMI A ZEGARKAMI -->
+<!-- ========================================== -->
+<section class="py-5 bg-white border-bottom border-light">
+    <div class="container py-4">
+        <div class="row align-items-center g-5">
+            <div class="col-12 col-lg-6">
+                <span class="text-uppercase tracking-widest small fw-bold d-block mb-2"
+                    style="color: #bfa130; letter-spacing: 2px;">
+                    Ekskluzywna Manufaktura
+                </span>
+                <h3 class="h3 fw-light text-dark mb-4 font-serif">
+                    Czas, który definiuje Twój sukces
+                </h3>
+                <p class="text-secondary fw-light leading-relaxed mb-4">
+                    Każdy zegarek w naszej ofercie przechodzi rygorystyczną selekcję oraz serwis u autoryzowanych
+                    zegarmistrzów. Dbamy o to, by na Twój nadgarstek trafił czasomierz w nienagannym stanie, gotowy
+                    podkreślić każdą ważną chwilę.
+                </p>
+                <a routerLink="/zegarki" class="btn btn-outline-dark rounded-0 text-uppercase py-2 px-4"
+                    style="font-size: 0.7rem; letter-spacing: 1px;">
+                    Odkryj kolekcję
+                </a>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="bg-light p-2 border border-light position-relative overflow-hidden" style="height: 350px;">
+                    <!-- Tutaj wstaw swoje zdjęcie, np. [src] lub zwykły src -->
+                    <div class="w-100 h-100 bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center text-muted small text-uppercase"
+                        style="letter-spacing: 1px;">
+                        Miejsce na zdjęcie (np. warsztat / detale)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ========================================== -->
+<!-- SEKCJA: WSPÓŁPRACUJĄCE MANUFAKTURY         -->
+<!-- ========================================== -->
+<section class="py-5 bg-light border-top border-bottom border-light text-center">
+    <div class="container py-3">
+        <span class="text-uppercase tracking-widest small text-dark opacity-75 d-block mb-4"
+            style="letter-spacing: 2px; font-size: 0.7rem;">
+            MARKI DOSTĘPNE W NASZEJ KOLEKCJI
+        </span>
+        <div class="row align-items-center justify-content-center g-5">
+            <div class="col-6 col-md-3">
+                <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
+                    style="letter-spacing: 2px; font-family: serif;">Rolex</h5>
+            </div>
+            <div class="col-6 col-md-3">
+                <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
+                    style="letter-spacing: 2px; font-family: serif;">Patek Philippe</h5>
+            </div>
+            <div class="col-6 col-md-3">
+                <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
+                    style="letter-spacing: 2px; font-family: serif;">Audemars Piguet</h5>
+            </div>
+            <div class="col-6 col-md-3">
+                <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
+                    style="letter-spacing: 2px; font-family: serif;">Omega</h5>
+            </div>
+        </div>
+    </div>
+</section>

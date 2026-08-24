@@ -1,23 +1,28 @@
-<div class="pagination">
-
+<div class="d-flex justify-content-center align-items-center gap-4 my-5">
+    <!-- Poprzednia strona -->
     <button
         type="button"
+        class="btn btn-outline-dark rounded-0 px-4 py-2 text-uppercase fw-semibold shadow-none border-secondary"
+        style="font-size: 0.7rem; letter-spacing: 2px;"
         (click)="previousPage()"
         [disabled]="currentPage() === 0">
-        <
+        ← Poprzednia
     </button>
 
-    <span>
-        Strona {{ currentPage() + 1 }} / {{ totalPages() }}
+    <!-- Licznik stron -->
+    <span class="text-uppercase text-secondary fw-medium" style="font-size: 0.75rem; letter-spacing: 2px;">
+        Strona <span class="text-dark fw-bold">{{ currentPage() + 1 }}</span> z <span class="text-dark fw-bold">{{ totalPages() }}</span>
     </span>
 
+    <!-- Następna strona -->
     <button
         type="button"
+        class="btn btn-outline-dark rounded-0 px-4 py-2 text-uppercase fw-semibold shadow-none border-secondary"
+        style="font-size: 0.7rem; letter-spacing: 2px;"
         (click)="nextPage()"
         [disabled]="currentPage() >= totalPages() - 1">
-        >
+        Następna →
     </button>
-
 </div>
 
 <!-- <app-pagination-buttons

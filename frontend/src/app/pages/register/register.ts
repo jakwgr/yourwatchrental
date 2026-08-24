@@ -1,14 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { first } from 'rxjs';
 import { AuthService } from '../../core/services/auth/auth-service';
 import { pastDateValidator } from '../../shared/util/validators/validator-past'
 import { Router } from '@angular/router';
+import { SmallErrorView } from '../../shared/components/small-error-view/small-error-view';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SmallErrorView],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -16,6 +17,8 @@ export class Register {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+
+registerError = signal<string | null>(null);
 
   ngOnInit()
   {
@@ -48,10 +51,11 @@ export class Register {
         console.log('suckes', response);
         this.router.navigate(['/login']);
       },
-      error: error => {
-        console.error('BŁĄD:', error);
+      error: err => {
+        if (err.status === 409) {
+        this.registerError.set(err.error.message);
       }
-    }
+      }}
     );
   }
 }

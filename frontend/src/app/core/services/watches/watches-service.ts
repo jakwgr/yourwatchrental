@@ -108,4 +108,11 @@ export class WatchesService {
         '/api/watches', request
     )
   }
+
+  getThumbnail(id: string)
+  {
+    return this.http.get<WatchPhotoResponseDTO>(
+        `/api/watches/photos/${id}/thumbnail`
+    )
+  }
 }

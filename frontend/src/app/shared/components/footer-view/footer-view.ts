@@ -1,16 +1,17 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth-service';
+import { Profile } from '../../../pages/profile/profile';
 import { ProfileService } from '../../../core/services/profile/profile-service';
 import { UserResponseDTO } from '../../../core/models/profile/user-response.dto';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive],
-  templateUrl: './navbar-view.html',
-  styleUrl: './navbar-view.css',
+  selector: 'app-footer-view',
+  imports: [RouterLink],
+  templateUrl: './footer-view.html',
+  styleUrl: './footer-view.css',
 })
-export class Navbar {
+export class FooterView {
   authService = inject(AuthService);
   profileService = inject(ProfileService);
 
@@ -31,8 +32,4 @@ export class Navbar {
         }
     });
 }
-
-    logout() {
-    this.authService.logout();
-  }
 }

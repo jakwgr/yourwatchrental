@@ -58,8 +58,8 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(a->
                         a
-//                                .requestMatchers(
-//                                        ).authenticated()
+                                .requestMatchers("/branches/me").authenticated()
+                                .requestMatchers("/users/me").authenticated()
 
 
                                 .anyRequest(

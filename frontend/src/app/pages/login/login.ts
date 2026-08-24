@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth/auth-service';
 import { Router } from '@angular/router';
+import { SmallErrorView } from '../../shared/components/small-error-view/small-error-view';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SmallErrorView],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -15,10 +16,11 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-ngOnInit()
-  {
-    if(this.authService.isLoggedIn())
-    {
+
+  loginError = signal<string | null>(null);
+
+  ngOnInit() {
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
     }
   }
@@ -39,11 +41,12 @@ ngOnInit()
       next: response => {
         this.router.navigate(['/profile']);
       },
-      error: error => {
-        console.error('BŁĄD:', error);
+      error: err => {
+        const error = JSON.parse(err.error);
+
+        this.loginError.set(error.message);
       }
-    }
-    );
+    });
 
   }
 }
