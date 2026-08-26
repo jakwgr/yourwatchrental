@@ -1,103 +1,247 @@
-<form [formGroup]="adminUserUpdate" style="border: solid 1px black;">
-        <h1>imie:
-                @if(this.saveType != null && this.saveType === 1)
-                {
-                <input type="text" formControlName="firstName">
-                }@else
-                {
-                {{profile().firstName}}
+<div class="bg-white shadow-lg p-4 p-md-5 rounded-0 border-top border-dark border-3 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px; font-size: 0.70rem;">
+                Szczegóły profilu
+            </span>
+            <h2 class="h3 text-dark fw-light mb-0">
+                @if (saveType === 1) {
+                    Edycja danych osobowych
+                } @else if (saveType === 2) {
+                    Zmiana adresu email
+                } @else if (saveType === 3) {
+                    Zmiana statusu konta
+                } @else if (saveType === 4) {
+                    Zmiana roli użytkownika
+                } @else if (saveType === 5) {
+                    Zmiana hasła
+                } @else {
+                    Profil użytkownika
                 }
+            </h2>
+        </div>
+        <div class="text-secondary small font-monospace" style="font-size: 0.75rem;">
+            Utworzono: {{ profile().createdAt }}
+        </div>
+    </div>
 
-                nazwisko:
-                @if(this.saveType != null && this.saveType === 1)
-                {
-                <input type="text" formControlName="lastName">
-                }@else
-                {
-                {{profile().lastName}}
+    <form [formGroup]="adminUserUpdate">
+        <div class="row g-4">
+            <!-- Imię -->
+            <div class="col-md-6">
+                <label class="form-label text-uppercase text-secondary fw-medium" style="font-size: 0.65rem; letter-spacing: 1.5px;">Imię</label>
+                @if (saveType != null && saveType === 1) {
+                    <input
+                        type="text"
+                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                        formControlName="firstName"
+                    >
+                } @else {
+                    <div class="form-control-plaintext text-dark fw-bold py-2 px-3" style="background-color: rgba(0, 0, 0, 0.01);">
+                        {{ profile().firstName }}
+                    </div>
                 }
-        </h1>
-        <p>
-                numer telefonu:
-                @if(this.saveType != null && this.saveType === 1)
-                {
-                <input type="text" formControlName="phoneNumber">
-                }@else
-                {
-                {{profile().phoneNumber}}
+            </div>
+
+            <!-- Nazwisko -->
+            <div class="col-md-6">
+                <label class="form-label text-uppercase text-secondary fw-medium" style="font-size: 0.65rem; letter-spacing: 1.5px;">Nazwisko</label>
+                @if (saveType != null && saveType === 1) {
+                    <input
+                        type="text"
+                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                        formControlName="lastName"
+                    >
+                } @else {
+                    <div class="form-control-plaintext text-dark fw-bold py-2 px-3" style="background-color: rgba(0, 0, 0, 0.01);">
+                        {{ profile().lastName }}
+                    </div>
                 }
-                <br>
-                data urodzenia: @if(this.saveType != null && this.saveType === 1)
-                {
-                <input type="date" formControlName="dateOfBirth">
-                }@else
-                {
-                {{profile().dateOfBirth}}
+            </div>
+
+            <!-- Numer telefonu -->
+            <div class="col-md-6">
+                <label class="form-label text-uppercase text-secondary fw-medium" style="font-size: 0.65rem; letter-spacing: 1.5px;">Numer telefonu</label>
+                @if (saveType != null && saveType === 1) {
+                    <input
+                        type="text"
+                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                        formControlName="phoneNumber"
+                    >
+                } @else {
+                    <div class="form-control-plaintext text-dark fw-bold py-2 px-3" style="background-color: rgba(0, 0, 0, 0.01);">
+                        {{ profile().phoneNumber }}
+                    </div>
                 }
-                <br>
-                email: @if(this.saveType != null && this.saveType === 2)
-                {
-                <input type="text" formControlName="email">
-                }@else
-                {
-                {{profile().email}}
+            </div>
+
+            <!-- Data urodzenia -->
+            <div class="col-md-6">
+                <label class="form-label text-uppercase text-secondary fw-medium" style="font-size: 0.65rem; letter-spacing: 1.5px;">Data urodzenia</label>
+                @if (saveType != null && saveType === 1) {
+                    <input
+                        type="date"
+                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                        formControlName="dateOfBirth"
+                    >
+                } @else {
+                    <div class="form-control-plaintext text-dark fw-bold py-2 px-3" style="background-color: rgba(0, 0, 0, 0.01);">
+                        {{ profile().dateOfBirth }}
+                    </div>
                 }
-                <br>
-                status konta: @if(this.saveType != null && this.saveType === 3)
-                {
-                <select formControlName="status">
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6">
+                <label class="form-label text-uppercase text-secondary fw-medium" style="font-size: 0.65rem; letter-spacing: 1.5px;">Email</label>
+                @if (saveType != null && saveType === 2) {
+                    <input
+                        type="text"
+                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                        formControlName="email"
+                    >
+                } @else {
+                    <div class="form-control-plaintext text-dark fw-bold py-2 px-3" style="background-color: rgba(0, 0, 0, 0.01);">
+                        {{ profile().email }}
+                    </div>
+                }
+            </div>
+
+            <!-- Status konta -->
+            <div class="col-md-6">
+                <label class="form-label text-uppercase text-secondary fw-medium" style="font-size: 0.65rem; letter-spacing: 1.5px;">Status konta</label>
+                @if (saveType != null && saveType === 3) {
+                    <select
+                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto;"
+                        formControlName="status">
                         @for (status of statusOptions; track status) {
-                        <option [value]="status">
-                                {{status}}
-                        </option>
-
+                            <option [value]="status">{{ status }}</option>
                         }
-                </select>
-                }@else
-                {
-                {{profile().status}}
+                    </select>
+                } @else {
+                    <div class="form-control-plaintext text-dark fw-bold py-2 px-3" style="background-color: rgba(0, 0, 0, 0.01);">
+                        {{ profile().status }}
+                    </div>
                 }
-                <!-- @if(){} -->
-                <br>
-                rola użytkownika: @if(this.saveType != null && this.saveType === 4)
-                {
-                <select formControlName="role">
+            </div>
+
+            <!-- Rola użytkownika -->
+            <div class="col-md-6">
+                <label class="form-label text-uppercase text-secondary fw-medium" style="font-size: 0.65rem; letter-spacing: 1.5px;">Rola użytkownika</label>
+                @if (saveType != null && saveType === 4) {
+                    <select
+                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto;"
+                        formControlName="role">
                         @for (role of roleOptions; track role) {
-                        <option [value]="role">
-                                {{role}}
-                        </option>
+                            <option [value]="role">{{ role }}</option>
                         }
-                </select>
-                }@else
-                {
-                {{profile().role}}
+                    </select>
+                } @else {
+                    <div class="form-control-plaintext text-dark fw-bold py-2 px-3" style="background-color: rgba(0, 0, 0, 0.01);">
+                        {{ profile().role }}
+                    </div>
                 }
-                <!-- @if(){} -->
-                <br>
-                konto utworzone dnia: {{profile().createdAt}}
-                <!-- @if(){} -->
-                <br>
-                haslo : @if(this.saveType != null && this.saveType === 5)
-                {
-                <input type="text" formControlName="newPassword"> &nbsp;
-                <input type="text" formControlName="newPassword1">
-                }@else
-                {
-                **********
+            </div>
+
+            <!-- Hasło -->
+            <div class="col-md-6">
+                <label class="form-label text-uppercase text-secondary fw-medium" style="font-size: 0.65rem; letter-spacing: 1.5px;">Hasło</label>
+                @if (saveType != null && saveType === 5) {
+                    <div class="d-flex gap-2">
+                        <input
+                            type="password"
+                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="newPassword"
+                            placeholder="Nowe hasło"
+                        >
+                        <input
+                            type="password"
+                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="newPassword1"
+                            placeholder="Powtórz hasło"
+                        >
+                    </div>
+                } @else {
+                    <div class="form-control-plaintext text-dark fw-bold py-2 px-3" style="background-color: rgba(0, 0, 0, 0.01);">
+                        **********
+                    </div>
                 }
-        </p>
-        <p>
-                <button (click)="updateInformation()" [class.disabledButton]="buttonVanish">zmien dane</button>
-                <button (click)="updatePassword()" [class.disabledButton]="buttonVanish">zmien haslo</button>
-                <button (click)="updateEmail()" [class.disabledButton]="buttonVanish">zmien email</button>
-                <button (click)="updateStatus()" [class.disabledButton]="buttonVanish">zmien status konta</button>
-                <button (click)="updateRole()" [class.disabledButton]="buttonVanish">zmien role</button>
-                <button [class.disabledButton]="buttonVanish" [routerLink]="['/rentals', profile().id]">zobacz wypozyczenia</button>
+            </div>
+        </div>
 
-                <button (click)="save(profile().id)" [class.disabledButton]="!buttonVanish">zapisz
-                </button>
-
-                <button [class.disabledButton]="!buttonVanish" (click)="cancel()">cofnij
-                </button>
-        </p>
-</form>
+        <!-- Przyciski akcji (edycja / zapis) -->
+        <div class="mt-5 pt-3 border-top">
+            @if (!buttonVanish) {
+                <div class="d-flex flex-wrap gap-2">
+                    <button
+                        type="button"
+                        class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                        style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                        (click)="updateInformation()">
+                        Zmień dane
+                    </button>
+                    <button
+                        type="button"
+                        class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                        style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                        (click)="updatePassword()">
+                        Zmień hasło
+                    </button>
+                    <button
+                        type="button"
+                        class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                        style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                        (click)="updateEmail()">
+                        Zmień email
+                    </button>
+                    <button
+                        type="button"
+                        class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                        style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                        (click)="updateStatus()">
+                        Zmień status
+                    </button>
+                    <button
+                        type="button"
+                        class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                        style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                        (click)="updateRole()">
+                        Zmień rolę
+                    </button>
+                    <a
+                        [routerLink]="['/rentals', profile().id]"
+                        class="btn text-uppercase fw-semibold py-2 px-3 text-dark bg-transparent border border-dark rounded-0 shadow-none"
+                        style="letter-spacing: 0.1em; font-size: 0.70rem; text-decoration: none; display: inline-flex; align-items: center;">
+                        Zobacz wypożyczenia
+                    </a>
+                </div>
+            } @else {
+                <div class="d-flex flex-column flex-md-row gap-2">
+                    <button
+                        type="button"
+                        class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none flex-grow-1"
+                        style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                        (click)="save(profile().id)">
+                        Zapisz
+                    </button>
+                    <button
+                        type="button"
+                        class="btn text-uppercase fw-semibold py-2 text-dark bg-transparent border border-dark rounded-0 shadow-none px-4"
+                        style="letter-spacing: 0.1em; font-size: 0.70rem;"
+                        (click)="cancel()">
+                        Cofnij
+                    </button>
+                </div>
+            }
+        </div>
+    </form>
+</div>

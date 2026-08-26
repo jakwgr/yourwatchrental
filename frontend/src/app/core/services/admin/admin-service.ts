@@ -63,4 +63,9 @@ export class AdminService {
             request
         )
     }
+
+    getUserAdmin(id: string)
+    {
+        return this.http.get<UserResponseDTO>(`api/users/${id}`);
+    }
 }

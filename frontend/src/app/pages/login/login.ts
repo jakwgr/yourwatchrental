@@ -3,10 +3,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth/auth-service';
 import { Router } from '@angular/router';
 import { SmallErrorView } from '../../shared/components/small-error-view/small-error-view';
+import { FormError } from '../../shared/components/form-error/form-error';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, SmallErrorView],
+  imports: [ReactiveFormsModule, SmallErrorView, FormError],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

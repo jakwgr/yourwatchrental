@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record WatchFilterRequestDTO(
+        UUID watchId,
         String manufacturer,
         String model,
         String referenceNumber,

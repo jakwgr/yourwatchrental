@@ -1,0 +1,41 @@
+@let field = control();
+@let _ = controlChanged();
+
+@if (field.touched) {
+
+    @if (field.hasError('required')) {
+        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">
+            This field is required
+        </span>
+    }
+
+    @else if (field.hasError('email')) {
+        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">
+            Invalid email format. Expected format 'example@example.com'
+        </span>
+    }
+
+    @else if (field.hasError('pattern')) {
+        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">
+            {{ patternMessage() ?? 'Invalid format' }}
+        </span>
+    }
+
+    @else if (field.hasError('minlength')) {
+        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">
+            Must contain at least {{ field.getError('minlength').requiredLength }} characters
+        </span>
+    }
+
+    @else if (field.hasError('pastDate')) {
+        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">
+            Date cannot be later than today
+        </span>
+    }
+
+    @else if (field.hasError('max')) {
+        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">
+            This field have wrong value. Max value is {{field.getError('max').max}}
+        </span>
+    }
+}

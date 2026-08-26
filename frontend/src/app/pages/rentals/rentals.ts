@@ -17,6 +17,10 @@ import { PaginationButtons } from '../../shared/components/pagination-buttons/pa
 import { role } from '../../core/models/profile/enums/role';
 import { ActivatedRoute } from '@angular/router';
 import { RentalFilterRequestDTO } from '../../core/models/rentals/rental-filter-request.dto';
+import { AdminService } from '../../core/services/admin/admin-service';
+import { UserFilterCriteriaRequestDTO } from '../../core/models/admin/users/user-filter-criteria-request.dto';
+import { single } from 'rxjs';
+import { WatchFullInfoResponseDTO } from '../../core/models/watches/watch-full-info-response.dto';
 
 @Component({
   selector: 'app-rentals',
@@ -31,6 +35,7 @@ export class Rentals {
   private branchesService = inject(BranchesService);
   private watchesService = inject(WatchesService);
   private route = inject(ActivatedRoute);
+  private adminService = inject(AdminService);
 
   watches = signal<WatchCardResponseDTO[]>([]);
   branches = signal<BranchResponseDTO[]>([]);
@@ -44,9 +49,12 @@ export class Rentals {
   totalPages = signal(0);
 
   admin = input(false);
-  userId = signal<string | null>(null);
+  paramId = signal<string | null>(null);
   role = role;
-  adminId = input<string|null>(null);
+  adminId = input<string | null>(null);
+  user = signal<UserResponseDTO | null>(null);
+  watch = signal<WatchFullInfoResponseDTO | null>(null);
+  isWatchId = signal<boolean>(false);
 
   reloadRental() {
     this.profileService.getMyProfile().subscribe(
@@ -54,42 +62,73 @@ export class Rentals {
         this.profile.set(response);
 
         if (this.profile()?.role == role.ADMIN) {
+
           this.route.paramMap.subscribe(params => {
             const id = params.get('id');
-            this.userId.set(id);
+            this.paramId.set(id);
           });
-          if (this.userId() != null) {
-            const filter: RentalFilterRequestDTO = {
-              userId: this.userId()
-            }
-            this.rentalsService.getRentalsAdmin(this.currentPage(), 15, filter).subscribe(
-              response => {
-                this.rentals.set(response.content)
-              }
-            )
-          }
-          else {
-            this.rentalsService.getMyRentals().subscribe(
-              response => {
-                this.rentals.set(response.content)
-              }
-            )
-          }
-        }
-        else {
-          this.rentalsService.getMyRentals().subscribe(
-            response => {
-              this.rentals.set(response.content)
-            }
-          )
-        }
 
+          if (!this.isWatchId()) {
+            if (this.paramId() != null) {
+              const filter: RentalFilterRequestDTO = {
+                userId: this.paramId()
+              }
+              this.adminService.getUserAdmin(this.paramId()!).subscribe(
+                response => {
+                  this.user.set(response);
+                }
+
+              );
+              this.rentalsService.getRentalsAdmin(this.currentPage(), 15, filter).subscribe(
+                response => {
+                  this.rentals.set(response.content)
+                }
+              )
+            }
+            else {
+              this.rentalsService.getMyRentals().subscribe(
+                response => {
+                  this.rentals.set(response.content)
+                }
+              )
+            }
+          } else {
+            if (this.paramId() != null) {
+              const filter: RentalFilterRequestDTO = {
+                watchId: this.paramId()
+              }
+              this.watchesService.getWatch(this.paramId()!).subscribe(
+                response => {
+                  this.watch.set(response);
+                }
+
+              );
+              this.rentalsService.getRentalsAdmin(this.currentPage(), 15, filter).subscribe(
+                response => {
+                  this.rentals.set(response.content)
+                }
+              )
+            }
+          }
+        }
       }
     )
 
   }
 
   ngOnInit() {
+    this.route.queryParamMap.subscribe(
+      params => {
+        const watchParam = params.get('watch');
+
+        if (watchParam === 'true') {
+          this.isWatchId.set(true);
+        }
+      }
+    )
+
+    console.log(this.isWatchId());
+    console.log(this.paramId());
     this.reloadRental();
 
     this.watchesService.getWatches().subscribe(response => {
@@ -122,7 +161,7 @@ export class Rentals {
   async searchRentals() {
     const filter = this.rentalFilterForm.getRawValue();
 
-    if (this.profile()?.role != role.ADMIN || this.userId == null) {
+    if (this.profile()?.role != role.ADMIN || this.paramId() == null) {
       filter.userId = null;
       console.log("nie admin");
       this.rentalsService.getMyRentals(this.currentPage(), 15, filter).subscribe(
@@ -132,15 +171,20 @@ export class Rentals {
       )
     }
     else {
-      
+
       this.route.paramMap.subscribe(params => {
         const id = params.get('id');
-        this.userId.set(id);
+        this.paramId.set(id);
       });
 
       const filter = this.rentalFilterForm.getRawValue();
 
-      filter.userId = this.userId();
+      if (this.isWatchId()) {
+        filter.watchId = this.paramId();
+      }
+      else {
+        filter.userId = this.paramId();
+      }
 
       this.rentalsService.getRentalsAdmin(this.currentPage(), 15, filter).subscribe(
         response => {

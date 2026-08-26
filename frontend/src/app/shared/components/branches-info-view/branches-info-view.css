@@ -1,3 +1,19 @@
-.disabledButton{
-    display: none;
+/* Stylowanie pól input w trybie edycji wewnątrz karty */
+input.form-control:focus, select.form-select:focus {
+  border-color: #bfa130 !important;
+  box-shadow: none;
+}
+
+/* Klasa obsługująca ukrywanie przycisków za pomocą Twojej zmiennej buttonVanish */
+.disabledButton {
+  display: none !important;
+}
+
+/* Delikatne przejście dla interakcji z kartą */
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
 }

@@ -1,27 +1,162 @@
-<form [formGroup]="criteriaForm">
-    <input type="text" placeholder="city" formControlName="city">
-    <input type="text" placeholder="name" formControlName="name" >
-    <input type="text" placeholder="address" formControlName="address">
-    @if(profile()?.role === "ADMIN")
-    {
-        <input type="text" placeholder="phone number" formControlName="phoneNumber">
-        <input type="text" placeholder="email"  formControlName="email">
-        <select  formControlName="status">
-            @for ( status of branchOptions; track $index)
-            {
-                <option [value]="status">{{status}}</option>
-            }
-        </select>
+<div class="container py-5">
+    
+    <!-- Nagłówek oraz przycisk dodawania oddziału -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px;">
+                Zarządzanie
+            </span>
+            <h2 class="h3 text-dark fw-light mb-0">
+                Wyszukiwanie oddziałów
+            </h2>
+        </div>
+
+        <!-- Przycisk dodawania oddziału -->
+         @if(profile()?.role === "ADMIN" && profile()) {
+        <div>
+            <button
+                routerLink="/branches/create"
+                class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 transition-all shadow-none"
+                style="background-color: #1a1a1a; letter-spacing: 0.15em; font-size: 0.75rem;">
+                + Dodaj oddział
+            </button>
+        </div>
     }
-    <button (click)="save()">szukaj</button>
-</form>
+    </div>
 
-@for (branch of branches(); track branch.id)
-{
-    <app-branches-info-view
-    [branch]="branch"
-    [role]="profile()?.role"
-    (branchUpdated)="reloadBranches()">
+    <!-- Formularz kryteriów -->
+    <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
+        <form [formGroup]="criteriaForm">
 
-    </app-branches-info-view>
-}
+            <div class="row g-4">
+                <!-- City -->
+                <div class="col-12 col-md-4">
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Miasto
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;"
+                        formControlName="city"
+                        placeholder="np. Warszawa"
+                    />
+                </div>
+
+                <!-- Name -->
+                <div class="col-12 col-md-4">
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Nazwa
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;"
+                        formControlName="name"
+                        placeholder="np. Centrala"
+                    />
+                </div>
+
+                <!-- Address -->
+                <div class="col-12 col-md-4">
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Adres
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;"
+                        formControlName="address"
+                        placeholder="np. Marszałkowska"
+                    />
+                </div>
+
+                @if(profile()?.role === "ADMIN") {
+                    <!-- Phone Number -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Numer telefonu
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;"
+                            formControlName="phoneNumber"
+                            placeholder="np. +48..."
+                        />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Email
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;"
+                            formControlName="email"
+                            placeholder="np. kontakt@..."
+                        />
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Status
+                        </label>
+                        <select
+                            class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;"
+                            formControlName="status">
+                            <option [ngValue]="null">Wszystkie</option>
+                            @for (status of branchOptions; track $index) {
+                                <option [value]="status">{{ status }}</option>
+                            }
+                        </select>
+                    </div>
+                }
+            </div>
+
+            <!-- Przyciski Szukaj / Wyczyść -->
+            <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
+                <button
+                    type="submit"
+                    class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none flex-grow-1"
+                    style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 80%;"
+                    (click)="save()">
+                    Szukaj oddziałów
+                </button>
+                <button
+                    type="button"
+                    class="btn text-uppercase fw-semibold py-3 text-dark bg-transparent border border-dark rounded-0 transition-all shadow-none"
+                    style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 150px;"
+                    (click)="resetFilters()">
+                    Wyczyść
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Liczba wyników i wyświetlanie JEDEN POD DRUGIM -->
+    <div class="mb-4">
+        <p class="text-secondary small text-uppercase mb-4" style="letter-spacing: 1.5px; font-size: 0.7rem;">
+            Znalezione oddziały: <span class="fw-bold text-dark">{{ branches().length }}</span>
+        </p>
+
+        <!-- Kontener z elementami w kolumnie (jeden pod drugim) -->
+        <div class="d-flex flex-column gap-3">
+            @for (branch of branches(); track branch.id) {
+                <div class="w-100">
+                    <app-branches-info-view
+                        [branch]="branch"
+                        [role]="profile()?.role"
+                        (branchUpdated)="reloadBranches()">
+                    </app-branches-info-view>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

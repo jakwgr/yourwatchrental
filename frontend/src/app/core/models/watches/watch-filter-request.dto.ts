@@ -5,6 +5,7 @@ import { WatchStatus } from './enums/watch-status';
 import { WatchType } from './enums/watch-type';
 
 export interface WatchFilterRequestDTO {
+    watchId?: string | null;
     manufacturer?: string | null;
     model?: string | null;
     referenceNumber?: string | null;

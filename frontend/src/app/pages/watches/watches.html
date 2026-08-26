@@ -1,13 +1,27 @@
 <div class="container py-5">
     
-    <!-- Nagłówek -->
-    <div class="mb-4">
-        <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px;">
-            Kolekcja
-        </span>
-        <h2 class="h3 text-dark fw-light">
-            Wyszukiwanie i filtrowanie
-        </h2>
+        <!-- Nagłówek oraz przycisk dodawania oddziału -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px;">
+                Kolekcja
+            </span>
+            <h2 class="h3 text-dark fw-light mb-0">
+                Wyszukiwanie zegarków
+            </h2>
+        </div>
+
+        <!-- Przycisk dodawania oddziału -->
+         @if(profile()?.role === "ADMIN" && profile()) {
+        <div>
+            <button
+                routerLink="/watches/create"
+                class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 transition-all shadow-none"
+                style="background-color: #1a1a1a; letter-spacing: 0.15em; font-size: 0.75rem;">
+                + Dodaj zegarek
+            </button>
+        </div>
+    }
     </div>
 
     <!-- Formularz filtrowania -->
@@ -136,7 +150,7 @@
                             formControlName="gender">
                             <option [ngValue]="null">Wszystkie</option>
                             @for (gender of genderOptions; track gender) {
-                                <option [value]="gender">{{ gender }}</option>
+                                <option [value]="gender">{{ genderLabels[gender] }}</option>
                             }
                         </select>
                     </div>
@@ -150,9 +164,9 @@
                             class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="movementType">
-                            <option [ngValue]="null">Wszystkie</option>
+                            <option [ngValue]="null" disabled>Wszystkie</option>
                             @for (movementType of movementTypeOptions; track movementType) {
-                                <option [value]="movementType">{{ movementType }}</option>
+                                <option [value]="movementType">{{ movementTypeLabels[movementType] }}</option>
                             }
                         </select>
                     </div>
@@ -166,9 +180,9 @@
                             class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="status">
-                            <option [ngValue]="null">Wszystkie</option>
+                            <option [ngValue]="null" disabled>Wszystkie</option>
                             @for (status of statusOptions; track status) {
-                                <option [value]="status">{{ status }}</option>
+                                <option [value]="status">{{ statusLabels[status] }}</option>
                             }
                         </select>
                     </div>
@@ -182,9 +196,9 @@
                             class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="watchType">
-                            <option [ngValue]="null">Wszystkie</option>
+                            <option [ngValue]="null" disabled>Wszystkie</option>
                             @for (watchType of watchTypeOptions; track watchType) {
-                                <option [value]="watchType">{{ watchType }}</option>
+                                <option [value]="watchType">{{ watchTypeLabels[watchType] }}</option>
                             }
                         </select>
                     </div>
@@ -198,7 +212,7 @@
                             class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="branchId">
-                            <option [ngValue]="null">Wszystkie oddziały</option>
+                            <option [ngValue]="null" disabled>Wszystkie oddziały</option>
                             @for (branch of branches(); track branch.id) {
                                 <option [value]="branch.id">{{ branch.name }}</option>
                             }
@@ -237,8 +251,8 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <p class="text-secondary small text-uppercase mb-0"
                style="letter-spacing: 1.5px; font-size: 0.7rem;">
-                Znalezione zegarki:
-                <span class="fw-bold text-dark">{{ watches().length }}</span>
+                Znalezione zegarki na tej stronie:
+                <span class="fw-bold text-dark">{{ watches().length }}/9</span>
             </p>
         </div>
 
@@ -247,7 +261,8 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <app-watch-card
                         [watch]="watch"
-                        (watchUpdated)="loadWatches()">
+                        (watchUpdated)="loadWatches()"
+                        [editWatchPhotos]="editWatchPhotos()">
                     </app-watch-card>
                 </div>
             }

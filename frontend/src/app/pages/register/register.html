@@ -42,11 +42,9 @@
                             <input type="text" class="form-control bg-light text-dark shadow-none py-2 px-3 border-0"
                                 formControlName="firstName" placeholder="Wpisz imię"
                                 style="border-bottom: 2px solid #e0e0e0 !important;" />
-                            @if (registerForm.controls.firstName.touched &&
-                            registerForm.controls.firstName.hasError('required')) {
-                            <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">First name is
-                                required</span>
-                            }
+                                                    <app-form-error
+                                [control]="registerForm.controls.firstName">
+                            </app-form-error>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label text-uppercase small text-secondary"
@@ -54,11 +52,8 @@
                             <input type="text" class="form-control bg-light text-dark shadow-none py-2 px-3 border-0"
                                 formControlName="lastName" placeholder="Wpisz nazwisko"
                                 style="border-bottom: 2px solid #e0e0e0 !important;" />
-                            @if (registerForm.controls.lastName.touched &&
-                            registerForm.controls.lastName.hasError('required')) {
-                            <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Last name is
-                                required</span>
-                            }
+                            <app-form-error
+                            [control]="registerForm.controls.lastName"> </app-form-error>
                         </div>
                     </div>
                     <!-- Data urodzenia -->
@@ -67,16 +62,8 @@
                             urodzenia *</label>
                         <input type="date" class="form-control bg-light text-dark shadow-none py-2 px-3 border-0"
                             formControlName="dateOfBirth" style="border-bottom: 2px solid #e0e0e0 !important;" />
-                        @if (registerForm.controls.dateOfBirth.touched &&
-                        registerForm.controls.dateOfBirth.hasError('required')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Date of birth is
-                            required</span>
-                        }
-                        @if (registerForm.controls.dateOfBirth.touched &&
-                        registerForm.controls.dateOfBirth.hasError('pastDate')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Invalid birth
-                            date</span>
-                        }
+                      <app-form-error
+                            [control]="registerForm.controls.dateOfBirth"> </app-form-error>
                     </div>
 
                     <!-- Numer telefonu -->
@@ -84,18 +71,12 @@
                         <label class="form-label text-uppercase small text-secondary" style="font-size: 0.7rem;">Numer
                             telefonu *</label>
                         <input type="tel" class="form-control bg-light text-dark shadow-none py-2 px-3 border-0"
-                            formControlName="phoneNumber" placeholder="np. 123456789" maxlength="9"
+                            formControlName="phoneNumber" placeholder="np. 123456789" maxlength="9" (input)="onlyNumber($event)"
                             style="border-bottom: 2px solid #e0e0e0 !important;" />
-                        @if (registerForm.controls.phoneNumber.touched &&
-                        registerForm.controls.phoneNumber.hasError('required')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Phone number is
-                            required</span>
-                        }
-                        @if (registerForm.controls.phoneNumber.touched &&
-                        registerForm.controls.phoneNumber.hasError('pattern')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Invalid phone number
-                            format. Expected format '123456789'</span>
-                        }
+                        <app-form-error
+                            [control]="registerForm.controls.phoneNumber"
+                            patternMessage="Invalid phone number format. Expected format '123456789'"
+                        />
                     </div>
 
                     <!-- Email -->
@@ -105,14 +86,9 @@
                         <input type="email" class="form-control bg-light text-dark shadow-none py-2 px-3 border-0"
                             formControlName="email" placeholder="twoj@email.com"
                             style="border-bottom: 2px solid #e0e0e0 !important;" />
-                        @if (registerForm.controls.email.touched && registerForm.controls.email.hasError('required')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Email is
-                            required</span>
-                        }
-                        @if (registerForm.controls.email.touched && registerForm.controls.email.hasError('email')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Invalid email
-                            format</span>
-                        }
+                        <app-form-error
+                            [control]="registerForm.controls.email"
+                        />
                     </div>
 
                     <!-- Hasło -->
@@ -122,16 +98,9 @@
                         <input type="password" class="form-control bg-light text-dark shadow-none py-2 px-3 border-0"
                             formControlName="password" placeholder="Minimum 5 znaków"
                             style="border-bottom: 2px solid #e0e0e0 !important;" />
-                        @if (registerForm.controls.password.touched &&
-                        registerForm.controls.password.hasError('required')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Password is
-                            required</span>
-                        }
-                        @if (registerForm.controls.password.touched &&
-                        registerForm.controls.password.hasError('minlength')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Password must contain 5
-                            or more characters</span>
-                        }
+                        <app-form-error
+                            [control]="registerForm.controls.password"
+                        />
                     </div>
 
                     <!-- Przycisk wysyłania (ciemny, elegancki kontrast na białym tle) -->

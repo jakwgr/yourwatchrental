@@ -13,7 +13,8 @@ public class WatchSpecification {
     {
 
         return Specification
-                .<Watch>where(SpecificationUtil.containsStringIgnoreCase("manufacturer", request.manufacturer()))
+                .<Watch>where(SpecificationUtil.equals("id", request.watchId()))
+                        .and(SpecificationUtil.containsStringIgnoreCase("manufacturer", request.manufacturer()))
                 .and(SpecificationUtil.containsStringIgnoreCase("model", request.model()))
                 .and(SpecificationUtil.containsStringIgnoreCase("movement", request.movement()))
                 .and(SpecificationUtil.containsStringIgnoreCase("referenceNumber", request.referenceNumber()))

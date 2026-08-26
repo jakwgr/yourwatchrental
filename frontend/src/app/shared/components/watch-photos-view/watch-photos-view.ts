@@ -1,16 +1,28 @@
-import { Component, computed, inject, input, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
+
 import { WatchesService } from '../../../core/services/watches/watches-service';
+
 import { WatchPhotoResponseDTO } from '../../../core/models/watches/photos/watch-photo-response.dto';
+
 import { PhotoType } from '../../../core/models/watches/photos/photo-type';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { SmallErrorView } from '../small-error-view/small-error-view';
+import { FormError } from '../form-error/form-error';
 
 @Component({
   selector: 'app-watch-photos-view',
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    SmallErrorView,
+    FormError
+  ],
   templateUrl: './watch-photos-view.html',
   styleUrl: './watch-photos-view.css',
 })
 export class WatchPhotosView {
+
   private watchesService = inject(WatchesService);
   private fb = inject(FormBuilder);
 
@@ -19,80 +31,120 @@ export class WatchPhotosView {
   PhotoType = PhotoType;
 
   photos = signal<WatchPhotoResponseDTO[]>([]);
-  photoTypes = signal<PhotoType[]>([PhotoType.FRONT, PhotoType.BACK, PhotoType.FULL])
+
+  photoTypes = signal<PhotoType[]>([
+    PhotoType.FRONT,
+    PhotoType.BACK,
+    PhotoType.FULL
+  ]);
+
+  watchesError = signal<string | null>(null);
+
   reload = output<void>();
 
-  addPhoto = this.fb.group({
-    file: [null as File | null],
-    description: ['']
+  closePhotos = output<boolean>();
+
+  addPhotos = {
+  [PhotoType.FRONT]: this.fb.group({
+    file: [null as File | null, Validators.required],
+    description: ['', Validators.required]
+  }),
+
+  [PhotoType.BACK]: this.fb.group({
+    file: [null as File | null, Validators.required],
+    description: ['', Validators.required]
+  }),
+
+  [PhotoType.FULL]: this.fb.group({
+    file: [null as File | null, Validators.required],
+    description: ['', Validators.required]
   })
+};
 
   photosReload() {
-    this.watchesService.getPhotos(this.watchId()).subscribe(response => {
+  this.watchesError.set(null);
+
+  this.watchesService.getPhotos(this.watchId()).subscribe({
+    next: response => {
       this.photos.set(response);
       console.log(response);
-
-      this.addPhoto.reset({
-      file: null,
-      description: ''
-    });
-    });
-  }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-
-    if (!file) {
-      return;
+    },
+    error: err => {
+      this.watchesError.set(err.error?.message ?? err.message);
     }
+  });
+}
+  onFileSelected(event: Event, photoType: PhotoType) {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
 
-    this.addPhoto.patchValue({
-      file: file
-    });
+  if (!file) {
+    return;
   }
+
+  this.addPhotos[photoType].patchValue({
+    file: file
+  });
+}
+
   add(photoType: PhotoType) {
-    const value = this.addPhoto.getRawValue();
+  const form = this.addPhotos[photoType];
+  const value = form.getRawValue();
 
-    const file = value.file;
-    const description = value.description;
+  const file = value.file;
+  const description = value.description;
 
-    if (file == null) {
-      return;
-    }
+  if (file == null || description == null) {
+    return;
+  }
 
-    if (description == null) {
-      return;
-    }
+  this.watchesError.set(null);
 
-    console.log("file:", file);
-    console.log("photoType:", photoType);
-    console.log("description:", description);
-
-    this.watchesService
-      .uploadPhoto(
-        this.watchId(),
-        file,
-        photoType,
-        description
-      )
-      .subscribe(response => {
+  this.watchesService
+    .uploadPhoto(
+      this.watchId(),
+      file,
+      photoType,
+      description
+    )
+    .subscribe({
+      next: response => {
         this.photos.update(photos => [...photos, response]);
+
+        form.reset({
+          file: null,
+          description: ''
+        });
+
+        this.photosReload();
+        this.reload.emit();
+      },
+      error: err => {
+        this.watchesError.set(err.error?.message ?? err.message);
+      }
+    });
+}
+
+  delete(id: string) {
+    this.watchesError.set(null);
+
+    this.watchesService.deletePhoto(id).subscribe({
+      next: () => {
         this.photosReload();
 
         this.reload.emit();
-      });
-  }
-
-  delete(id: string) {
-    this.watchesService.deletePhoto(id).subscribe(() => {
-      this.photosReload();
-      this.reload.emit();
-    }
-    )
+      },
+      error: err => {
+        this.watchesError.set(err.error?.message ?? err.message);
+      }
+    });
   }
 
   ngOnInit() {
     this.photosReload();
+  }
+
+  close() {
+    this.closePhotos.emit(true);
   }
 }

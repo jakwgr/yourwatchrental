@@ -5,3 +5,11 @@ export enum WatchType{
     PILOT = "PILOT",
     CHRONOGRAPH = "CHRONOGRAPH"
 }
+
+export const WatchTypeLabel: Record<WatchType, string> = {
+    [WatchType.DRESS]: "DRESS",
+    [WatchType.DIVER]: "DIVER",
+    [WatchType.FIELD]: "FIELD",
+    [WatchType.PILOT]: "PILOT",
+    [WatchType.CHRONOGRAPH]: "CHRONOGRAPH"
+};

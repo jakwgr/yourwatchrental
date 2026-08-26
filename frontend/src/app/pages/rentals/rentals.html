@@ -68,7 +68,21 @@
 </form>
 <div class="rentals">
 
-  <h1>Moje wypożyczenia</h1>
+  @if(paramId() != null)
+  {
+    @if(isWatchId() == true)
+    {
+      <h1>wypozyczenia dla zegarka: {{this.watch()?.manufacturer}} {{this.watch()?.model}}</h1>
+    }
+    @else if(isWatchId() == false)
+    {
+    <h1>wypozyczenia uzytkownika: {{this.user()?.firstName}} {{this.user()?.lastName}}</h1>
+    }
+  }
+  @else {
+    <h1>Moje wypożyczenia</h1>
+  }
+  
 
   @for (rental of rentals(); track rental.id) {
 
@@ -76,8 +90,8 @@
 [rental] = "rental"
 (reloadRental)="reloadRental()"
 [admin]="admin()"
-[seeUser]="userId()">
-
+[seeUser]="user()?.id"
+>
 </app-rental-view>
   }
 

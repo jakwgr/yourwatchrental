@@ -16,24 +16,27 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 
-import { WatchGender } from '../../core/models/watches/enums/watch-gender';
-import { WatchMovementType } from '../../core/models/watches/enums/watch-movement-type';
-import { WatchStatus } from '../../core/models/watches/enums/watch-status';
-import { WatchType } from '../../core/models/watches/enums/watch-type';
+import { WatchGender, WatchGenderLabel } from '../../core/models/watches/enums/watch-gender';
+import { WatchMovementType, WatchMovementTypeLabel } from '../../core/models/watches/enums/watch-movement-type';
+import { WatchStatus, WatchStatusLabel } from '../../core/models/watches/enums/watch-status';
+import { WatchType, WatchTypeLabel } from '../../core/models/watches/enums/watch-type';
 
 import { BranchesService } from '../../core/services/branches/branches-service';
 import { BranchShortResponseDTO } from '../../core/models/branch/branch-short-response.dto';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { PaginationButtons } from '../../shared/components/pagination-buttons/pagination-buttons';
+import { ProfileService } from '../../core/services/profile/profile-service';
+import { UserResponseDTO } from '../../core/models/profile/user-response.dto';
+import { single } from 'rxjs';
 
 @Component({
   selector: 'app-watches',
   imports: [
     WatchCard,
     ReactiveFormsModule,
-    PaginationButtons
+    PaginationButtons, RouterLink
   ],
   templateUrl: './watches.html',
   styleUrl: './watches.css',
@@ -43,20 +46,30 @@ export class Watches implements OnInit {
   @ViewChild('watchesSection')
   watchesSection!: ElementRef;
 
+
   private watchesService = inject(WatchesService);
   private fb = inject(FormBuilder);
   private branchesService = inject(BranchesService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private profileService = inject(ProfileService);
 
   // =========================
   // OPCJE FILTRÓW
   // =========================
 
   genderOptions = Object.values(WatchGender);
+  genderLabels = WatchGenderLabel;
+
   movementTypeOptions = Object.values(WatchMovementType);
+  movementTypeLabels = WatchMovementTypeLabel;
+  
   statusOptions = Object.values(WatchStatus);
+  statusLabels = WatchStatusLabel;
+
   watchTypeOptions = Object.values(WatchType);
+  watchTypeLabels = WatchTypeLabel;
+
 
   // =========================
   // FORMULARZ
@@ -64,6 +77,7 @@ export class Watches implements OnInit {
 
   filterForm = this.fb.group({
 
+    watchId: [''],
     manufacturer: [''],
     model: [''],
 
@@ -78,7 +92,7 @@ export class Watches implements OnInit {
     status: this.fb.control<WatchStatus | null>(null),
     watchType: this.fb.control<WatchType | null>(null),
 
-    branchId: ['']
+    branchId: this.fb.control<string | null>(null),
 
   });
 
@@ -86,6 +100,10 @@ export class Watches implements OnInit {
   // SIGNALS
   // =========================
 
+  watchSerial = signal<string | null>(null);
+  editWatchPhotos = signal<boolean>(false);
+  watchId = signal<string | null>(null);
+  profile = signal<UserResponseDTO | null>(null);
   watches = signal<WatchCardResponseDTO[]>([]);
 
   branches = signal<BranchShortResponseDTO[]>([]);
@@ -125,6 +143,7 @@ export class Watches implements OnInit {
   resetFilters() {
 
     this.filterForm.reset({
+      watchId: '',
       manufacturer: '',
       model: '',
 
@@ -139,8 +158,22 @@ export class Watches implements OnInit {
       status: null,
       watchType: null,
 
-      branchId: ''
+      branchId: null
     });
+
+    this.editWatchPhotos.set(false);
+          this.watchId.set(null);
+      this.watchSerial.set(null);
+
+      history.replaceState(
+  {
+    ...history.state,
+    editWatchPhotos: undefined,
+    watchId: undefined,
+    watchSerial: undefined
+  },
+  ''
+);
 
     this.currentPage.set(0);
 
@@ -161,11 +194,19 @@ export class Watches implements OnInit {
 
     this.route.queryParams.subscribe(params => {
 
+      const editWatchPhotos = history.state.editWatchPhotos;
+      const watchId = history.state.watchId;
+      const watchSerial = history.state.watchSerial;
+
+      this.editWatchPhotos.set(editWatchPhotos);
+      this.watchId.set(watchId);
+      this.watchSerial.set(watchSerial);
       // -------------------------
       // ODCZYT FILTRÓW Z URL
       // -------------------------
 
       this.filterForm.patchValue({
+        watchId: params['watchId'] ?? null,
 
         manufacturer: params['manufacturer'] ?? '',
         model: params['model'] ?? '',
@@ -194,9 +235,20 @@ export class Watches implements OnInit {
 
         watchType: params['watchType'] ?? null,
 
-        branchId: params['branchId'] ?? ''
+        branchId: params['branchId'] ?? null
 
       });
+        console.log("test b1")
+
+      if(this.editWatchPhotos() != undefined && this.watchId() != undefined)
+      {
+        console.log("test b2")
+        this.filterForm.patchValue(
+          {
+            watchId: this.watchId()
+          }
+        )
+      }
 
       // -------------------------
       // ODCZYT STRONY Z URL
@@ -214,6 +266,14 @@ export class Watches implements OnInit {
 
       this.loadWatches();
 
+            this.profileService.getMyProfile().subscribe(
+        response => {
+          console.log("jest konto");
+          this.profile.set(response);
+
+        }
+      )
+
     });
 
     this.branchesGenerate();
@@ -228,10 +288,11 @@ export class Watches implements OnInit {
 
     const filter = this.filterForm.getRawValue();
 
+    console.log(filter);
     this.watchesService
       .getWatches(
         this.currentPage(),
-        12,
+        9,
         filter
       )
       .subscribe({
@@ -251,10 +312,6 @@ export class Watches implements OnInit {
       });
 
   }
-
-  // =========================
-  // SZUKANIE
-  // =========================
 
   search() {
 
@@ -284,7 +341,7 @@ export class Watches implements OnInit {
     this.watchesService
       .getWatches(
         0,
-        10,
+        9,
         filter
       )
       .subscribe({
@@ -294,15 +351,6 @@ export class Watches implements OnInit {
           this.watches.set(response.content);
 
           this.totalPages.set(response.totalPages);
-
-          setTimeout(() => {
-
-            this.watchesSection.nativeElement.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-
-          });
 
         },
 
@@ -369,5 +417,7 @@ export class Watches implements OnInit {
     });
 
   }
+
+
 
 }

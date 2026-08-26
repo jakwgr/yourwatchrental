@@ -1,3 +1,49 @@
 .disabledButton{
     display: none;
 }
+
+.watch-gallery-main {
+    width: 100%;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.watch-gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.watch-gallery-thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.watch-gallery-thumbnail {
+    width: 65px;
+    height: 65px;
+    padding: 2px;
+    border: 1px solid #e5e5e5;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.watch-gallery-thumbnail:hover {
+    opacity: 0.75;
+}
+
+.watch-gallery-thumbnail.active {
+    border: 2px solid #1a1a1a;
+}
+
+.watch-gallery-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

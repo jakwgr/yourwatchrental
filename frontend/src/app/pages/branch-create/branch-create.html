@@ -1,54 +1,181 @@
-<form [formGroup]="branchForm" (ngSubmit)="createBranch()">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            
+            <!-- Dodana klasa position-relative, aby przycisk absolutny pozycjonował się względem karty -->
+            <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 position-relative">
+                
+                <!-- Przycisk X w prawym górnym rogu -->
+                <button 
+                    type="button" 
+                    class="btn-close position-absolute top-0 end-0 m-4 shadow-none" 
+                    aria-label="Zamknij"
+                    (click)="onClose()">
+                </button>
 
-    <h2>Dodaj oddział</h2>
+                <!-- Nagłówek -->
+                <div class="mb-4">
+                    <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px; font-size: 0.75rem;">
+                        Zarządzanie
+                    </span>
+                    <h2 class="h3 text-dark fw-light mb-0">
+                        Dodaj oddział
+                    </h2>
+                </div>
 
-    <div>
-        <label for="city">Miasto</label>
-        <input
-            id="city"
-            type="text"
-            formControlName="city"
-        >
+                @if (branchesError()) {
+                <app-small-error-view [message]="branchesError()!" />
+                }
+
+                <!-- Formularz -->
+                <form [formGroup]="branchForm" (ngSubmit)="createBranch()">
+
+                    <!-- Miasto -->
+                    <div class="mb-4">
+                        <label for="city" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Miasto
+                        </label>
+                        <input
+                            id="city"
+                            type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;"
+                            formControlName="city"
+                            placeholder="np. Warszawa"
+                        >
+                        @if (branchForm.get('city')?.touched && branchForm.get('city')?.hasError('required')) {
+                            <div class="text-danger small mt-1" style="font-size: 0.7rem;">Miasto jest wymagane.</div>
+                        }
+                    </div>
+
+                    <!-- Nazwa -->
+                    <div class="mb-4">
+                        <label for="name" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Nazwa
+                        </label>
+                        <input
+                            id="name"
+                            type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;"
+                            formControlName="name"
+                            placeholder="np. Centrala"
+                        >
+                        @if (branchForm.get('name')?.touched && branchForm.get('name')?.hasError('required')) {
+                            <div class="text-danger small mt-1" style="font-size: 0.7rem;">Nazwa jest wymagana.</div>
+                        }
+                    </div>
+
+                    <!-- Adres -->
+                    <div class="mb-4">
+                        <label for="address" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Adres
+                        </label>
+                        <input
+                            id="address"
+                            type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;"
+                            formControlName="addres"
+                            placeholder="np. Marszałkowska 10"
+                        >
+                        @if (branchForm.get('addres')?.touched && branchForm.get('addres')?.hasError('required')) {
+                            <div class="text-danger small mt-1" style="font-size: 0.7rem;">Adres jest wymagany.</div>
+                        }
+                    </div>
+
+                    <!-- Numer telefonu -->
+                    <div class="mb-4">
+                        <label for="phoneNumber" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Numer telefonu
+                        </label>
+                        <input
+                            id="phoneNumber"
+                            type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;"
+                            formControlName="phoneNumber"
+                            placeholder="np. 123456789"
+                            maxlength="9"
+                        >
+                        @if (branchForm.get('phoneNumber')?.touched) {
+                            @if (branchForm.get('phoneNumber')?.hasError('required')) {
+                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Numer telefonu jest wymagany.</div>
+                            } @else if (branchForm.get('phoneNumber')?.hasError('pattern')) {
+                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Numer musi składać się z dokładnie 9 cyfr.</div>
+                            }
+                        }
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-5">
+                        <label for="email" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Email
+                        </label>
+                        <input
+                            id="email"
+                            type="email"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;"
+                            formControlName="email"
+                            placeholder="np. kontakt@..."
+                        >
+                        @if (branchForm.get('email')?.touched) {
+                            @if (branchForm.get('email')?.hasError('required')) {
+                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Email jest wymagany.</div>
+                            } @else if (branchForm.get('email')?.hasError('email')) {
+                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Podaj poprawny adres email.</div>
+                            }
+                        }
+                    </div>
+
+                    <!-- Przycisk zapisu -->
+                    <div>
+                        <button
+                            type="submit"
+                            [disabled]="branchForm.invalid"
+                            [class.opacity-50]="branchForm.invalid"
+                            class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none w-100"
+                            style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem;">
+                            Dodaj oddział
+                        </button>
+                    </div>
+
+                </form>
+
+                <!-- OKNO MODALNE (POUP) PO ZAPISIE -->
+                @if (successModal()) {
+                <div class="position-fixed top-0 start-0 w-100 vh-100 bg-white bg-opacity-95 d-flex flex-column justify-content-center align-items-center p-4 text-center "
+                    style="z-index: 1050; backdrop-filter: blur(2px);">
+
+                    <span class="text-uppercase tracking-widest small fw-bold mb-2"
+                        style="color: #bfa130; letter-spacing: 2px; font-size: 0.7rem;">
+                        Sukces
+                    </span>
+
+                    <h3 class="h4 text-dark fw-light mb-4">
+                        Chcesz dodać kolejny?
+                    </h3>
+
+                    <div class="d-flex gap-3 justify-content-center">
+                        <div class="d-flex gap-3 justify-content-center">
+                            <button type="button" (click)="onConfirmAddAnother(true)"
+                                class="btn text-uppercase fw-semibold px-4 py-2 text-white rounded-0 shadow-none"
+                                style="background-color: #1a1a1a; font-size: 0.75rem; letter-spacing: 1px;">
+                                Tak
+                            </button>
+                            <button type="button" (click)="onConfirmAddAnother(false)"
+                                class="btn btn-outline-dark text-uppercase fw-semibold px-4 py-2 rounded-0 shadow-none"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">
+                                Nie
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                }
+
+            </div>
+
+        </div>
     </div>
-
-    <div>
-        <label for="name">Nazwa</label>
-        <input
-            id="name"
-            type="text"
-            formControlName="name"
-        >
-    </div>
-
-    <div>
-        <label for="address">Adres</label>
-        <input
-            id="address"
-            type="text"
-            formControlName="address"
-        >
-    </div>
-
-    <div>
-        <label for="phoneNumber">Numer telefonu</label>
-        <input
-            id="phoneNumber"
-            type="text"
-            formControlName="phoneNumber"
-        >
-    </div>
-
-    <div>
-        <label for="email">Email</label>
-        <input
-            id="email"
-            type="email"
-            formControlName="email"
-        >
-    </div>
-
-    <button type="submit">
-        Dodaj oddział
-    </button>
-
-</form>
+</div>

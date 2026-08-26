@@ -1,0 +1,14 @@
+/* Dodatkowe delikatne style pasujące do konwencji */
+.form-control:focus, .form-select:focus {
+  border-color: #bfa130 !important;
+  box-shadow: none;
+}
+
+/* Płynne przejścia dla interakcji */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+button[type="button"]:hover {
+  background-color: #bfa130 !important;
+}

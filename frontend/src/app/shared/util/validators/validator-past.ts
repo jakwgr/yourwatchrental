@@ -9,8 +9,9 @@ export function pastDateValidator(control: AbstractControl): ValidationErrors | 
     const today = new Date();
 
     today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
 
-    return selectedDate < today
-        ? null
-        : { pastDate: true };
+    return selectedDate <= today
+        ? { pastDate: true }
+        : null;
 }

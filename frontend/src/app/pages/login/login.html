@@ -25,14 +25,9 @@
                         <input type="email" class="form-control bg-light text-dark shadow-none py-2 px-3 border-0"
                             formControlName="email" placeholder="twoj@email.com"
                             style="border-bottom: 2px solid #e0e0e0 !important;" />
-                        @if (loginForm.controls.email.touched && loginForm.controls.email.hasError('required')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Email is
-                            required</span>
-                        }
-                        @if (loginForm.controls.email.touched && loginForm.controls.email.hasError('email')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Invalid email
-                            format</span>
-                        }
+                        <app-form-error
+                            [control]="loginForm.controls.email"
+                        />
                     </div>
 
                     <!-- Hasło -->
@@ -42,14 +37,9 @@
                         <input type="password" class="form-control bg-light text-dark shadow-none py-2 px-3 border-0"
                             formControlName="password" placeholder="Wpisz hasło"
                             style="border-bottom: 2px solid #e0e0e0 !important;" />
-                        @if (loginForm.controls.password.touched && loginForm.controls.password.hasError('required')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Password is
-                            required</span>
-                        }
-                        @if (loginForm.controls.password.touched && loginForm.controls.password.hasError('minlength')) {
-                        <span class="d-block text-danger small mt-1" style="font-size: 0.75rem;">Password must contain 5
-                            or more characters</span>
-                        }
+                       <app-form-error
+                            [control]="loginForm.controls.password"
+                        />
                     </div>
 
                     <!-- Przycisk wysyłania -->

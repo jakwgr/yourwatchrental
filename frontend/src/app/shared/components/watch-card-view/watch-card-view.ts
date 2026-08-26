@@ -1,10 +1,11 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { WatchCardResponseDTO } from '../../../core/models/watches/watch-card-response.dto';
 import { WatchFullInfoView } from '../watch-full-info-view/watch-full-info-view';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { WatchesService } from '../../../core/services/watches/watches-service';
 import { WatchPhotoRequestDTO } from '../../../core/models/watches/photos/watch-photo-request.dto';
 import { WatchPhotoResponseDTO } from '../../../core/models/watches/photos/watch-photo-response.dto';
+import { WatchStatus, WatchStatusLabel } from '../../../core/models/watches/enums/watch-status';
 
 @Component({
   selector: 'app-watch-card',
@@ -19,9 +20,23 @@ export class WatchCard {
   wathcesService = inject(WatchesService);
 
   watch = input.required<WatchCardResponseDTO>();
-
+editWatchPhotos = input<boolean>(false);
   watchPhoto = signal<WatchPhotoResponseDTO | null>(null);
   photoLoaded = signal(false);
+
+    status = Object.values(WatchStatus);
+    statusLabels = WatchStatusLabel;
+  
+
+  constructor() {
+  effect(() => {
+    if (this.editWatchPhotos() === true) {
+      this.openFullInfoModal();
+    } else {
+      this.closeFullInfoModal();
+    }
+  });
+}
 
   ngOnInit() {
     this.wathcesService.getThumbnail(this.watch().id).subscribe(

@@ -1,15 +1,17 @@
-import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, input, signal } from '@angular/core';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { first } from 'rxjs';
 import { AuthService } from '../../core/services/auth/auth-service';
 import { pastDateValidator } from '../../shared/util/validators/validator-past'
 import { Router } from '@angular/router';
 import { SmallErrorView } from '../../shared/components/small-error-view/small-error-view';
+import { FormError } from '../../shared/components/form-error/form-error';
+import { onlyNumbers } from '../../shared/util/form-util';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, SmallErrorView],
+  imports: [ReactiveFormsModule, SmallErrorView, FormError],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -26,6 +28,11 @@ registerError = signal<string | null>(null);
     {
       this.router.navigate(['/']);
     }
+  }
+
+  onlyNumber(event: Event)
+  {
+    onlyNumbers(event);
   }
 
   registerForm = this.fb.nonNullable.group({

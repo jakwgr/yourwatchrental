@@ -1,130 +1,316 @@
-<form [formGroup]="watchForm" (ngSubmit)="createWatch()">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
 
-    <h2>Dodaj zegarek</h2>
+            <!-- Główna karta z pozycjonowaniem względnym -->
+            <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 position-relative">
 
-    <label>Producent</label>
-    <input
-        type="text"
-        formControlName="manufacturer"
-        placeholder="Producent"
-    >
+                <!-- Przycisk X w prawym górnym rogu -->
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-4 shadow-none"
+                    aria-label="Zamknij" (click)="onClose()">
+                </button>
 
-    <label>Model</label>
-    <input
-        type="text"
-        formControlName="model"
-        placeholder="Model"
-    >
+                <!-- Nagłówek -->
+                <div class="mb-4">
+                    <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
+                        style="color: #bfa130; letter-spacing: 2px; font-size: 0.75rem;">
+                        Zarządzanie
+                    </span>
+                    <h2 class="h3 text-dark fw-light mb-0">
+                        Dodaj zegarek
+                    </h2>
+                </div>
 
-    <label>Numer referencyjny</label>
-    <input
-        type="text"
-        formControlName="referenceNumber"
-        placeholder="Numer referencyjny"
-    >
+                @if (watchesError()) {
+                <app-small-error-view [message]="watchesError()!" />
+                }
 
-    <label>Numer seryjny</label>
-    <input
-        type="text"
-        formControlName="serialNumber"
-        placeholder="Numer seryjny"
-    >
 
-    <label>Mechanizm</label>
-    <input
-        type="text"
-        formControlName="movement"
-        placeholder="Mechanizm"
-    >
+                <!-- Formularz -->
+                <form [formGroup]="watchForm" (ngSubmit)="createWatch()">
 
-    <label>Opis</label>
-    <textarea
-        formControlName="description"
-        placeholder="Opis zegarka"
-    ></textarea>
+                    <!-- Producent -->
+                    <div class="mb-4">
+                        <label for="manufacturer" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Producent
+                        </label>
+                        <input id="manufacturer" type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="manufacturer"
+                            placeholder="np. Rolex">
+                            <app-form-error
+                            [control]="watchForm.controls.manufacturer"
+                            />
+                    </div>
 
-    <label>Rok produkcji</label>
-    <input
-        type="number"
-        formControlName="yearOfProduction"
-        placeholder="Rok produkcji"
-    >
+                    <!-- Model -->
+                    <div class="mb-4">
+                        <label for="model" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Model
+                        </label>
+                        <input id="model" type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="model"
+                            placeholder="np. Submariner">
+                            <app-form-error
+                            [control]="watchForm.controls.model"
+                            />
+                    </div>
 
-    <label>Cena za dzień</label>
-    <input
-        type="number"
-        formControlName="pricePerDay"
-        placeholder="Cena za dzień"
-    >
+                    <!-- Numer referencyjny -->
+                    <div class="mb-4">
+                        <label for="referenceNumber" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Numer referencyjny
+                        </label>
+                        <input id="referenceNumber" type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="referenceNumber"
+                            placeholder="np. 126610LN">
+                            <app-form-error
+                            [control]="watchForm.controls.referenceNumber"
+                            />
+                    </div>
 
-    <label>Stan</label>
-    <select formControlName="condition">
-        <option [ngValue]="null">Wybierz stan</option>
+                    <!-- Numer seryjny -->
+                    <div class="mb-4">
+                        <label for="serialNumber" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Numer seryjny
+                        </label>
+                        <input id="serialNumber" type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="serialNumber"
+                            placeholder="Numer seryjny">
+                            <app-form-error
+                            [control]="watchForm.controls.serialNumber"
+                            />
+                    </div>
 
-        @for (condition of conditionOptions; track condition) {
-            <option [value]="condition">
-                {{ condition }}
-            </option>
-        }
-    </select>
+                    <!-- Mechanizm -->
+                    <div class="mb-4">
+                        <label for="movement" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Mechanizm
+                        </label>
+                        <input id="movement" type="text"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="movement"
+                            placeholder="np. Calibre 3235">
+                            <app-form-error
+                            [control]="watchForm.controls.movement"
+                            />
+                    </div>
 
-    <label>Płeć</label>
-    <select formControlName="gender">
-        <option [ngValue]="null">Wybierz płeć</option>
+                    <!-- Opis (nie wymagany) -->
+                    <div class="mb-4">
+                        <label for="description" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Opis <span class="text-muted fw-normal lowercase"
+                                style="font-size: 0.85em;">(opcjonalnie)</span>
+                        </label>
+                        <textarea id="description"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important; resize: none;" rows="3"
+                            formControlName="description" placeholder="Opis zegarka">
+                        </textarea>
+                    </div>
 
-        @for (gender of genderOptions; track gender) {
-            <option [value]="gender">
-                {{ gender }}
-            </option>
-        }
-    </select>
+                    <!-- Rok produkcji -->
+                    <div class="mb-4">
+                        <label for="yearOfProduction" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Rok produkcji
+                        </label>
+                        <input id="yearOfProduction" type="number"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="yearOfProduction"
+                            placeholder="np. 2023">
+                            <app-form-error
+                            [control]="watchForm.controls.yearOfProduction"
+                            />
+                    </div>
 
-    <label>Typ mechanizmu</label>
-    <select formControlName="movementType">
-        <option [ngValue]="null">Wybierz typ mechanizmu</option>
+                    <!-- Cena za dzień -->
+                    <div class="mb-4">
+                        <label for="pricePerDay" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Cena za dzień
+                        </label>
+                        <input id="pricePerDay" type="number"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="pricePerDay"
+                            placeholder="np. 150">
+                            <app-form-error
+                            [control]="watchForm.controls.pricePerDay"
+                            />
+                    </div>
 
-        @for (movementType of movementTypeOptions; track movementType) {
-            <option [value]="movementType">
-                {{ movementType }}
-            </option>
-        }
-    </select>
+                    <!-- Stan -->
+                    <div class="mb-4">
+                        <label for="condition" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Stan
+                        </label>
+                        <select id="condition"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="condition">
+                            <option [ngValue]="null" disabled>Wybierz stan</option>
+                            @for (condition of conditionOptions; track condition) {
+                            <option [value]="condition">{{ conditionLabels[condition] }}</option>
+                            }
+                        </select>
+                        <app-form-error
+                            [control]="watchForm.controls.condition"
+                            />
+                    </div>
 
-    <label>Status</label>
-    <select formControlName="status">
-        <option [ngValue]="null">Wybierz status</option>
+                    <!-- Płeć -->
+                    <div class="mb-4">
+                        <label for="gender" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Płeć
+                        </label>
+                        <select id="gender"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="gender">
+                            <option [ngValue]="null" disabled>Wybierz płeć</option>
+                            @for (gender of genderOptions; track gender) {
+                            <option [value]="gender">{{ genderLabels[gender] }}</option>
+                            }
+                        </select>
+                        <app-form-error
+                            [control]="watchForm.controls.gender"
+                            />
+                    </div>
 
-        @for (status of statusOptions; track status) {
-            <option [value]="status">
-                {{ status }}
-            </option>
-        }
-    </select>
+                    <!-- Typ mechanizmu -->
+                    <div class="mb-4">
+                        <label for="movementType" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Typ mechanizmu
+                        </label>
+                        <select id="movementType"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="movementType">
+                            <option [ngValue]="null" disabled>Wybierz typ mechanizmu</option>
+                            @for (movementType of movementTypeOptions; track movementType) {
+                            <option [value]="movementType">{{ movementTypeLabels[movementType] }}</option>
+                            }
+                        </select>
+                        <app-form-error
+                            [control]="watchForm.controls.movementType"
+                            />
+                    </div>
 
-    <label>Typ zegarka</label>
-    <select formControlName="watchType">
-        <option [ngValue]="null">Wybierz typ zegarka</option>
+                    <!-- Status -->
+                    <div class="mb-4">
+                        <label for="status" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Status
+                        </label>
+                        <select id="status"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="status">
+                            <option [ngValue]="null" disabled>Wybierz status</option>
+                            @for (status of statusOptions; track status) {
+                            <option [value]="status">{{ statusLabels[status] }}</option>
+                            }
+                        </select>
+                        <app-form-error
+                            [control]="watchForm.controls.status"
+                            />
+                    </div>
 
-        @for (watchType of watchTypeOptions; track watchType) {
-            <option [value]="watchType">
-                {{ watchType }}
-            </option>
-        }
-    </select>
+                    <!-- Typ zegarka -->
+                    <div class="mb-4">
+                        <label for="watchType" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Typ zegarka
+                        </label>
+                        <select id="watchType"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="watchType">
+                            <option [ngValue]="null" disabled>Wybierz typ zegarka</option>
+                            @for (watchType of watchTypeOptions; track watchType) {
+                            <option [value]="watchType">{{ watchTypeLabels[watchType] }}</option>
+                            }
+                        </select>
+                        <app-form-error
+                            [control]="watchForm.controls.watchType"
+                            />
+                    </div>
 
-    <label>Oddział</label>
-    <select formControlName="branchId">
-        <option value="">Wybierz oddział</option>
+                    <!-- Oddział -->
+                    <div class="mb-5">
+                        <label for="branchId" class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Oddział
+                        </label>
+                        <select id="branchId"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="branchId">
+                            <option value="" disabled>Wybierz oddział</option>
+                            @for (branch of branchOptions(); track branch.id) {
+                            <option [value]="branch.id">{{ branch.name }} — {{ branch.city }}</option>
+                            }
+                        </select>
+                        <app-form-error
+                            [control]="watchForm.controls.branchId"
+                            />
+                    </div>
 
-        @for (branch of branchOptions(); track branch.id) {
-            <option [value]="branch.id">
-                {{ branch.name }} — {{ branch.city }}
-            </option>
-        }
-    </select>
+                    <!-- Przycisk zapisu -->
+                    <div>
+                        <button type="submit" [disabled]="watchForm.invalid" [class.opacity-50]="watchForm.invalid"
+                            class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none w-100"
+                            style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem;">
+                            Dodaj zegarek
+                        </button>
+                    </div>
 
-    <button type="submit">
-        Dodaj zegarek
-    </button>
+                </form>
 
-</form>
+                <!-- OKNO MODALNE (POUP) PO ZAPISIE -->
+                @if (successModal()) {
+                <div class="position-fixed top-0 start-0 w-100 vh-100 bg-white bg-opacity-95 d-flex flex-column justify-content-center align-items-center p-4 text-center"
+                    style="z-index: 1050; backdrop-filter: blur(2px);">
+
+                    <span class="text-uppercase tracking-widest small fw-bold mb-2"
+                        style="color: #bfa130; letter-spacing: 2px; font-size: 0.7rem;">
+                        Sukces
+                    </span>
+
+                    <h3 class="h4 text-dark fw-light mb-4">
+                        Chcesz dodać kolejny?
+                    </h3>
+
+                    <div class="d-flex gap-3 justify-content-center">
+                        <div class="d-flex gap-3 justify-content-center">
+                            <button type="button" (click)="onConfirmAddAnother(1)"
+                                class="btn text-uppercase fw-semibold px-4 py-2 text-white rounded-0 shadow-none"
+                                style="background-color: #1a1a1a; font-size: 0.75rem; letter-spacing: 1px;">
+                                Tak
+                            </button>
+                            <button type="button" (click)="onConfirmAddAnother(2)"
+                                class="btn btn-outline-dark text-uppercase fw-semibold px-4 py-2 rounded-0 shadow-none"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">
+                                Nie
+                            </button>
+                            <button type="button" (click)="onConfirmAddAnother(3)"
+                                class="btn btn-outline-dark text-uppercase fw-semibold px-4 py-2 rounded-0 shadow-none"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">
+                                Chcę dodać zdjęcia
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>

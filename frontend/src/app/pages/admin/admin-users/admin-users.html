@@ -1,45 +1,123 @@
-<form [formGroup]="filterForm" (ngSubmit)="search()">
+<div class="container py-5">
+    
+    <!-- Nagłówek -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px;">
+                Zarządzanie
+            </span>
+            <h2 class="h3 text-dark fw-light mb-0">
+                Wyszukiwanie użytkowników
+            </h2>
+        </div>
+    </div>
 
-    <input
-        type="text"
-        formControlName="firstName"
-        placeholder="Imie"
-    >
+    <!-- Formularz kryteriów -->
+    <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
+        <form [formGroup]="filterForm" (ngSubmit)="search()">
 
-    <input
-        type="text"
-        formControlName="lastName"
-        placeholder="nawisko"
-    >
+            <div class="row g-4">
+                <!-- Imię -->
+                <div class="col-12 col-md-3">
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Imię
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;"
+                        formControlName="firstName"
+                        placeholder="np. Jan"
+                    />
+                </div>
 
-    <input
-        type="email"
-        formControlName="email"
-        placeholder="email"
-    >
+                <!-- Nazwisko -->
+                <div class="col-12 col-md-3">
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Nazwisko
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;"
+                        formControlName="lastName"
+                        placeholder="np. Kowalski"
+                    />
+                </div>
 
-    <input
-        type="number"
-        formControlName="phoneNumber"
-        placeholder="nr telefonu"
-    >
+                <!-- Email -->
+                <div class="col-12 col-md-3">
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;"
+                        formControlName="email"
+                        placeholder="np. jan@example.com"
+                    />
+                </div>
 
-    <button type="submit">
-        Szukaj
-    </button>
->
+                <!-- Numer telefonu -->
+                <div class="col-12 col-md-3">
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Numer telefonu
+                    </label>
+                    <input
+                        type="number"
+                        class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;"
+                        formControlName="phoneNumber"
+                        placeholder="np. +48..."
+                    />
+                </div>
+            </div>
 
-<p>
-    @for (user of users(); track user.id)
-    {
-        @if(user.id != profile()?.id)
-        {
-            <app-user-view
-            [profile]="user"
-             (profileUpdated)="loadProfile()">
+            <!-- Przyciski Szukaj / Wyczyść -->
+            <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
+                <button
+                    type="submit"
+                    class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none flex-grow-1"
+                    style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 80%;">
+                    Szukaj użytkowników
+                </button>
+                <button
+                    type="button"
+                    class="btn text-uppercase fw-semibold py-3 text-dark bg-transparent border border-dark rounded-0 transition-all shadow-none"
+                    style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 150px;"
+                    (click)="filterForm.reset()">
+                    Wyczyść
+                </button>
+            </div>
 
-            </app-user-view>
-        }
-        
-    }
-</p>
+        </form>
+    </div>
+
+    <!-- Liczba wyników i wyświetlanie JEDEN POD DRUGIM -->
+    <div class="mb-4">
+        <p class="text-secondary small text-uppercase mb-4" style="letter-spacing: 1.5px; font-size: 0.7rem;">
+            Znalezione profile: <span class="fw-bold text-dark">{{ users().length }}</span>
+        </p>
+
+        <!-- Kontener z elementami w kolumnie (jeden pod drugim) -->
+        <div class="d-flex flex-column gap-3">
+            @for (user of users(); track user.id) {
+                @if (user.id != profile()?.id) {
+                    <div class="w-100">
+                        <app-user-view
+                            [profile]="user"
+                            (profileUpdated)="loadProfile()">
+                        </app-user-view>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <app-pagination-buttons
+        [currentPage]="currentPage()"
+        [totalPages]="totalPages()"
+        (previous)="previousPage()"
+        (next)="nextPage()">
+    </app-pagination-buttons>
+</div>

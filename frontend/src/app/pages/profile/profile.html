@@ -1,9 +1,6 @@
-<p>profile works!</p>
 @if (profile(); as data)
 {
     <app-profile-view
     [profile]="data">
     </app-profile-view>
 }
-
-<button (click)="logout()" routerLink="/">Logout</button>

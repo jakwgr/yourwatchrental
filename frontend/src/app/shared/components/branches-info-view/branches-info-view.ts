@@ -43,6 +43,7 @@ export class BranchesInfoView {
     status: ['']
   })
 
+
   constructor() {
     effect(() => {
       const branch = this.branch();
@@ -105,7 +106,6 @@ export class BranchesInfoView {
       )
     }
   }
-
 
   cancel() {
     this.saveType = null;
