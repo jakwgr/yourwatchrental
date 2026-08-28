@@ -1,0 +1,89 @@
+.rental-watch {
+    width: 220px;
+}
+
+.rental-dates {
+    width: 190px;
+}
+
+.rental-price {
+    width: 90px;
+}
+
+.rental-status {
+    width: 180px;
+}
+
+.rental-buttons {
+    width: 250px;
+}
+
+.rental-buttons button {
+    font-size: 0.65rem;
+    width: 75px;
+}
+
+.rental-buttons button:last-child {
+    width: 85px;
+}
+
+
+/* TABLET / TELEFON */
+@media (max-width: 991.98px) {
+
+    .rental-watch {
+        width: 200px;
+    }
+
+    .rental-dates {
+        width: 170px;
+    }
+
+    .rental-price {
+        width: 80px;
+    }
+
+    .rental-status {
+        width: 170px;
+    }
+
+    .rental-buttons {
+        width: auto;
+        margin-left: 0 !important;
+    }
+}
+
+
+/* MAŁY TELEFON */
+@media (max-width: 767.98px) {
+
+    .rental-watch {
+        width: calc(100% - 100px);
+    }
+
+    .rental-dates {
+        width: 100%;
+        text-align: left !important;
+    }
+
+    .rental-price {
+        width: 100px;
+        text-align: left !important;
+    }
+
+    .rental-status {
+        width: 100%;
+        justify-content: flex-start !important;
+    }
+
+    .rental-buttons {
+        width: 100%;
+        margin-left: 0 !important;
+    }
+
+    .rental-buttons button {
+        flex: 1;
+        width: auto !important;
+    }
+
+}

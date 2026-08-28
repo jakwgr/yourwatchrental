@@ -3,13 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WatchesService } from '../../core/services/watches/watches-service';
 import { WatchFullInfoResponseDTO } from '../../core/models/watches/watch-full-info-response.dto';
 import { WatchCalendar } from '../../shared/components/watch-calendar/watch-calendar';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { PaymentMethod } from '../../core/models/rentals/payment-method';
 import { date } from '@primeuix/themes/aura/datepicker';
 import { DatePipe } from '@angular/common';
 import { RentalsService } from '../../core/services/rentals/rentals-service';
 import { RentalRequestDTO } from '../../core/models/rentals/rental-request.dto';
+import { SmallErrorView } from '../../shared/components/small-error-view/small-error-view';
 
 // import {}
 
@@ -17,7 +18,7 @@ import { RentalRequestDTO } from '../../core/models/rentals/rental-request.dto';
   selector: 'app-rental-create',
   imports: [WatchCalendar,
     ReactiveFormsModule,
-    DatePipe],
+    DatePipe, SmallErrorView],
     providers: [DatePipe],
   templateUrl: './rental-create.html',
   styleUrl: './rental-create.css',
@@ -29,7 +30,7 @@ export class RentalCreate {
   private fb = inject(FormBuilder);
   private rentalsService = inject(RentalsService);
   private datePipe = inject(DatePipe);
-
+rentalError = signal<string | null>(null);
   fullPrice = signal<number>(-1);
 
   paymentMethodOptions = Object.values(PaymentMethod);
@@ -58,7 +59,9 @@ export class RentalCreate {
   reloadSummary(type: boolean) {
     if (type === false) { this.closeRentalModal(); }
   }
-
+closeRentalError() {
+  this.rentalError.set(null);
+}
   getWatchInfo() {
     const watch = this.route.snapshot.paramMap.get('id');
     if (watch != null) {
@@ -75,59 +78,122 @@ export class RentalCreate {
   }
 
   calculatePrice() {
-    const startDate = this.datePickerStartDate();
-    const endDate = this.datePickerEndDate();
-    const watch = this.watchInfo();
+  const startDate = this.datePickerStartDate();
+  const endDate = this.datePickerEndDate();
+  const watch = this.watchInfo();
 
-    if (startDate === null || endDate === null || watch === null) {
-      return;
-    }
-
-    const millisecondsPerDay = 1000 * 60 * 60 * 24;
-
-    const days =
-      Math.round(
-        (endDate.getTime() - startDate.getTime()) / millisecondsPerDay
-      ) + 1;
-
-    this.amoutOfDays.set(days);
-
-    this.fullPrice.set(watch.pricePerDay * days);
+  if (startDate === null || endDate === null || watch === null) {
+    return;
   }
+
+  if (endDate < startDate) {
+    this.amoutOfDays.set(0);
+    this.fullPrice.set(-1);
+    return;
+  }
+
+  const millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+  const days =
+    Math.round(
+      (endDate.getTime() - startDate.getTime()) / millisecondsPerDay
+    ) + 1;
+
+  this.amoutOfDays.set(days);
+  this.fullPrice.set(watch.pricePerDay * days);
+}
 
   showRentalModal = signal(false);
 
   openRentalModal() {
-    this.showRentalModal.set(true);
+  if (
+    this.datePickerStartDate() === null ||
+    this.datePickerEndDate() === null ||
+    this.amoutOfDays() <= 0
+  ) {
+    return;
   }
+
+  this.showRentalModal.set(true);
+}
 
   closeRentalModal() {
     this.showRentalModal.set(false);
   }
 
   rentalForm = this.fb.group({
-    paymentMethod: [PaymentMethod.CASH]
+    paymentMethod: [PaymentMethod.CASH, Validators.required]
   })
 
   ngOnInit() {
     this.getWatchInfo();
   }
 
-  createRental()
-  {
-    const paymentMethodForm = this.rentalForm.getRawValue();
-    if(paymentMethodForm == null) return;
-    const rentalRequest: RentalRequestDTO = {
-      startDate: this.datePipe.transform(this.datePickerStartDate(), 'yyyy-MM-dd')!.toString(),
-      endDate: this.datePipe.transform(this.datePickerEndDate(), 'yyyy-MM-dd')!.toString(),
-      paymentMethod: paymentMethodForm.paymentMethod!,
-      watchId: this.watchInfo()!.id
-    }
+  createRental() {
 
-    this.rentalsService.createRental(rentalRequest).subscribe(
-      response => {
-        console.log(response);
-      }
-    )
+  if (
+    this.rentalForm.invalid ||
+    this.datePickerStartDate() === null ||
+    this.datePickerEndDate() === null ||
+    this.watchInfo() === null
+  ) {
+    return;
   }
+
+  const value = this.rentalForm.getRawValue();
+
+  const rentalRequest: RentalRequestDTO = {
+    startDate: this.datePipe.transform(
+      this.datePickerStartDate(),
+      'yyyy-MM-dd'
+    )!,
+    endDate: this.datePipe.transform(
+      this.datePickerEndDate(),
+      'yyyy-MM-dd'
+    )!,
+    paymentMethod: value.paymentMethod!,
+    watchId: this.watchInfo()!.id
+  };
+
+  this.rentalsService.createRental(rentalRequest).subscribe({
+    next: response => {
+      console.log(response);
+      this.router.navigate(['/rentals']);
+    },
+
+    error: err => {
+  console.log('BŁĄD WYPOŻYCZENIA:', err);
+  console.log('err.error:', err.error);
+
+  this.closeRentalModal();
+
+  let message = 'Nie udało się utworzyć wypożyczenia.';
+
+  if (err.error?.message) {
+    message = err.error.message;
+  } else if (typeof err.error === 'string') {
+    try {
+      const error = JSON.parse(err.error);
+      message = error.message ?? message;
+    } catch {
+      message = err.error;
+    }
+  }
+
+  // Czyszczenie formularza
+  this.rentalForm.reset({
+    paymentMethod: PaymentMethod.CASH
+  });
+
+  // Czyszczenie wybranych dat i podsumowania
+  this.datePickerStartDate.set(null);
+  this.datePickerEndDate.set(null);
+  this.amoutOfDays.set(0);
+  this.fullPrice.set(-1);
+
+  // Pokazanie błędu
+  this.rentalError.set(message);
+}
+  });
+}
 }

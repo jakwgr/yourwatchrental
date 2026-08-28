@@ -243,7 +243,7 @@ public class UserService {
     public void updateEmailAdmin(UUID userId, UserEmailUpdateAdminRequestDTO request)
     {
 
-        User user = userRepository.findById(securityUtil.getCurrentUserId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(null));
 
         if(request.email().equals(user.getEmail()))

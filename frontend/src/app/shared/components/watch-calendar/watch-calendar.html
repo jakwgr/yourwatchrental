@@ -1,71 +1,246 @@
-<div class="calendar p-2 p-md-3 bg-white border border-light shadow-sm w-100">
+<div class="calendar bg-white border border-dark shadow-sm p-3 p-md-4 w-100">
 
-  <!-- Nagłówek kalendarza -->
-  <div class="calendar-header d-flex justify-content-between align-items-center mb-2 mb-md-3 pb-2 border-bottom">
-    <button type="button" class="btn btn-outline-dark btn-sm rounded-0 px-2 py-0 shadow-none"
-      (click)="monthBefore()">←</button>
+  <!-- Nagłówek -->
 
-    <h2 class="h6 text-uppercase text-dark fw-light mb-0" style="letter-spacing: 1px; font-size: 0.8rem;">
-      {{ currentDate().toLocaleString('pl-PL', { month: 'long', year: 'numeric' }) }}
-    </h2>
+  <div class="calendar-header d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
 
-    <button type="button" class="btn btn-outline-dark btn-sm rounded-0 px-2 py-0 shadow-none"
-      (click)="monthAfter()">→</button>
+
+<button
+  type="button"
+  class="btn btn-outline-dark rounded-0 shadow-none d-flex align-items-center justify-content-center"
+  style="width: 36px; height: 36px;"
+  (click)="monthBefore()">
+  ←
+</button>
+
+<div class="text-center">
+  <div
+    class="text-uppercase text-secondary fw-semibold mb-1"
+    style="font-size: 0.65rem; letter-spacing: 2px;">
+    Dostępność zegarka
+  </div>
+
+  <h2 class="h5 text-dark fw-semibold text-capitalize mb-0">
+    {{ currentDate().toLocaleString('pl-PL', { month: 'long', year: 'numeric' }) }}
+  </h2>
+</div>
+
+<button
+  type="button"
+  class="btn btn-outline-dark rounded-0 shadow-none d-flex align-items-center justify-content-center"
+  style="width: 36px; height: 36px;"
+  (click)="monthAfter()">
+  →
+</button>
+
+
   </div>
 
   <!-- Dni tygodnia -->
-  <div class="weekdays text-secondary text-uppercase fw-medium text-center mb-1"
-    style="font-size: 0.55rem; letter-spacing: 0.5px; display: grid; grid-template-columns: repeat(7, 1fr);">
-    <div>Pn</div>
-    <div>Wt</div>
-    <div>Śr</div>
-    <div>Cz</div>
-    <div>Pt</div>
-    <div>Sb</div>
-    <div>Nd</div>
+
+  <div
+    class="weekdays text-secondary text-uppercase fw-semibold text-center mb-2"
+    style="
+      font-size: 0.68rem;
+      letter-spacing: 1px;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    ">
+
+
+<div>Pn</div>
+<div>Wt</div>
+<div>Śr</div>
+<div>Cz</div>
+<div>Pt</div>
+<div>Sb</div>
+<div>Nd</div>
+
+
   </div>
 
-  <!-- Siatka dni (bez przerw/borderów między nimi) -->
-  <div class="days text-center" style="display: grid; grid-template-columns: repeat(7, 1fr);">
-    @for (day of days; track $index) {
-    <div class="py-2 py-md-1 small cursor-pointer transition-all d-flex align-items-center justify-content-center"
-      style="font-size: 0.75rem; min-height: 32px;" (click)="datePickerClick(day)" [class.available-day]="
-          selectedDateEnd() === null &&
-          isDayInAllowedRange(day)
-        " [class.rented]="isRented(day)" [class.past-day]="isPastDay(day)" [class.selected-day]="isDaySelected(day)">
-      {{ day }}
-    </div>
-    }
+  <!-- Dni -->
+
+  <div
+    class="days"
+    style="
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    ">
+
+
+@for (day of days; track $index) {
+
+  <div
+    class="calendar-day d-flex align-items-center justify-content-center"
+    style="
+      min-height: 42px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    "
+
+    (click)="datePickerClick(day)"
+
+    [class.available-day]="
+      selectedDateEnd() === null &&
+      isDayInAllowedRange(day)
+    "
+
+    [class.rented]="isRented(day)"
+    [class.past-day]="isPastDay(day)"
+    [class.selected-day]="isDaySelected(day)">
+
+    {{ day }}
+
   </div>
 
-  <!-- Przycisk resetu -->
+}
+
+
+  </div>
+
+  <!-- Reset -->
+
+@if (isDatePicker()) {
+
+
+<div class="mt-4 pt-3 border-top">
+
+  <button
+    type="button"
+    class="btn btn-outline-secondary rounded-0 shadow-none w-100 text-uppercase fw-semibold py-2"
+    style="
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+    "
+    (click)="datePickerReset()">
+
+    Wyczyść wybór
+
+  </button>
+
+</div>
+
+
+}
+
+  <!-- Legenda -->
+
+  <div class="mt-4 pt-3 border-top">
+
+
+<div class="text-uppercase text-secondary fw-semibold mb-3 text-center"
+  style="font-size: 0.62rem; letter-spacing: 1.5px;">
+  Legenda
+</div>
+
+<div class="d-flex flex-wrap justify-content-center gap-3 gap-md-4">
+
   @if (isDatePicker()) {
-  <div class="mt-2 text-center">
-    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 w-100 text-uppercase"
-      style="font-size: 0.60rem; letter-spacing: 1px;" (click)="datePickerReset()">
-      Reset
-    </button>
-  </div>
+
+    <!-- Wolny termin -->
+    <div class="d-flex align-items-center gap-2">
+      <span
+        class="d-inline-block border border-secondary"
+        style="
+          width: 12px;
+          height: 12px;
+          background-color: #ffffff;
+        ">
+      </span>
+
+      <span
+        class="text-secondary fw-medium"
+        style="font-size: 0.68rem;">
+        Wolny termin
+      </span>
+    </div>
+
+
+    <!-- Możliwy do wyboru -->
+    <div class="d-flex align-items-center gap-2">
+      <span
+        class="d-inline-block"
+        style="
+          width: 12px;
+          height: 12px;
+          background-color: #fff3cd;
+          border: 1px solid #d6b656;
+        ">
+      </span>
+
+      <span
+        class="text-secondary fw-medium"
+        style="font-size: 0.68rem;">
+        Możliwy do wyboru
+      </span>
+    </div>
+
+
+    <!-- Wybrany -->
+    <div class="d-flex align-items-center gap-2">
+      <span
+        class="d-inline-block"
+        style="
+          width: 12px;
+          height: 12px;
+          background-color: #198754;
+        ">
+      </span>
+
+      <span
+        class="text-secondary fw-medium"
+        style="font-size: 0.68rem;">
+        Wybrany termin
+      </span>
+    </div>
+
   }
 
-  <!-- Mini legenda kolorów -->
-  <div class="d-flex flex-wrap justify-content-center gap-3 mt-3 pt-2 border-top text-secondary text-uppercase"
-    style="font-size: 0.55rem; letter-spacing: 0.5px;">
-    @if(isDatePicker())
-    {
-    <div class="d-flex align-items-center gap-1">
-      <span class="d-inline-block border" style="width: 8px; height: 8px; background-color: yellow;"></span> Dostępny
-    </div>
-    <div class="d-flex align-items-center gap-1">
-      <span class="d-inline-block" style="width: 8px; height: 8px; background-color: green;"></span> Wybrany
-    </div>
-    }
-    <div class="d-flex align-items-center gap-1">
-      <span class="d-inline-block" style="width: 8px; height: 8px; background-color: red;"></span> Wynajęty
-    </div>
-    <div class="d-flex align-items-center gap-1">
-      <span class="d-inline-block" style="width: 8px; height: 8px; background-color: grey;"></span> Miniony
-    </div>
+
+  <!-- Wynajęty -->
+  <div class="d-flex align-items-center gap-2">
+    <span
+      class="d-inline-block"
+      style="
+        width: 12px;
+        height: 12px;
+        background-color: #dc3545;
+      ">
+    </span>
+
+    <span
+      class="text-secondary fw-medium"
+      style="font-size: 0.68rem;">
+      Wynajęty
+    </span>
+  </div>
+
+
+  <!-- Miniony -->
+  <div class="d-flex align-items-center gap-2">
+    <span
+      class="d-inline-block"
+      style="
+        width: 12px;
+        height: 12px;
+        background-color: #adb5bd;
+      ">
+    </span>
+
+    <span
+      class="text-secondary fw-medium"
+      style="font-size: 0.68rem;">
+      Miniony
+    </span>
+  </div>
+
+</div>
+
+
   </div>
 
 </div>

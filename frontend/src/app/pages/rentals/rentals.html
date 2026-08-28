@@ -86,12 +86,12 @@
 
   @for (rental of rentals(); track rental.id) {
 
-    <app-rental-view
-[rental] = "rental"
-(reloadRental)="reloadRental()"
-[admin]="admin()"
-[seeUser]="user()?.id"
->
+<app-rental-view
+    [rental]="rental"
+    [admin]="profile()?.role === role.ADMIN"
+    [seeUser]="adminId()"
+    [user]="user()?.id"
+    (reloadRental)="reloadRental()">
 </app-rental-view>
   }
 

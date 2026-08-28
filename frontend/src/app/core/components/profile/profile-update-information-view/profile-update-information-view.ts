@@ -3,10 +3,14 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 
 import { UserInformationUpdateRequestDTO } from '../../../models/profile/put-patch/user-information-update-request.dto';
 import { UserResponseDTO } from '../../../models/profile/user-response.dto';
+import { pastDateValidator } from '../../../../shared/util/validators/validator-past';
+import { FormError } from '../../../../shared/components/form-error/form-error';
+import { SmallErrorView } from '../../../../shared/components/small-error-view/small-error-view';
+import { onlyNumbers } from '../../../../shared/util/form-util';
 
 @Component({
   selector: 'app-profile-update-information-view',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SmallErrorView, FormError],
   templateUrl: './profile-update-information-view.html',
   styleUrl: './profile-update-information-view.css',
 })
@@ -16,16 +20,21 @@ export class ProfileUpdateInformationView {
 
   close = output<void>();
 
+  error = input<string|null>(null);
+
   updateInformationForm = this.fb.nonNullable.group
   (
     {
-      firstName: ['', []],
-      lastName: ['', []],
-      dateOfBirth: ['', []],
-      phoneNumber: ['', []]
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      dateOfBirth: ['', [Validators.required, pastDateValidator]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]]
     }
   )
-
+  onlyNumbers(event: Event)
+  {
+    onlyNumbers(event);
+  }
   ngOnInit()
   {
     this.updateInformationForm.patchValue({

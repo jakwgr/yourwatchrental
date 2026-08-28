@@ -1,3 +1,6 @@
+import { role } from "./enums/role";
+import { userStatus } from "./enums/user-status";
+
 export interface UserResponseDTO{
     id: string;
     firstName: string;
@@ -6,6 +9,6 @@ export interface UserResponseDTO{
     email: string
     phoneNumber: string;
     createdAt: string;
-    role: string;
-    status: string;
+    role: role;
+    status: userStatus;
 }

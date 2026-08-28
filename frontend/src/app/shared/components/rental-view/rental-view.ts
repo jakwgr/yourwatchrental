@@ -2,9 +2,7 @@ import { Component, inject, input, output, signal } from '@angular/core';
 import { RentalResponseDTO } from '../../../core/models/rentals/rental-response.dto';
 import { PaymentStatus } from '../../../core/models/rentals/payment-status';
 import { RentalStatus } from '../../../core/models/rentals/rental-status';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { value } from '@primeuix/themes/aura/knob';
-import { PaymentMethod } from '../../../core/models/rentals/payment-method';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RentalsService } from '../../../core/services/rentals/rentals-service';
 
 @Component({
@@ -14,8 +12,9 @@ import { RentalsService } from '../../../core/services/rentals/rentals-service';
   styleUrl: './rental-view.css',
 })
 export class RentalView {
+
   rental = input.required<RentalResponseDTO>();
-  admin = input.required<boolean>();  
+  admin = input.required<boolean>();
   seeUser = input<string | null>();
   user = input<string | null>();
 
@@ -26,34 +25,57 @@ export class RentalView {
   paymentStatus = PaymentStatus;
   rentalStatus = RentalStatus;
 
-  
-  cancelRental()
-  {
-    this.rentalsService.cancelRental(this.rental().id).subscribe(
-      response => {
-        this.reloadRental.emit();
-        console.log("dziala " + response);
-      }
-    )
-  }
-
-  payRental()
-  {
-    this.rentalsService.changePaymentStatus(this.rental().id, PaymentStatus.SUCCESSFUL).subscribe(
-    response => {
-        this.reloadRental.emit();
-        console.log("dziala " + response);
-      }
-    )
-  }
-
   rentalViewModal = signal(false);
+
+
+  cancelRental() {
+
+    this.rentalsService.cancelRental(this.rental().id).subscribe({
+      next: response => {
+
+        console.log("Anulowano wypożyczenie", response);
+
+        // Informacja do rodzica, żeby ponownie pobrał wypożyczenia
+        this.reloadRental.emit();
+
+      },
+      error: err => {
+        console.error("Błąd podczas anulowania wypożyczenia", err);
+      }
+    });
+
+  }
+
+
+  payRental() {
+
+    this.rentalsService.changePaymentStatus(
+      this.rental().id,
+      PaymentStatus.SUCCESSFUL
+    ).subscribe({
+      next: response => {
+
+        console.log("Opłacono wypożyczenie", response);
+
+        // Informacja do rodzica, żeby ponownie pobrał wypożyczenia
+        this.reloadRental.emit();
+
+      },
+      error: err => {
+        console.error("Błąd podczas opłacania wypożyczenia", err);
+      }
+    });
+
+  }
+
 
   openRentalModal() {
     this.rentalViewModal.set(true);
   }
 
+
   closeRentalModal() {
     this.rentalViewModal.set(false);
   }
+
 }

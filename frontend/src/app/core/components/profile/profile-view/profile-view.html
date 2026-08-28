@@ -1,114 +1,191 @@
-<div class="bg-white shadow-lg p-4 p-md-5 rounded-0 border-top border-dark border-3 mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+<div class="bg-white rounded-0 border-top border-dark border-3 pb-5 pt-3">
+
+<!-- NAGŁÓWEK -->
+<div class="px-4 px-md-5 pt-4 pt-md-5 pb-4 border-bottom">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
+
         <div>
-            <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px; font-size: 0.70rem;">
+            <span
+                class="text-uppercase fw-bold d-block mb-2"
+                style="color: #bfa130; letter-spacing: 2px; font-size: 0.65rem;">
                 Profil użytkownika
             </span>
-            <h2 class="h3 text-dark fw-light mb-0">
+
+            <h2 class="text-dark fw-light mb-1" style="font-size: 2rem;">
                 {{ profile().firstName }} {{ profile().lastName }}
             </h2>
-        </div>
-        <div class="text-secondary small font-monospace" style="font-size: 0.75rem;">
-            Utworzono: {{ profile().createdAt }}
-        </div>
-    </div>
 
-    <div class="row g-4 mb-4">
-        <div class="col-md-6">
-            <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Numer telefonu</label>
-            <div class="form-control-plaintext text-dark fw-bold py-2 px-3 border-0 rounded-0 border-bottom" style="background-color: rgba(0, 0, 0, 0.01); border-color: #adb5bd !important;">
-                {{ profile().phoneNumber }}
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Data urodzenia</label>
-            <div class="form-control-plaintext text-dark fw-bold py-2 px-3 border-0 rounded-0 border-bottom" style="background-color: rgba(0, 0, 0, 0.01); border-color: #adb5bd !important;">
-                {{ profile().dateOfBirth }}
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Email</label>
-            <div class="form-control-plaintext text-dark fw-bold py-2 px-3 border-0 rounded-0 border-bottom" style="background-color: rgba(0, 0, 0, 0.01); border-color: #adb5bd !important;">
+            <div class="text-secondary" style="font-size: 0.85rem;">
                 {{ profile().email }}
             </div>
         </div>
 
-        <div class="col-md-6">
-            <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Status konta</label>
-            <div class="form-control-plaintext text-dark fw-bold py-2 px-3 border-0 rounded-0 border-bottom" style="background-color: rgba(0, 0, 0, 0.01); border-color: #adb5bd !important;">
-                {{ profile().status }}
-            </div>
+        <div class="text-secondary font-monospace" style="font-size: 0.7rem;">
+            UTWORZONO {{ profile().createdAt }}
         </div>
 
-        <div class="col-md-6">
-            <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Rola użytkownika</label>
-            <div class="form-control-plaintext text-dark fw-bold py-2 px-3 border-0 rounded-0 border-bottom" style="background-color: rgba(0, 0, 0, 0.01); border-color: #adb5bd !important;">
-                {{ profile().role }}
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-5 pt-3 border-top">
-        <div class="d-flex flex-wrap gap-2">
-            <button
-                type="button"
-                class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
-                style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                (click)="openChangePasswordModal()">
-                Zmień hasło
-            </button>
-            <button
-                type="button"
-                class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
-                style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                (click)="openChangeEmailModal()">
-                Zmień email
-            </button>
-            <button
-                type="button"
-                class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
-                style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                (click)="openUpdateInformationModal()">
-                Uaktualnij dane
-            </button>
-            <button
-                type="button"
-                class="btn text-uppercase fw-semibold py-2 px-3 text-white bg-danger border-danger rounded-0 shadow-none"
-                style="letter-spacing: 0.1em; font-size: 0.70rem;"
-                (click)="openSoftDeleteInformationModal()">
-                Usuń konto
-            </button>
-        </div>
     </div>
 </div>
 
+
+<!-- INFORMACJE -->
+<div class="px-4 px-md-5 py-4">
+
+    <div class="row g-0">
+
+        <!-- TELEFON -->
+        <div class="col-md-6 pe-md-4 pb-4 mb-4 border-bottom">
+            <div class="text-uppercase text-secondary fw-medium mb-2"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Numer telefonu
+            </div>
+
+            <div class="text-dark fw-semibold" style="font-size: 1rem;">
+                {{ formatPhoneNumber(profile().phoneNumber) }}
+            </div>
+        </div>
+
+
+        <!-- DATA URODZENIA -->
+        <div class="col-md-6 ps-md-4 pb-4 mb-4 border-bottom">
+            <div class="text-uppercase text-secondary fw-medium mb-2"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Data urodzenia
+            </div>
+
+            <div class="text-dark fw-semibold" style="font-size: 1rem;">
+                {{ profile().dateOfBirth }}
+            </div>
+        </div>
+
+
+        <!-- EMAIL -->
+        <div class="col-md-6 pe-md-4 pb-4 mb-4 border-bottom">
+            <div class="text-uppercase text-secondary fw-medium mb-2"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Adres email
+            </div>
+
+            <div class="text-dark fw-semibold text-break" style="font-size: 1rem;">
+                {{ profile().email }}
+            </div>
+        </div>
+
+
+        <!-- STATUS -->
+        <div class="col-md-6 ps-md-4 pb-4 mb-4 border-bottom">
+            <div class="text-uppercase text-secondary fw-medium mb-2"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Status konta
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <span
+                    class="rounded-circle"
+                    style="width: 7px; height: 7px; background-color: #198754;">
+                </span>
+
+                <span class="text-dark fw-semibold" style="font-size: 1rem;">
+                    {{ userStatusLabel[profile().status] }}
+                </span>
+            </div>
+        </div>
+
+
+        <!-- ROLA -->
+        <div class="col-12 pt-1">
+            <div class="text-uppercase text-secondary fw-medium mb-2"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Rola użytkownika
+            </div>
+
+            <div class="text-dark fw-semibold" style="font-size: 1rem;">
+                {{ roleLabel[profile().role] }}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- AKCJE -->
+<div class="px-4 px-md-5 py-4 border-top" style="background-color: rgba(0, 0, 0, 0.015);">
+
+    <div class="text-uppercase text-secondary fw-medium mb-3"
+        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+        Zarządzanie kontem
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <button
+            type="button"
+            class="btn text-uppercase fw-semibold px-3 py-2 rounded-0 shadow-none"
+            style="background-color: #1a1a1a; color: white; letter-spacing: 0.08em; font-size: 0.68rem;"
+            (click)="openChangePasswordModal()">
+            Zmień hasło
+        </button>
+
+        <button
+            type="button"
+            class="btn text-uppercase fw-semibold px-3 py-2 rounded-0 shadow-none"
+            style="background-color: #1a1a1a; color: white; letter-spacing: 0.08em; font-size: 0.68rem;"
+            (click)="openChangeEmailModal()">
+            Zmień email
+        </button>
+
+        <button
+            type="button"
+            class="btn text-uppercase fw-semibold px-3 py-2 rounded-0 shadow-none"
+            style="background-color: #1a1a1a; color: white; letter-spacing: 0.08em; font-size: 0.68rem;"
+            (click)="openUpdateInformationModal()">
+            Uaktualnij dane
+        </button>
+
+        @if (profile().role !== "ADMIN") {
+            <button
+                type="button"
+                class="btn text-uppercase fw-semibold px-3 py-2 rounded-0 shadow-none"
+                style="background-color: transparent; color: #dc3545; border: 1px solid #dc3545; letter-spacing: 0.08em; font-size: 0.68rem;"
+                (click)="openSoftDeleteInformationModal()">
+                Usuń konto
+            </button>
+        }
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- MODALE -->
+
 @if (showChangePasswordModal()) {
-    <app-profile-change-password-view
-        (close)="closeChangePasswordModal()"
-        (save)="savePassword($event)">
-    </app-profile-change-password-view>
+<app-profile-change-password-view
+(close)="closeChangePasswordModal()"
+(save)="savePassword($event)"
+[error]="passwordError()"> </app-profile-change-password-view>
 }
 
 @if (showChangeEmailModal()) {
-    <app-profile-change-email-view
-        (close)="closeChangeEmailModal()"
-        (save)="saveEmail($event)">
-    </app-profile-change-email-view>
+<app-profile-change-email-view
+(close)="closeChangeEmailModal()"
+(save)="saveEmail($event)"
+[error]="emailError()"> </app-profile-change-email-view>
 }
 
 @if (showUpdateInformationModal()) {
-    <app-profile-update-information-view
-        (close)="closeUpdateInformationModal()"
-        (save)="updateInformation($event)"
-        [profile]="profile()">
-    </app-profile-update-information-view>
+<app-profile-update-information-view
+(close)="closeUpdateInformationModal()"
+(save)="updateInformation($event)"
+[profile]="profile()"
+[error]="informationError()"> </app-profile-update-information-view>
 }
 
 @if (showSoftDeleteAccountModal()) {
-    <app-profile-soft-delete-view
-        (close)="closeSoftDeleteInformationModal()"
-        (save)="softDelete($event)">
-    </app-profile-soft-delete-view>
+<app-profile-soft-delete-view
+(close)="closeSoftDeleteInformationModal()"
+(save)="softDelete($event)"
+[error]="softDeleteError()"> </app-profile-soft-delete-view>
 }

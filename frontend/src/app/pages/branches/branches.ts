@@ -7,6 +7,7 @@ import { BranchesInfoView } from '../../shared/components/branches-info-view/bra
 import { ProfileService } from '../../core/services/profile/profile-service';
 import { UserResponseDTO } from '../../core/models/profile/user-response.dto';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { onlyNumbers } from '../../shared/util/form-util';
 
 @Component({
   selector: 'app-branches',
@@ -37,6 +38,11 @@ export class Branches {
     status : [BranchStatus.ACTIVE as BranchStatus | null]
   })
 
+    onlyNumbers(event: Event)
+  {
+    onlyNumbers(event);
+  }
+  
   save()
   {
     const filter = this.criteriaForm.getRawValue();

@@ -34,7 +34,12 @@
                 }
 
                 @if (formOpen()) {
+                    @if (error()) {
+                            <app-small-error-view [message]="error()!" />
+                        }
                     <form [formGroup]="softDeleteForm" class="mt-3">
+                        <div class="modal-body py-4">
+                            
                         <div class="mb-3">
                             <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                                 Podaj hasło
@@ -44,14 +49,18 @@
                                 class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
                                 style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
                                 formControlName="password"
-                                placeholder="••••••••">
+                                placeholder="••••••••"
+                                >
+                                <app-form-error
+                            [control]="softDeleteForm.controls.password"> </app-form-error>
                         </div>
                         <div class="d-flex gap-2 mt-4">
                             <button
                                 type="button"
                                 class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 shadow-none flex-grow-1"
                                 style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                                (click)="saveSoftDeleteModal()">
+                                (click)="saveSoftDeleteModal()"
+                                [disabled]="softDeleteForm.invalid">
                                 Zmień
                             </button>
                             <button
@@ -61,6 +70,7 @@
                                 (click)="close.emit()">
                                 Cofnij
                             </button>
+                        </div>
                         </div>
                     </form>
                 }

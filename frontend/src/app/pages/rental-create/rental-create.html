@@ -1,62 +1,621 @@
-{{watchInfo()?.manufacturer}}
-{{watchInfo()?.model}} <br>
-{{watchInfo()?.pricePerDay}} zł/dzien
+
+<div class="bg-white rounded-0 border-top border-dark border-3 mb-4">
+
+    <!-- HEADER ZEGARKA -->
+    <div class="p-4 p-md-5 border-bottom">
+
+        <div class="d-flex justify-content-between align-items-start gap-3">
+
+            <div>
+                <div class="text-uppercase fw-semibold mb-2"
+                    style="color: #bfa130; letter-spacing: 2px; font-size: 0.65rem;">
+                    Rezerwacja zegarka
+                </div>
+
+                <h1 class="text-dark fw-light mb-1" style="font-size: 2rem;">
+                    {{ watchInfo()?.manufacturer }}
+                </h1>
+
+                <div class="text-secondary fw-semibold"
+                    style="font-size: 1rem; letter-spacing: 0.5px;">
+                    {{ watchInfo()?.model }}
+                </div>
+            </div>
+
+            <div class="text-end">
+                <div class="text-secondary text-uppercase"
+                    style="font-size: 0.6rem; letter-spacing: 1.5px;">
+                    Cena
+                </div>
+
+                <div class="text-dark fw-light mt-1" style="font-size: 1.6rem;">
+                    <span class="fw-semibold">
+                        {{ watchInfo()?.pricePerDay }}
+                    </span>
+                    zł
+                </div>
+
+                <div class="text-secondary" style="font-size: 0.7rem;">
+                    za dzień
+                </div>
+            </div>
+
+        </div>
+
+        <!-- INFORMACJE O ZEGARKU -->
+        <div class="row g-3 mt-4 pt-4 border-top">
+
+            <div class="col-6 col-md-4">
+                <div class="text-uppercase text-secondary mb-1"
+                    style="font-size: 0.6rem; letter-spacing: 1.3px;">
+                    Numer seryjny
+                </div>
+
+                <div class="text-dark fw-semibold font-monospace"
+                    style="font-size: 0.8rem;">
+                    {{ watchInfo()?.serialNumber }}
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4">
+                <div class="text-uppercase text-secondary mb-1"
+                    style="font-size: 0.6rem; letter-spacing: 1.3px;">
+                    Oddział
+                </div>
+
+                <div class="text-dark fw-semibold"
+                    style="font-size: 0.8rem;">
+                    {{ watchInfo()?.branch?.name }}
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="text-uppercase text-secondary mb-1"
+                    style="font-size: 0.6rem; letter-spacing: 1.3px;">
+                    Odbiór
+                </div>
+
+                <div class="text-dark fw-semibold"
+                    style="font-size: 0.8rem;">
+                    Odbiór osobisty
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
 
-@if (watchInfo(); as watch) {
-    <app-watch-calendar
-    [watch]="watch"
-    [isDatePicker]="true"
-    (datePickerStartFinish)="datePickerStartFinish($event)"
-    (datePickerEndFinish)="datePickerEndFinish($event)"
-    (summaryRental)="reloadSummary($event)">
-    </app-watch-calendar>
+    <!-- KALENDARZ -->
+    <div class="p-4 p-md-5 border-bottom">
+
+        <div class="mb-3">
+            <div class="text-uppercase fw-semibold"
+                style="color: #bfa130; letter-spacing: 1.8px; font-size: 0.65rem;">
+                Dostępność
+            </div>
+
+            <h2 class="h5 text-dark fw-light mb-0 mt-1">
+                Wybierz okres wypożyczenia
+            </h2>
+        </div>
+
+        <div class="border rounded-0 p-3 p-md-4"
+            style="background-color: #fafafa; border-color: #dee2e6 !important;">
+
+            @if (watchInfo(); as watch) {
+
+                <app-watch-calendar
+                    [watch]="watch"
+                    [isDatePicker]="true"
+                    (datePickerStartFinish)="datePickerStartFinish($event)"
+                    (datePickerEndFinish)="datePickerEndFinish($event)"
+                    (summaryRental)="reloadSummary($event)">
+                </app-watch-calendar>
+
+            }
+
+        </div>
+
+    </div>
+
+
+    <!-- WYBRANE DATY -->
+    <div class="p-4 p-md-5 border-bottom">
+
+        <div class="row g-3">
+
+            <!-- START -->
+            <div class="col-md-6">
+
+                <div class="border rounded-0 p-3"
+                    style="background-color: #fafafa; border-color: #dee2e6 !important;">
+
+                    <div class="text-uppercase text-secondary mb-2"
+                        style="font-size: 0.6rem; letter-spacing: 1.5px;">
+                        Początek wypożyczenia
+                    </div>
+
+                    @if (datePickerStartDate() === null) {
+
+                        <div class="text-secondary fst-italic"
+                            style="font-size: 0.85rem;">
+                            Wybierz datę rozpoczęcia
+                        </div>
+
+                    } @else {
+
+                        <div class="text-dark fw-semibold"
+                            style="font-size: 1rem;">
+                            {{ datePickerStartDate() | date:'dd.MM.yyyy' }}
+                        </div>
+
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- KONIEC -->
+            <div class="col-md-6">
+
+                <div class="border rounded-0 p-3"
+                    style="background-color: #fafafa; border-color: #dee2e6 !important;">
+
+                    <div class="text-uppercase text-secondary mb-2"
+                        style="font-size: 0.6rem; letter-spacing: 1.5px;">
+                        Koniec wypożyczenia
+                    </div>
+
+                    @if (datePickerEndDate() === null) {
+
+                        <div class="text-secondary fst-italic"
+                            style="font-size: 0.85rem;">
+                            Wybierz datę zakończenia
+                        </div>
+
+                    } @else {
+
+                        <div class="text-dark fw-semibold"
+                            style="font-size: 1rem;">
+                            {{ datePickerEndDate() | date:'dd.MM.yyyy' }}
+                        </div>
+
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FORMULARZ -->
+    <div class="p-4 p-md-5">
+
+        <form [formGroup]="rentalForm">
+
+            <div class="row g-4">
+
+                <!-- PŁATNOŚĆ -->
+                <div class="col-md-6">
+
+                    <label
+                        class="form-label text-uppercase text-secondary fw-medium mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Metoda płatności
+                    </label>
+
+                    <select
+                        formControlName="paymentMethod"
+                        class="form-select text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;">
+
+                        @for (method of paymentMethodOptions; track $index) {
+
+                            <option [value]="method">
+                                {{ method }}
+                            </option>
+
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <!-- LICZBA DNI -->
+                @if (amoutOfDays() != 0) {
+
+                    <div class="col-md-6">
+
+                        <div class="h-100 px-3 py-2 border-start"
+                            style="border-color: #bfa130 !important;">
+
+                            <div class="text-uppercase text-secondary"
+                                style="font-size: 0.6rem; letter-spacing: 1.5px;">
+                                Okres wypożyczenia
+                            </div>
+
+                            <div class="text-dark fw-semibold mt-1">
+                                {{ amoutOfDays() }} dni
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+
+            <!-- PODSUMOWANIE CENY -->
+            @if (datePickerStartDate() !== null && datePickerEndDate() !== null) {
+
+                <div class="mt-5 border-top py-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <div class="text-uppercase text-secondary"
+                                style="font-size: 0.6rem; letter-spacing: 1.5px;">
+                                Szacowany koszt
+                            </div>
+
+                            <div class="text-secondary mt-1"
+                                style="font-size: 0.75rem;">
+                                {{ amoutOfDays() }} dni ×
+                                {{ watchInfo()?.pricePerDay }} zł
+                            </div>
+                        </div>
+
+                        <div class="text-dark fw-semibold"
+                            style="font-size: 1.7rem;">
+                            {{ fullPrice() }} zł
+                        </div>
+
+                    </div>
+
+                </div>
+
+            }
+
+
+                <div class="mt-4  border-top pt-5">
+
+                    <button
+  type="button"
+  [disabled]="
+    datePickerStartDate() === null ||
+    datePickerEndDate() === null ||
+    amoutOfDays() <= 0
+  "
+  (click)="openRentalModal()"
+  class="btn text-uppercase fw-semibold py-3 px-4 text-white rounded-0 shadow-none w-100"
+                        style="
+                            background-color: #1a1a1a;
+                            letter-spacing: 0.12em;
+                            font-size: 0.7rem;
+                        ">
+
+
+  Podsumowanie wypożyczenia
+
+</button>
+
+                </div>
+
+
+            
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL -->
+@if (showRentalModal()) {
+
+<div class="modal fade show d-block"
+    tabindex="-1"
+    style="background-color: rgba(0, 0, 0, 0.55);">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 rounded-0 shadow-lg">
+
+            <!-- MODAL HEADER -->
+            <div class="modal-header border-0 border-bottom px-4 px-md-5 py-4">
+
+                <div>
+
+                    <div class="text-uppercase fw-semibold mb-1"
+                        style="color: #bfa130; letter-spacing: 1.8px; font-size: 0.6rem;">
+                        Wypożyczenie
+                    </div>
+
+                    <h5 class="modal-title text-dark fw-light mb-0">
+                        Podsumowanie
+                    </h5>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="btn-close shadow-none rounded-0"
+                    aria-label="Close"
+                    (click)="closeRentalModal()">
+                </button>
+
+            </div>
+
+
+            <!-- MODAL BODY -->
+            <div class="modal-body px-4 px-md-5 py-4">
+
+                <!-- ZEGAREK -->
+                <div class="border-bottom pb-4 mb-4">
+
+                    <div class="text-dark fw-semibold"
+                        style="font-size: 1rem;">
+                        {{ watchInfo()?.manufacturer }}
+                        {{ watchInfo()?.model }}
+                    </div>
+
+                    <div class="text-secondary font-monospace mt-1"
+                        style="font-size: 0.7rem;">
+                        Nr seryjny: {{ watchInfo()?.serialNumber }}
+                    </div>
+
+                </div>
+
+
+                <!-- TERMIN -->
+                <div class="row g-3 mb-4">
+
+                    <div class="col-6">
+
+                        <div class="text-uppercase text-secondary mb-1"
+                            style="font-size: 0.6rem; letter-spacing: 1.3px;">
+                            Od
+                        </div>
+
+                        <div class="text-dark fw-semibold"
+                            style="font-size: 0.85rem;">
+                            {{ datePickerStartDate() | date:'dd.MM.yyyy' }}
+                        </div>
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <div class="text-uppercase text-secondary mb-1"
+                            style="font-size: 0.6rem; letter-spacing: 1.3px;">
+                            Do
+                        </div>
+
+                        <div class="text-dark fw-semibold"
+                            style="font-size: 0.85rem;">
+                            {{ datePickerEndDate() | date:'dd.MM.yyyy' }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ODDZIAŁ -->
+                <div class="border p-3 rounded-0 mb-4"
+                    style="background-color: #fafafa; border-color: #dee2e6 !important;">
+
+                    <div class="text-uppercase text-secondary mb-2"
+                        style="font-size: 0.6rem; letter-spacing: 1.3px;">
+                        Miejsce odbioru
+                    </div>
+
+                    <div class="text-dark fw-semibold"
+                        style="font-size: 0.85rem;">
+                        {{ watchInfo()?.branch?.name }}
+                    </div>
+
+                    <div class="text-secondary mt-1"
+                        style="font-size: 0.75rem;">
+                        {{ watchInfo()?.branch?.address }}
+                    </div>
+
+                    <div class="text-secondary fst-italic mt-2"
+                        style="font-size: 0.7rem;">
+                        Zegarek można odebrać wyłącznie w tym oddziale.
+                    </div>
+
+                </div>
+
+
+                <!-- PŁATNOŚĆ -->
+                <div class="border-bottom pb-4 mb-4">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span class="text-secondary"
+                            style="font-size: 0.75rem;">
+                            Metoda płatności
+                        </span>
+
+                        <span class="text-dark fw-semibold"
+                            style="font-size: 0.75rem;">
+                            {{ rentalForm.value.paymentMethod }}
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+
+                        <span class="text-secondary"
+                            style="font-size: 0.75rem;">
+                            Liczba dni
+                        </span>
+
+                        <span class="text-dark fw-semibold"
+                            style="font-size: 0.75rem;">
+                            {{ amoutOfDays() }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CENA -->
+                <div class="d-flex justify-content-between align-items-end">
+
+                    <div class="text-uppercase text-secondary"
+                        style="font-size: 0.6rem; letter-spacing: 1.5px;">
+                        Łączny koszt
+                    </div>
+
+                    <div class="text-dark fw-semibold"
+                        style="font-size: 1.6rem;">
+                        {{ fullPrice() }} zł
+                    </div>
+
+                </div>
+
+
+                <!-- INFORMACJA -->
+                <div class="mt-4 pt-3 border-top">
+
+                    <p class="text-secondary mb-0"
+                        style="font-size: 0.7rem; line-height: 1.6;">
+                        W przypadku płatności na miejscu anulowanie wypożyczenia
+                        wymaga kontaktu z administratorem. W przypadku płatności
+                        kartą wypożyczenie można anulować wyłącznie przed
+                        dokonaniem płatności.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MODAL FOOTER -->
+            <div class="modal-footer border-0 border-top px-4 px-md-5 py-3">
+
+                <button
+                    type="button"
+                    (click)="closeRentalModal()"
+                    class="btn text-uppercase fw-semibold py-2 px-4 text-dark bg-transparent border border-dark rounded-0 shadow-none"
+                    style="letter-spacing: 0.1em; font-size: 0.65rem;">
+
+                    Cofnij
+
+                </button>
+
+                <button
+                    type="button"
+                    (click)="createRental()"
+                    class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 shadow-none"
+                    style="
+                        background-color: #1a1a1a;
+                        letter-spacing: 0.1em;
+                        font-size: 0.65rem;
+                    ">
+
+                    Potwierdź wypożyczenie
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 }
-data startu: 
-@if (datePickerStartDate() === null) {
-    proszę wybrać datę początkową
-} @else {
-    data początku:
-    {{ datePickerStartDate() | date:'dd.MM.yyyy' }}
-}
 
-<br>
+@if (rentalError()) {
 
-@if (datePickerEndDate() === null) {
-    proszę wybrać datę końcową
-} @else {
-    data końca:
-    {{ datePickerEndDate() | date:'dd.MM.yyyy' }}
-}
+    <div
+        class="modal fade show d-block"
+        tabindex="-1"
+        aria-modal="true"
+        role="dialog"
+        style="background-color: rgba(0, 0, 0, 0.55);">
 
-<br>
+        <div class="modal-dialog modal-dialog-centered">
 
-@if (datePickerStartDate() !== null && datePickerEndDate() !== null) {
-    koszt: {{ fullPrice() }}
-}
-<form [formGroup]="rentalForm">
-    <select formControlName="paymentMethod">
-        @for (method of paymentMethodOptions; track $index) {
-            <option [value]="method">{{method}}</option>
-        }
-    </select>
+            <div class="modal-content border-0 rounded-0 shadow-lg">
 
-    @if(amoutOfDays() != 0)
-    {
-    <button (click)="openRentalModal()">podsumowanie wypozyczenia</button>
-    }
-</form>
-<br> <br>
-@if(showRentalModal())
-{
-    PODSUMOWANIE
-    <br>
-    wypozyczony zegarek {{watchInfo()?.manufacturer}}
-{{watchInfo()?.model}} nr ser {{watchInfo()?.serialNumber}}<br>
-{{watchInfo()?.pricePerDay}} zł/dzien, okres wypozyczenia {{ datePickerStartDate() | date:'dd.MM.yyyy' }} do {{ datePickerEndDate() | date:'dd.MM.yyyy' }}, razem dni {{amoutOfDays()}}, łączny koszt to {{ fullPrice() }}. <br><br>Wymagany odbiór zegarka jest w oddziale {{watchInfo()?.branch?.name}} {{watchInfo()?.branch?.address}}. Zegarka nie da się odebrać w innym oddziale.
-Płatność: {{rentalForm.value.paymentMethod}} <br>
-W przpypadku platnosci na miejscu w momencie odwolania trzeba wysylac maila do administratora na adres@email.com. Przy zaplacie karta mozna odwolac wypozyczenie tylko przed uisczeniem opłaty. 
-    <br>
-    <button (click)="closeRentalModal()">cofnij</button>
-    <button (click)="createRental()">wypozycz</button>
+                <!-- HEADER -->
+                <div class="modal-header border-0 border-bottom px-4 px-md-5 py-4">
+
+                    <div>
+
+                        <div
+                            class="text-uppercase fw-semibold mb-1"
+                            style="
+                                color: #bfa130;
+                                letter-spacing: 1.8px;
+                                font-size: 0.6rem;
+                            ">
+                            Wypożyczenie
+                        </div>
+
+                        <h5 class="modal-title text-dark fw-light mb-0">
+                            Nie udało się utworzyć wypożyczenia
+                        </h5>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close shadow-none"
+                        aria-label="Zamknij"
+                        (click)="closeRentalError()">
+                    </button>
+
+                </div>
+
+
+                <!-- BODY -->
+                <div class="modal-body px-4 px-md-5 py-4">
+
+                    <app-small-error-view
+                        [message]="rentalError()!">
+                    </app-small-error-view>
+
+                </div>
+
+
+                <!-- FOOTER -->
+                <div class="modal-footer border-0 border-top px-4 px-md-5 py-3">
+
+                    <button
+                        type="button"
+                        class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 shadow-none"
+                        style="
+                            background-color: #1a1a1a;
+                            letter-spacing: 0.1em;
+                            font-size: 0.65rem;
+                        "
+                        (click)="closeRentalError()">
+
+                        Zamknij
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 }

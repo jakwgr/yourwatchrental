@@ -51,22 +51,14 @@ public class RentalController {
 
     @GetMapping("/my")
     @PreAuthorize("isAuthenticated()")
-    public Page<RentalResponseDTO> getMyRentals(RentalFilterRequestDTO request,
-                                                @PageableDefault(
-                                                        sort = "startDate",
-                                                        direction = Sort.Direction.DESC
-                                                )Pageable page)
+    public Page<RentalResponseDTO> getMyRentals(RentalFilterRequestDTO request, Pageable page)
     {
         return rentalService.getMyRentals(request, page);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Page<RentalResponseDTO> getAllRentals(RentalFilterRequestDTO request,
-                                                 @PageableDefault(
-                                                         sort = "startDate",
-                                                         direction = Sort.Direction.DESC
-                                                 )Pageable page)
+    public Page<RentalResponseDTO> getAllRentals(RentalFilterRequestDTO request, Pageable page)
     {
         return rentalService.getAllRentals(request, page);
     }

@@ -1,147 +1,401 @@
 @if (rental() != null) {
-        <div class="rental-card">
-    <h2>{{ rental().watch.model }}</h2>
 
-    <p>
-        <strong>{{ rental().startDate }}</strong>
-        →
-        <strong>{{ rental().endDate }}</strong>
-    </p>
+   <!-- KRÓTKIE PODSUMOWANIE -->
+<!-- KRÓTKIE PODSUMOWANIE -->
+<div class="bg-white border p-3">
 
-    <p>{{ rental().totalPrice }} zł</p>
+    <div class="d-flex align-items-center gap-3 flex-wrap">
 
-    <p>
-        Wypożyczenie: {{ rental().rentalStatus }}
-    </p>
+        <!-- Zegarek -->
+        <div
+            class="rental-watch"
+            style="flex-shrink: 0;">
+            <span
+                class="text-uppercase text-secondary d-block"
+                style="font-size: 0.55rem; letter-spacing: 1.3px;">
+                Zegarek
+            </span>
 
-    <p>
-        Płatność: {{ rental().paymentStatus }}
-    </p>
+            <div
+                class="text-dark fw-semibold small text-truncate"
+                title="{{ rental().watch.manufacturer }} {{ rental().watch.model }}">
+                {{ rental().watch.manufacturer }}
+                {{ rental().watch.model }}
+            </div>
+        </div>
 
-    @if(rental().paymentStatus === paymentStatus.PENDING &&
-        rental().rentalStatus === rentalStatus.PENDING)
-    {
-        <button (click)="payRental()">
-            Opłać
-        </button>
-    }
 
-    @if(rental().rentalStatus === rentalStatus.PENDING ||
-        rental().rentalStatus === rentalStatus.CONFIRMED)
-    {
-        <button (click)="cancelRental()">
-            Anuluj
-        </button>
-    }
+        <!-- Daty -->
+        <div
+            class="rental-dates text-muted small text-nowrap text-center"
+            style="flex-shrink: 0;">
+            {{ rental().startDate }} → {{ rental().endDate }}
+        </div>
 
-    <button (click)="openRentalModal()">
-        Szczegóły
-    </button>
+
+        <!-- Cena -->
+        <div
+            class="rental-price fw-semibold text-dark small text-nowrap text-center"
+            style="flex-shrink: 0;">
+            {{ rental().totalPrice }} zł
+        </div>
+
+
+        <!-- Statusy -->
+        <div
+            class="rental-status d-flex align-items-center justify-content-center gap-2 text-nowrap"
+            style="flex-shrink: 0;">
+
+            <span class="text-muted" style="font-size: 0.65rem;">
+                {{ rental().rentalStatus }}
+            </span>
+
+            <span class="text-muted" style="font-size: 0.65rem;">
+                •
+            </span>
+
+            <span class="text-muted" style="font-size: 0.65rem;">
+                {{ rental().paymentStatus }}
+            </span>
+
+        </div>
+
+
+        <!-- Przyciski -->
+        <div
+            class="rental-buttons d-flex align-items-center justify-content-end gap-1 ms-auto"
+            style="flex-shrink: 0;">
+
+            @if (
+                rental().paymentStatus === paymentStatus.PENDING &&
+                rental().rentalStatus === rentalStatus.PENDING
+            ) {
+                <button
+                    type="button"
+                    class="btn btn-dark btn-sm rounded-0"
+                    (click)="payRental()">
+                    Opłać
+                </button>
+            }
+
+            @if (
+                rental().rentalStatus === rentalStatus.PENDING ||
+                rental().rentalStatus === rentalStatus.CONFIRMED
+            ) {
+                <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm rounded-0"
+                    (click)="cancelRental()">
+                    Anuluj
+                </button>
+            }
+
+            <button
+                type="button"
+                class="btn btn-outline-dark btn-sm rounded-0"
+                (click)="openRentalModal()">
+                Szczegóły
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
-    @if(rentalViewModal()){
-        <div>
-    <h2>Wypożyczenie</h2>
-
-    <h3>Informacje o wypożyczeniu</h3>
-
-    <p>
-        <strong>Od:</strong>
-        {{ rental().startDate }}
-    </p>
-
-    <p>
-        <strong>Do:</strong>
-        {{ rental().endDate }}
-    </p>
-
-    <p>
-        <strong>Cena:</strong>
-        {{ rental().totalPrice }} zł
-    </p>
-
-    <p>
-        <strong>Metoda płatności:</strong>
-        {{ rental().paymentMethod }}
-    </p>
-
-    <p>
-        <strong>Status wypożyczenia:</strong>
-        {{ rental().rentalStatus }}
-    </p>
-
-    <p>
-        <strong>Status płatności:</strong>
-        {{ rental().paymentStatus }}
-    </p>
 
 
-    <h3>Informacje o zegarku</h3>
-
-    <p>
-        <strong>Producent:</strong>
-        {{ rental().watch.manufacturer }}
-    </p>
-
-    <p>
-        <strong>Model:</strong>
-        {{ rental().watch.model }}
-    </p>
-
-    <p>
-        <strong>Numer referencyjny:</strong>
-        {{ rental().watch.referenceNumber }}
-    </p>
 
 
-    <h3>Informacje o oddziale</h3>
+    <!-- MODAL -->
+    @if (rentalViewModal()) {
 
-    <p>
-        <strong>Nazwa:</strong>
-        {{ rental().branch.name }}
-    </p>
+        <div
+            class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center p-3"
+            style="background-color: rgba(0, 0, 0, 0.6); z-index: 1050; backdrop-filter: blur(3px); overflow: hidden;">
 
-    <p>
-        <strong>Miasto:</strong>
-        {{ rental().branch.city }}
-    </p>
+            <div
+                class="bg-white shadow-lg p-4 p-md-5 rounded-0 position-relative w-100"
+                style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+
+                <!-- X -->
+                <button
+                    type="button"
+                    class="btn-close position-absolute top-0 end-0 m-4 shadow-none"
+                    aria-label="Zamknij"
+                    (click)="closeRentalModal()">
+                </button>
 
 
-    @if(admin() || seeUser() != null)
-    {
-        <h3>Informacje o uzytkowniku</h3>
+                <!-- Nagłówek -->
+                <div class="mb-4 pe-4">
 
-    <p>
-        <strong>imie i nazwisko:</strong>
-        {{ rental().user.firstName }} {{ rental().user.lastName }} 
-    </p>
+                    <span
+                        class="text-uppercase small fw-bold d-block mb-1"
+                        style="color: #bfa130; letter-spacing: 2px; font-size: 0.70rem;">
+                        Szczegóły wypożyczenia
+                    </span>
 
-    <p>
-        <strong>dane kontaktowe:</strong>
-        {{ rental().user.email }} <br>
-        {{rental().user.phoneNumber}}
-    </p>
-    }
+                    <h2 class="h3 text-dark fw-light mb-0">
+                        {{ rental().watch.manufacturer }}
+                        {{ rental().watch.model }}
+                    </h2>
 
-    @if(rental().paymentStatus === paymentStatus.PENDING &&
-        rental().rentalStatus === rentalStatus.PENDING)
-    {
-        <button (click)="payRental()">
-            Opłać zamówienie
-        </button>
-    }
+                </div>
 
-    @if(rental().rentalStatus === rentalStatus.PENDING ||
-        rental().rentalStatus === rentalStatus.CONFIRMED)
-    {
-        <button (click)="cancelRental()">
-            Anuluj zamówienie
-        </button>
-    }
 
-    <button (click)="closeRentalModal()">
-        Zamknij
-    </button>
-</div>
+                <div class="border-top pt-4">
+
+                    <!-- Wypożyczenie -->
+                    <h5
+                        class="text-uppercase text-secondary fw-semibold mb-3"
+                        style="font-size: 0.70rem; letter-spacing: 1.5px;">
+                        Informacje o wypożyczeniu
+                    </h5>
+
+                    <div class="row">
+
+                        <div class="col-6 mb-3">
+                            <span class="text-uppercase text-secondary d-block mb-1"
+                                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                Data rozpoczęcia
+                            </span>
+
+                            <span class="text-dark fw-semibold">
+                                {{ rental().startDate }}
+                            </span>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <span class="text-uppercase text-secondary d-block mb-1"
+                                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                Data zakończenia
+                            </span>
+
+                            <span class="text-dark fw-semibold">
+                                {{ rental().endDate }}
+                            </span>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <span class="text-uppercase text-secondary d-block mb-1"
+                                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                Cena całkowita
+                            </span>
+
+                            <span class="text-dark fw-semibold">
+                                {{ rental().totalPrice }} zł
+                            </span>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <span class="text-uppercase text-secondary d-block mb-1"
+                                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                Metoda płatności
+                            </span>
+
+                            <span class="text-dark fw-semibold">
+                                {{ rental().paymentMethod }}
+                            </span>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <span class="text-uppercase text-secondary d-block mb-1"
+                                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                Status wypożyczenia
+                            </span>
+
+                            <span class="text-dark fw-semibold">
+                                {{ rental().rentalStatus }}
+                            </span>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <span class="text-uppercase text-secondary d-block mb-1"
+                                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                Status płatności
+                            </span>
+
+                            <span class="text-dark fw-semibold">
+                                {{ rental().paymentStatus }}
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ZEGAREK -->
+                    <div class="border-top pt-4 mt-2">
+
+                        <h5
+                            class="text-uppercase text-secondary fw-semibold mb-3"
+                            style="font-size: 0.70rem; letter-spacing: 1.5px;">
+                            Informacje o zegarku
+                        </h5>
+
+                        <div class="row">
+
+                            <div class="col-6 mb-3">
+                                <span class="text-uppercase text-secondary d-block mb-1"
+                                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                    Producent
+                                </span>
+
+                                <span class="text-dark">
+                                    {{ rental().watch.manufacturer }}
+                                </span>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <span class="text-uppercase text-secondary d-block mb-1"
+                                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                    Model
+                                </span>
+
+                                <span class="text-dark">
+                                    {{ rental().watch.model }}
+                                </span>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <span class="text-uppercase text-secondary d-block mb-1"
+                                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                    Numer referencyjny
+                                </span>
+
+                                <span class="text-dark">
+                                    {{ rental().watch.referenceNumber }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ODDZIAŁ -->
+                    <div class="border-top pt-4 mt-2">
+
+                        <h5
+                            class="text-uppercase text-secondary fw-semibold mb-3"
+                            style="font-size: 0.70rem; letter-spacing: 1.5px;">
+                            Informacje o oddziale
+                        </h5>
+
+                        <div class="row">
+
+                            <div class="col-6 mb-3">
+                                <span class="text-uppercase text-secondary d-block mb-1"
+                                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                    Nazwa
+                                </span>
+
+                                <span class="text-dark">
+                                    {{ rental().branch.name }}
+                                </span>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <span class="text-uppercase text-secondary d-block mb-1"
+                                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                    Miasto
+                                </span>
+
+                                <span class="text-dark">
+                                    {{ rental().branch.city }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- UŻYTKOWNIK -->
+                    @if (admin() || seeUser() != null) {
+
+                        <div class="border-top pt-4 mt-2">
+
+                            <h5
+                                class="text-uppercase text-secondary fw-semibold mb-3"
+                                style="font-size: 0.70rem; letter-spacing: 1.5px;">
+                                Informacje o użytkowniku
+                            </h5>
+
+                            <div class="row">
+
+                                <div class="col-6 mb-3">
+                                    <span class="text-uppercase text-secondary d-block mb-1"
+                                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                        Imię i nazwisko
+                                    </span>
+
+                                    <span class="text-dark">
+                                        {{ rental().user.firstName }}
+                                        {{ rental().user.lastName }}
+                                    </span>
+                                </div>
+
+                                <div class="col-6 mb-3">
+                                    <span class="text-uppercase text-secondary d-block mb-1"
+                                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                        Dane kontaktowe
+                                    </span>
+
+                                    <span class="text-dark">
+                                        {{ rental().user.email }}
+                                        <br>
+                                        {{ rental().user.phoneNumber }}
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    }
+
+                </div>
+
+
+                <!-- AKCJE W MODALU -->
+                <div class="d-flex flex-column gap-2 mt-4 pt-3 border-top">
+
+                    @if (
+                        rental().paymentStatus === paymentStatus.PENDING &&
+                        rental().rentalStatus === rentalStatus.PENDING
+                    ) {
+                        <button
+                            type="button"
+                            class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none w-100"
+                            style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                            (click)="payRental()">
+                            Opłać zamówienie
+                        </button>
+                    }
+
+                    @if (
+                        rental().rentalStatus === rentalStatus.PENDING ||
+                        rental().rentalStatus === rentalStatus.CONFIRMED
+                    ) {
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger btn-sm rounded-0 w-100"
+                            (click)="cancelRental()">
+                            Anuluj zamówienie
+                        </button>
+                    }
+
+                    <button
+                        type="button"
+                        class="btn btn-danger btn-sm rounded-0 w-100 mt-1 shadow-none"
+                        (click)="closeRentalModal()">
+                        Zamknij
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
     }
 
 }

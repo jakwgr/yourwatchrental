@@ -11,7 +11,7 @@ export function pastDateValidator(control: AbstractControl): ValidationErrors | 
     today.setHours(0, 0, 0, 0);
     selectedDate.setHours(0, 0, 0, 0);
 
-    return selectedDate <= today
+    return selectedDate >= today
         ? { pastDate: true }
         : null;
 }

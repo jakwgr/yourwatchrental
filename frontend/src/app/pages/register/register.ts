@@ -41,7 +41,7 @@ registerError = signal<string | null>(null);
     dateOfBirth: ['', [Validators.required, pastDateValidator]],
     phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(5)], ]
+    password: ['', [Validators.required, Validators.minLength(5)]]
   })
 
   register() {
