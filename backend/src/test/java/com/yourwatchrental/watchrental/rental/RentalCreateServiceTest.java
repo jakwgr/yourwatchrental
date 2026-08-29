@@ -3,7 +3,9 @@ package com.yourwatchrental.watchrental.rental;
 import com.yourwatchrental.watchrental.branch.Branch;
 import com.yourwatchrental.watchrental.branch.BranchRepository;
 import com.yourwatchrental.watchrental.branch.BranchService;
+import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchNotFoundException;
+import com.yourwatchrental.watchrental.email.EmailService;
 import com.yourwatchrental.watchrental.rental.dto.request.RentalRequestDTO;
 import com.yourwatchrental.watchrental.rental.dto.response.RentalResponseDTO;
 import com.yourwatchrental.watchrental.rental.exception.RentalBadDateRangeException;
@@ -12,11 +14,13 @@ import com.yourwatchrental.watchrental.security.SecurityUtil;
 import com.yourwatchrental.watchrental.user.User;
 import com.yourwatchrental.watchrental.user.UserRepository;
 import com.yourwatchrental.watchrental.user.UserService;
+import com.yourwatchrental.watchrental.user.dto.response.UserResponseDTO;
 import com.yourwatchrental.watchrental.user.exceptions.UserNotFoundException;
 import com.yourwatchrental.watchrental.watch.Watch;
 import com.yourwatchrental.watchrental.watch.WatchRepository;
 import com.yourwatchrental.watchrental.watch.WatchService;
 import com.yourwatchrental.watchrental.watch.dto.request.WatchStatusUpdateRequestDTO;
+import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
 import com.yourwatchrental.watchrental.watch.enums.Status;
 import com.yourwatchrental.watchrental.watch.exceptions.WatchNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -27,6 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +58,8 @@ public class RentalCreateServiceTest {
     private BranchService branchService;
     @Mock
     private UserService userService;
+    @Mock
+    private EmailService emailService;
 
     @Mock
     private WatchRepository watchRepository;
@@ -86,8 +93,12 @@ public class RentalCreateServiceTest {
         Watch watch = mock(Watch.class);
         Branch branch = new Branch();
         User user = new User();
-        UUID watchId = UUID.randomUUID();
+
         UUID userId = UUID.randomUUID();
+
+        WatchFullInfoResponseDTO watchFullInfoResponseDTO = mock(WatchFullInfoResponseDTO.class);
+        BranchResponseDTO branchResponseDTO = mock(BranchResponseDTO.class);
+        UserResponseDTO userResponseDTO = mock(UserResponseDTO.class);
 
         RentalResponseDTO rentalResponseCashDTO = new RentalResponseDTO(
                 UUID.randomUUID(),
@@ -105,13 +116,12 @@ public class RentalCreateServiceTest {
                 PaymentMethod.CASH,
                 RentalStatus.CONFIRMED,
                 PaymentStatus.ON_SPOT,
-                UUID.randomUUID(),
-                UUID.randomUUID(),
-                UUID.randomUUID()
-        );
+                branchResponseDTO,
+                userResponseDTO,
+                watchFullInfoResponseDTO,
+                LocalDateTime.now()
 
-        when(watch.getId())
-                .thenReturn(watchId);
+        );
 
         when(watch.getBranch())
                 .thenReturn(branch);
@@ -120,9 +130,10 @@ public class RentalCreateServiceTest {
                 .thenReturn(BigDecimal.valueOf(80.00));
 
 
+        when(watchRepository.findByIdWithLock(requestCashDTO.watchId()))
+                .thenReturn(Optional.of(watch));
         when(watchRepository.findById(requestCashDTO.watchId()))
                 .thenReturn(Optional.of(watch));
-
         when(branchRepository.findById(branch.getId()))
                 .thenReturn(Optional.of(branch));
 
@@ -145,20 +156,14 @@ public class RentalCreateServiceTest {
         ))
                 .thenReturn(false);
 
-
-        when(watchService.updateWatchStatus(
-                eq(watchId),
-                any(WatchStatusUpdateRequestDTO.class)
-        ))
-                .thenReturn(null);
-
-
         when(rentalRepository.save(any(Rental.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         when(rentalMapper.toResponseDTO(any(Rental.class)))
                 .thenReturn(rentalResponseCashDTO);
 
+        doNothing().when(emailService)
+                .sendEmail("yourwatchrental@interia.pl", rentalResponseCashDTO);
 
         RentalResponseDTO result = rentalService.createRental(requestCashDTO);
 
@@ -174,7 +179,8 @@ public class RentalCreateServiceTest {
         );
 
 
-        verify(watchRepository, times(2)).findById(requestCashDTO.watchId());
+        verify(watchRepository).findById(requestCashDTO.watchId());
+        verify(watchRepository).findByIdWithLock(requestCashDTO.watchId());
         verify(branchRepository).findById(branch.getId());
         verify(securityUtil).getCurrentUserId();
         verify(userRepository).findById(userId);
@@ -190,13 +196,10 @@ public class RentalCreateServiceTest {
                 )
         );
 
-        verify(watchService).updateWatchStatus(
-                watchId,
-                new WatchStatusUpdateRequestDTO(Status.RENTED)
-        );
-
         verify(rentalRepository).save(any(Rental.class));
         verify(rentalMapper).toResponseDTO(any(Rental.class));
+
+        verify(emailService).sendEmail("yourwatchrental@interia.pl", rentalResponseCashDTO);
     }
 
     @Test
@@ -204,8 +207,12 @@ public class RentalCreateServiceTest {
         Watch watch = mock(Watch.class);
         Branch branch = new Branch();
         User user = new User();
-        UUID watchId = UUID.randomUUID();
+
         UUID userId = UUID.randomUUID();
+
+        WatchFullInfoResponseDTO watchFullInfoResponseDTO = mock(WatchFullInfoResponseDTO.class);
+        BranchResponseDTO branchResponseDTO = mock(BranchResponseDTO.class);
+        UserResponseDTO userResponseDTO = mock(UserResponseDTO.class);
 
         RentalResponseDTO rentalResponseCardDTO = new RentalResponseDTO(
                 UUID.randomUUID(),
@@ -223,13 +230,11 @@ public class RentalCreateServiceTest {
                 PaymentMethod.CARD,
                 RentalStatus.PENDING,
                 PaymentStatus.ON_SPOT,
-                UUID.randomUUID(),
-                UUID.randomUUID(),
-                UUID.randomUUID()
+                branchResponseDTO,
+                userResponseDTO,
+                watchFullInfoResponseDTO,
+                LocalDateTime.now()
         );
-
-        when(watch.getId())
-                .thenReturn(watchId);
 
         when(watch.getBranch())
                 .thenReturn(branch);
@@ -237,10 +242,10 @@ public class RentalCreateServiceTest {
         when(watch.getPricePerDay())
                 .thenReturn(BigDecimal.valueOf(80.00));
 
-
+        when(watchRepository.findByIdWithLock(requestCardDTO.watchId()))
+                .thenReturn(Optional.of(watch));
         when(watchRepository.findById(requestCardDTO.watchId()))
                 .thenReturn(Optional.of(watch));
-
         when(branchRepository.findById(branch.getId()))
                 .thenReturn(Optional.of(branch));
 
@@ -264,19 +269,14 @@ public class RentalCreateServiceTest {
                 .thenReturn(false);
 
 
-        when(watchService.updateWatchStatus(
-                eq(watchId),
-                any(WatchStatusUpdateRequestDTO.class)
-        ))
-                .thenReturn(null);
-
-
         when(rentalRepository.save(any(Rental.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         when(rentalMapper.toResponseDTO(any(Rental.class)))
                 .thenReturn(rentalResponseCardDTO);
 
+        doNothing().when(emailService)
+                .sendEmail("yourwatchrental@interia.pl", rentalResponseCardDTO);
 
         RentalResponseDTO result = rentalService.createRental(requestCardDTO);
 
@@ -292,7 +292,8 @@ public class RentalCreateServiceTest {
         );
 
 
-        verify(watchRepository, times(2)).findById(requestCardDTO.watchId());
+        verify(watchRepository).findById(requestCardDTO.watchId());
+        verify(watchRepository).findByIdWithLock(requestCardDTO.watchId());
         verify(branchRepository).findById(branch.getId());
         verify(securityUtil).getCurrentUserId();
         verify(userRepository).findById(userId);
@@ -308,25 +309,23 @@ public class RentalCreateServiceTest {
                 )
         );
 
-        verify(watchService).updateWatchStatus(
-                watchId,
-                new WatchStatusUpdateRequestDTO(Status.RENTED)
-        );
-
         verify(rentalRepository).save(any(Rental.class));
         verify(rentalMapper).toResponseDTO(any(Rental.class));
+
+        verify(emailService).sendEmail("yourwatchrental@interia.pl", rentalResponseCardDTO);
+
     }
 
     @Test
     void shouldThrowWatchNotFoundOnCreate()
     {
-        when(watchRepository.findById(requestCardDTO.watchId()))
+        when(watchRepository.findByIdWithLock(requestCardDTO.watchId()))
                 .thenReturn(Optional.empty());
 
         assertThrows(WatchNotFoundException.class,
                 () -> rentalService.createRental(requestCardDTO));
 
-        verify(watchRepository).findById(requestCardDTO.watchId());
+        verify(watchRepository).findByIdWithLock(requestCardDTO.watchId());
 
         verify(branchRepository, never()).findById(any());
         verify(userRepository, never()).findById(any());
@@ -341,7 +340,7 @@ public class RentalCreateServiceTest {
         Watch watch = mock(Watch.class);
         Branch branch = new Branch();
 
-        when(watchRepository.findById(requestCardDTO.watchId()))
+        when(watchRepository.findByIdWithLock(requestCardDTO.watchId()))
                 .thenReturn(Optional.of(watch));
 
         when(watch.getBranch())
@@ -353,7 +352,7 @@ public class RentalCreateServiceTest {
         assertThrows(BranchNotFoundException.class,
                 () -> rentalService.createRental(requestCardDTO));
 
-        verify(watchRepository).findById(requestCardDTO.watchId());
+        verify(watchRepository).findByIdWithLock(requestCardDTO.watchId());
         verify(branchRepository).findById(watch.getBranch().getId());
         verify(userRepository, never()).findById(any());
         verify(rentalRepository, never()).save(any());
@@ -367,7 +366,7 @@ public class RentalCreateServiceTest {
         Branch branch = new Branch();
         UUID userId = UUID.randomUUID();
 
-        when(watchRepository.findById(requestCardDTO.watchId()))
+        when(watchRepository.findByIdWithLock(requestCardDTO.watchId()))
                 .thenReturn(Optional.of(watch));
         when(watch.getBranch())
                 .thenReturn(branch);
@@ -381,7 +380,7 @@ public class RentalCreateServiceTest {
         assertThrows(UserNotFoundException.class,
                 () -> rentalService.createRental(requestCardDTO));
 
-        verify(watchRepository).findById(requestCardDTO.watchId());
+        verify(watchRepository).findByIdWithLock(requestCardDTO.watchId());
         verify(branchRepository).findById(watch.getBranch().getId());
         verify(userRepository).findById(userId);
         verify(rentalRepository, never()).save(any());
@@ -396,10 +395,12 @@ public class RentalCreateServiceTest {
         User user = new User();
         UUID userId = UUID.randomUUID();
 
-        when(watchRepository.findById(requestCardDTO.watchId()))
+        when(watchRepository.findByIdWithLock(requestCardDTO.watchId()))
                 .thenReturn(Optional.of(watch));
         when(watch.getBranch())
                 .thenReturn(branch);
+        when(watchRepository.findById(requestCardDTO.watchId()))
+                .thenReturn(Optional.of(watch));
         when(branchRepository.findById(branch.getId()))
                 .thenReturn(Optional.of(branch));
         when(securityUtil.getCurrentUserId())
@@ -420,7 +421,8 @@ public class RentalCreateServiceTest {
         assertThrows(RentalWatchNotAvailableException.class,
                 () -> rentalService.createRental(requestCardDTO));
 
-        verify(watchRepository, times(2)).findById(requestCardDTO.watchId());
+        verify(watchRepository).findById(requestCardDTO.watchId());
+        verify(watchRepository).findByIdWithLock(requestCardDTO.watchId());
         verify(branchRepository).findById(watch.getBranch().getId());
         verify(userRepository).findById(userId);
         verify(rentalRepository).existRentalInDates(
@@ -454,6 +456,8 @@ public class RentalCreateServiceTest {
 
         when(watchRepository.findById(requestCardDTO.watchId()))
                 .thenReturn(Optional.of(watch));
+        when(watchRepository.findByIdWithLock(requestCardDTO.watchId()))
+                .thenReturn(Optional.of(watch));
         when(watch.getBranch())
                 .thenReturn(branch);
         when(branchRepository.findById(branch.getId()))
@@ -477,7 +481,8 @@ public class RentalCreateServiceTest {
         assertThrows(RentalBadDateRangeException.class,
                 () -> rentalService.createRental(requestCardDTO));
 
-        verify(watchRepository, times(2)).findById(requestCardDTO.watchId());
+        verify(watchRepository).findById(requestCardDTO.watchId());
+        verify(watchRepository).findByIdWithLock(requestCardDTO.watchId());
         verify(branchRepository).findById(watch.getBranch().getId());
         verify(userRepository).findById(userId);
         verify(rentalRepository).existRentalInDates(
@@ -511,6 +516,8 @@ public class RentalCreateServiceTest {
 
         when(watchRepository.findById(requestCardDTO.watchId()))
                 .thenReturn(Optional.of(watch));
+        when(watchRepository.findByIdWithLock(requestCardDTO.watchId()))
+                .thenReturn(Optional.of(watch));
         when(watch.getBranch())
                 .thenReturn(branch);
         when(branchRepository.findById(branch.getId()))
@@ -534,7 +541,8 @@ public class RentalCreateServiceTest {
         assertThrows(RentalBadDateRangeException.class,
                 () -> rentalService.createRental(requestCardDTO));
 
-        verify(watchRepository, times(2)).findById(requestCardDTO.watchId());
+        verify(watchRepository).findById(requestCardDTO.watchId());
+        verify(watchRepository).findByIdWithLock(requestCardDTO.watchId());
         verify(branchRepository).findById(watch.getBranch().getId());
         verify(userRepository).findById(userId);
         verify(rentalRepository).existRentalInDates(

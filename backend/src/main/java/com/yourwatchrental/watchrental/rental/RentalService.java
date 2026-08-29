@@ -138,24 +138,24 @@ public class RentalService {
 
         RentalResponseDTO response = rentalMapper.toResponseDTO(rentalRepository.save(rental));
 
-//        emailService.sendEmail("yourwatchrental@interia.pl", response);
+        emailService.sendEmail("yourwatchrental@interia.pl", response);
         return response;
     }
 
     @Transactional
     public RentalResponseDTO cancelRental(UUID rentalId) {
 
-        UUID userId = securityUtil.getCurrentUserId();
+        User userId = userRepository.findById(securityUtil.getCurrentUserId())
+                .orElseThrow(() -> new UserNotFoundException(securityUtil.getCurrentUserId()));
+
+
 
         Rental rental = rentalRepository.findById(rentalId)
                 .orElseThrow(() -> new RentalNotFoundException(rentalId));
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
-
         if (!securityUtil.isAdmin()) {
-            if (!rental.getUser().getId().equals(user.getId())) {
-                throw new RentalForbiddenExcpetion(userId);
+            if (!rental.getUser().getId().equals(userId.getId())) {
+                throw new RentalForbiddenExcpetion(userId.getId());
             }
         }
 
@@ -193,16 +193,17 @@ public class RentalService {
 
     public RentalResponseDTO getRentalById(UUID rentalId)
     {
-        UUID userId = securityUtil.getCurrentUserId();
+        User userId = userRepository.findById(securityUtil.getCurrentUserId())
+                .orElseThrow(() -> new UserNotFoundException(securityUtil.getCurrentUserId()));
 
         Rental rental = rentalRepository.findById(rentalId)
             .orElseThrow(() -> new RentalNotFoundException(rentalId));
 
         if(!securityUtil.isAdmin())
         {
-            if(!rental.getUser().getId().equals(userId))
+            if(!rental.getUser().getId().equals(userId.getId()))
             {
-                throw new RentalForbiddenExcpetion(userId);
+                throw new RentalForbiddenExcpetion(userId.getId());
             }
         }
 
@@ -214,7 +215,8 @@ public class RentalService {
             RentalFilterRequestDTO request,
             Pageable page)
     {
-        UUID userId = securityUtil.getCurrentUserId();
+        User userId = userRepository.findById(securityUtil.getCurrentUserId())
+                .orElseThrow(() -> new UserNotFoundException(securityUtil.getCurrentUserId()));
 
         Specification<Rental> specification =
                 RentalSpecification.buildSpecification(request);
@@ -241,14 +243,15 @@ public class RentalService {
     @Transactional
     public RentalResponseDTO changePaymentStatus(UUID id, PaymentStatusChangeRequestDTO request)
     {
-        UUID userId = securityUtil.getCurrentUserId();
+        User userId = userRepository.findById(securityUtil.getCurrentUserId())
+                .orElseThrow(() -> new UserNotFoundException(securityUtil.getCurrentUserId()));
 
         Rental rental = rentalRepository.findById(id)
                 .orElseThrow(() -> new RentalNotFoundException(null));
 
         if(!securityUtil.isAdmin())
         {
-            if(!rental.getUser().getId().equals(userId))
+            if(!rental.getUser().getId().equals(userId.getId()))
             {
                 throw new RentalNotFoundException(null);
             }

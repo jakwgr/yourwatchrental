@@ -70,7 +70,7 @@ public class RentalControllerTest {
 
         verify(rentalService)
                 .createRental(any(RentalRequestDTO.class));
-    }
+    };
 
 
     @Test
@@ -135,21 +135,47 @@ public class RentalControllerTest {
     {
         RentalResponseDTO response = mock(RentalResponseDTO.class);
 
+        UUID watchId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
+        UUID branchId = UUID.randomUUID();
+
+        RentalFilterRequestDTO request = new RentalFilterRequestDTO(
+                RentalStatus.IN_PROGRESS,
+                PaymentStatus.PENDING,
+                PaymentMethod.CARD,
+                userId,
+                watchId,
+                branchId,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
         Page<RentalResponseDTO> page = new PageImpl<>(
                 List.of(response)
         );
 
-        when(rentalService.getMyRentals(any(Pageable.class)))
+        when(rentalService.getMyRentals(eq(request), any(Pageable.class)))
                 .thenReturn(page);
 
         mockMvc.perform(
                 get("/rentals/my")
                         .param("page", "0")
                         .param("size", "10")
+                        .param("rentalStatus", "IN_PROGRESS")
+                        .param("paymentStatus", "PENDING")
+                        .param("paymentMethod", "CARD")
+                        .param("userId", userId.toString())
+                        .param("watchId", watchId.toString())
+                        .param("branchId", branchId.toString())
+                        .param("page", "0")
+                        .param("size", "10")
         ).andExpect(status().isOk());
 
         verify(rentalService)
-                .getMyRentals(any(Pageable.class));
+                .getMyRentals(eq(request), any(Pageable.class));
     }
 
 

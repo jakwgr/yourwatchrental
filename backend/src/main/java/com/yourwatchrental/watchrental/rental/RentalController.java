@@ -25,8 +25,6 @@ public class RentalController {
 
     private final RentalService rentalService;
 
-    private final EmailService emailService;
-
     @PostMapping
     public ResponseEntity<RentalResponseDTO> createRental(@RequestBody @Valid RentalRequestDTO request)
     {
