@@ -4,6 +4,7 @@ import com.yourwatchrental.watchrental.common.dto.ApiErrorDTO;
 import com.yourwatchrental.watchrental.common.exceptions.ResourceAlreadyUsedException;
 import com.yourwatchrental.watchrental.common.exceptions.ResourceForbiddenException;
 import com.yourwatchrental.watchrental.common.exceptions.ResourceNotFoundException;
+import com.yourwatchrental.watchrental.common.exceptions.ResourceNotPossibleException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -72,6 +73,19 @@ public class GlobalExcpetionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
+
+    @ExceptionHandler(ResourceNotPossibleException.class)
+    public ResponseEntity<ApiErrorDTO> ResourceNotPossibleException(ResourceNotPossibleException ex)
+    {
+        ApiErrorDTO error = new ApiErrorDTO(
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(error);
     }
 }

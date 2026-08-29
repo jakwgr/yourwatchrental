@@ -60,4 +60,17 @@ public interface RentalRepository extends JpaRepository<Rental, UUID>,
             @Param("endDate") LocalDate endDate,
             @Param("statuses") List<RentalStatus> statuses
     );
+
+    @Query("""
+    SELECT COUNT(r) > 0
+    FROM Rental r
+    WHERE r.watch.id = :watchId
+    AND r.startDate < :endDate
+    AND r.endDate > :startDate
+""")
+    boolean existsOverlappingRental(
+            @Param("watchId") UUID watchId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
 }

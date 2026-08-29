@@ -1,109 +1,123 @@
+
 @if (rental() != null) {
 
-   <!-- KRÓTKIE PODSUMOWANIE -->
-<!-- KRÓTKIE PODSUMOWANIE -->
-<div class="bg-white border p-3">
+    <!-- KRÓTKIE PODSUMOWANIE -->
+    <div class="bg-white border p-3">
 
-    <div class="d-flex align-items-center gap-3 flex-wrap">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
 
-        <!-- Zegarek -->
-        <div
-            class="rental-watch"
-            style="flex-shrink: 0;">
-            <span
-                class="text-uppercase text-secondary d-block"
-                style="font-size: 0.55rem; letter-spacing: 1.3px;">
-                Zegarek
-            </span>
-
+            <!-- Zegarek -->
             <div
-                class="text-dark fw-semibold small text-truncate"
-                title="{{ rental().watch.manufacturer }} {{ rental().watch.model }}">
-                {{ rental().watch.manufacturer }}
-                {{ rental().watch.model }}
+                class="rental-watch"
+                style="flex-shrink: 0;">
+                <span
+                    class="text-uppercase text-secondary d-block"
+                    style="font-size: 0.55rem; letter-spacing: 1.3px;">
+                    Zegarek
+                </span>
+
+                <div
+                    class="text-dark fw-semibold small text-truncate"
+                    title="{{ rental().watch.manufacturer }} {{ rental().watch.model }}">
+                    {{ rental().watch.manufacturer }}
+                    {{ rental().watch.model }}
+                </div>
             </div>
-        </div>
 
 
-        <!-- Daty -->
-        <div
-            class="rental-dates text-muted small text-nowrap text-center"
-            style="flex-shrink: 0;">
-            {{ rental().startDate }} → {{ rental().endDate }}
-        </div>
+            <!-- Daty -->
+            <div
+                class="rental-dates text-muted small text-nowrap text-center"
+                style="flex-shrink: 0;">
+                {{ rental().startDate }} → {{ rental().endDate }}
+            </div>
 
 
-        <!-- Cena -->
-        <div
-            class="rental-price fw-semibold text-dark small text-nowrap text-center"
-            style="flex-shrink: 0;">
-            {{ rental().totalPrice }} zł
-        </div>
+            <!-- Cena -->
+            <div
+                class="rental-price fw-semibold text-dark small text-nowrap text-center"
+                style="flex-shrink: 0;">
+                {{ rental().totalPrice }} zł
+            </div>
 
 
-        <!-- Statusy -->
-        <div
-            class="rental-status d-flex align-items-center justify-content-center gap-2 text-nowrap"
-            style="flex-shrink: 0;">
+            <!-- Statusy -->
+            <div
+                class="rental-status d-flex align-items-center justify-content-center gap-2 text-nowrap"
+                style="flex-shrink: 0;">
 
-            <span class="text-muted" style="font-size: 0.65rem;">
-                {{ rental().rentalStatus }}
-            </span>
+                <span class="text-muted" style="font-size: 0.65rem;">
+                    {{ rental().rentalStatus }}
+                </span>
 
-            <span class="text-muted" style="font-size: 0.65rem;">
-                •
-            </span>
+                <span class="text-muted" style="font-size: 0.65rem;">
+                    •
+                </span>
 
-            <span class="text-muted" style="font-size: 0.65rem;">
-                {{ rental().paymentStatus }}
-            </span>
+                <span class="text-muted" style="font-size: 0.65rem;">
+                    {{ rental().paymentStatus }}
+                </span>
 
-        </div>
+            </div>
 
 
-        <!-- Przyciski -->
-        <div
-            class="rental-buttons d-flex align-items-center justify-content-end gap-1 ms-auto"
-            style="flex-shrink: 0;">
+            <!-- Prawy górny róg - data utworzenia -->
+            <div
+                class="rental-created-at text-muted text-nowrap text-end ms-auto"
+                style="flex-shrink: 0; font-size: 0.60rem;">
 
-            @if (
-                rental().paymentStatus === paymentStatus.PENDING &&
-                rental().rentalStatus === rentalStatus.PENDING
-            ) {
+                <span
+                    class="text-uppercase d-block"
+                    style="letter-spacing: 1.2px; font-size: 0.50rem;">
+                    Utworzono
+                </span>
+
+                {{ rental().createdAt | date:'dd.MM.yyyy HH:mm' }}
+
+            </div>
+
+
+            <!-- Przyciski -->
+            <div
+                class="rental-buttons d-flex align-items-center justify-content-end gap-1"
+                style="flex-shrink: 0;">
+
+                @if (
+                    rental().paymentStatus === paymentStatus.PENDING &&
+                    rental().rentalStatus === rentalStatus.PENDING
+                ) {
+                    <button
+                        type="button"
+                        class="btn btn-dark btn-sm rounded-0"
+                        (click)="payRental()">
+                        Opłać
+                    </button>
+                }
+
+                @if (
+                    rental().rentalStatus === rentalStatus.PENDING ||
+                    rental().rentalStatus === rentalStatus.CONFIRMED
+                ) {
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm rounded-0"
+                        (click)="cancelRental()">
+                        Anuluj
+                    </button>
+                }
+
                 <button
                     type="button"
-                    class="btn btn-dark btn-sm rounded-0"
-                    (click)="payRental()">
-                    Opłać
+                    class="btn btn-outline-dark btn-sm rounded-0"
+                    (click)="openRentalModal()">
+                    Szczegóły
                 </button>
-            }
 
-            @if (
-                rental().rentalStatus === rentalStatus.PENDING ||
-                rental().rentalStatus === rentalStatus.CONFIRMED
-            ) {
-                <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm rounded-0"
-                    (click)="cancelRental()">
-                    Anuluj
-                </button>
-            }
-
-            <button
-                type="button"
-                class="btn btn-outline-dark btn-sm rounded-0"
-                (click)="openRentalModal()">
-                Szczegóły
-            </button>
+            </div>
 
         </div>
 
     </div>
-
-</div>
-
-
 
 
     <!-- MODAL -->
@@ -124,6 +138,22 @@
                     aria-label="Zamknij"
                     (click)="closeRentalModal()">
                 </button>
+
+
+                <!-- Data utworzenia - prawy górny róg -->
+                <div
+                    class="position-absolute top-0 end-0 me-5 mt-4 text-end text-muted"
+                    style="font-size: 0.60rem;">
+
+                    <span
+                        class="text-uppercase d-block"
+                        style="letter-spacing: 1.2px; font-size: 0.50rem;">
+                        Utworzono
+                    </span>
+
+                    {{ rental().createdAt | date:'dd.MM.yyyy HH:mm' }}
+
+                </div>
 
 
                 <!-- Nagłówek -->
@@ -399,3 +429,4 @@
     }
 
 }
+

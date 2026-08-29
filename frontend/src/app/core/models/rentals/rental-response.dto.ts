@@ -6,14 +6,15 @@ import { PaymentStatus } from "./payment-status"
 import { RentalStatus } from "./rental-status"
 
 export interface RentalResponseDTO{
-        id: string,
-        startDate: string,
-        endDate: string,
-        totalPrice: string,
-        paymentMethod: PaymentMethod,
-        rentalStatus: RentalStatus,
-        paymentStatus: PaymentStatus,
-        branch: BranchResponseDTO,
-        user: UserResponseDTO,
-        watch: WatchFullInfoResponseDTO
+        id: string;
+        startDate: string;
+        endDate: string;
+        totalPrice: string;
+        paymentMethod: PaymentMethod;
+        rentalStatus: RentalStatus;
+        paymentStatus: PaymentStatus;
+        branch: BranchResponseDTO;
+        user: UserResponseDTO;
+        watch: WatchFullInfoResponseDTO;
+        createdAt: string
 }

@@ -7,7 +7,7 @@ import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { PaymentMethod } from '../../core/models/rentals/payment-method';
 import { date } from '@primeuix/themes/aura/datepicker';
-import { DatePipe } from '@angular/common';
+import { DatePipe, ɵnormalizeQueryParams } from '@angular/common';
 import { RentalsService } from '../../core/services/rentals/rentals-service';
 import { RentalRequestDTO } from '../../core/models/rentals/rental-request.dto';
 import { SmallErrorView } from '../../shared/components/small-error-view/small-error-view';
@@ -158,7 +158,12 @@ closeRentalError() {
   this.rentalsService.createRental(rentalRequest).subscribe({
     next: response => {
       console.log(response);
-      this.router.navigate(['/rentals']);
+      this.router.navigate(['/rentals'],{
+        queryParams : {
+          isRentalId : 'true',
+          rentalId : response.id
+        }}
+      );
     },
 
     error: err => {

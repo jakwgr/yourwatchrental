@@ -6,6 +6,7 @@ import { PageResponseDTO } from '../../models/page-response.dto';
 import { RentalFilterRequestDTO } from '../../models/rentals/rental-filter-request.dto';
 import { addObjectToHttpParams } from '../../../shared/util/http-params.util';
 import { PaymentStatus } from '../../models/rentals/payment-status';
+import { DatePipe } from '@angular/common';
 
 @Service()
 export class RentalsService {
@@ -15,32 +16,57 @@ export class RentalsService {
     {
         return this.http.post<RentalResponseDTO>('/api/rentals' , request);
     }
+getMyRentals(
+  page: number = 0,
+  size: number = 5,
+  filter?: RentalFilterRequestDTO,
+  sort: string = 'createdAt,desc'
+) {
+  let params = new HttpParams()
+    .set('page', page)
+    .set('size', size)
+    .set('sort', sort);
 
-    getMyRentals(page: number = 0, size: number = 5, filter?: RentalFilterRequestDTO)
-    {
-        let params = new HttpParams()
-        .set('page', page)
-        .set('size', size)
+  if (filter) {
+    params = addObjectToHttpParams(params, filter);
+  }
 
-        if(filter) params = addObjectToHttpParams(params, filter);
+  return this.http.get<PageResponseDTO<RentalResponseDTO>>(
+    '/api/rentals/my',
+    { params }
+  );
+}
 
-        return this.http.get<PageResponseDTO<RentalResponseDTO>>('/api/rentals/my', 
-            {params}
-        );
-    }
 
-    getRentalsAdmin(page: number = 0, size: number = 5, filter?: RentalFilterRequestDTO)
-    {
-        let params = new HttpParams()
-        .set('page', page)
-        .set('size', size)
+getRentalById(id: string) {
+  return this.http.get<RentalResponseDTO>(
+    `/api/rentals/${id}`
+  );
+}
 
-        if(filter) params = addObjectToHttpParams(params, filter);
 
-        return this.http.get<PageResponseDTO<RentalResponseDTO>>('/api/rentals', 
-            {params}
-        );
-    }
+getRentalsAdmin(
+  page: number = 0,
+  size: number = 5,
+  filter?: RentalFilterRequestDTO,
+  sort: string = 'createdAt,desc'
+) {
+  let params = new HttpParams()
+    .set('page', page)
+    .set('size', size)
+    .set('sort', sort);
+
+  if (filter) {
+    params = addObjectToHttpParams(params, filter);
+  }
+
+  return this.http.get<PageResponseDTO<RentalResponseDTO>>(
+    '/api/rentals',
+    { params }
+  );
+}
+
+
 
     changePaymentStatus(id:string, status: PaymentStatus)
     {

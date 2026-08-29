@@ -9,6 +9,7 @@ import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseD
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record RentalResponseDTO(
@@ -31,7 +32,9 @@ public record RentalResponseDTO(
 
         UserResponseDTO user,
 
-        WatchFullInfoResponseDTO watch
+        WatchFullInfoResponseDTO watch,
+
+        LocalDateTime createdAt
 
 ) {
 }

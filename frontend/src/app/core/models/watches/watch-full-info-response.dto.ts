@@ -22,5 +22,5 @@ export interface WatchFullInfoResponseDTO {
     status: WatchStatus;
     watchType: WatchType;
     branch: BranchShortResponseDTO;
-    photos: WatchPhotoShortResponseDTO[];
+    photos: WatchPhotoShortResponseDTO[]
 }

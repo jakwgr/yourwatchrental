@@ -5,6 +5,7 @@ import com.yourwatchrental.watchrental.rental.PaymentStatus;
 import com.yourwatchrental.watchrental.rental.RentalStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record RentalFilterRequestDTO(
@@ -17,5 +18,6 @@ public record RentalFilterRequestDTO(
         LocalDate startDateFrom,
         LocalDate startDateTo,
         LocalDate endDateFrom,
-        LocalDate endDateTo
+        LocalDate endDateTo,
+        LocalDateTime createdAt
 ) {}

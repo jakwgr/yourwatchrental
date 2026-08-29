@@ -1,278 +1,640 @@
+
 <div class="container py-5">
-    
-        <!-- Nagłówek oraz przycisk dodawania oddziału -->
+
+    <!-- ===================== -->
+    <!-- NAGŁÓWEK -->
+    <!-- ===================== -->
+
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+
         <div>
-            <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px;">
+
+            <span
+                class="text-uppercase tracking-widest small fw-bold d-block mb-1"
+                style="color: #bfa130; letter-spacing: 2px;">
                 Kolekcja
             </span>
+
             <h2 class="h3 text-dark fw-light mb-0">
                 Wyszukiwanie zegarków
             </h2>
+
         </div>
 
-        <!-- Przycisk dodawania oddziału -->
-         @if(profile()?.role === "ADMIN" && profile()) {
-        <div>
-            <button
-                routerLink="/watches/create"
-                class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 transition-all shadow-none"
-                style="background-color: #1a1a1a; letter-spacing: 0.15em; font-size: 0.75rem;">
-                + Dodaj zegarek
-            </button>
-        </div>
-    }
+
+        <!-- DODAJ ZEGAREK -->
+
+        @if (profile()?.role === "ADMIN" && profile()) {
+
+            <div>
+
+                <button
+                    routerLink="/watches/create"
+                    class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 transition-all shadow-none"
+                    style="background-color: #1a1a1a; letter-spacing: 0.15em; font-size: 0.75rem;">
+
+                    + Dodaj zegarek
+
+                </button>
+
+            </div>
+
+        }
+
     </div>
 
-    <!-- Formularz filtrowania -->
+
+    <!-- ===================== -->
+    <!-- FORMULARZ FILTROWANIA -->
+    <!-- ===================== -->
+
     <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
-        <form [formGroup]="filterForm" (ngSubmit)="search()">
+
+        <form
+            [formGroup]="filterForm"
+            (ngSubmit)="search()">
+
 
             <!-- ===================== -->
             <!-- PODSTAWOWE FILTRY -->
             <!-- ===================== -->
+
             <div class="row g-4">
 
-                <!-- Producent -->
+
+                <!-- PRODUCENT -->
+
                 <div class="col-12 col-md-4">
-                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                    <label
+                        class="form-label text-uppercase text-secondary fw-medium mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                         Producent
+
                     </label>
+
                     <input
                         type="text"
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="manufacturer"
-                        placeholder="np. Rolex"
-                    />
+                        placeholder="np. Rolex">
+
                 </div>
 
-                <!-- Model -->
+
+                <!-- MODEL -->
+
                 <div class="col-12 col-md-4">
-                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                    <label
+                        class="form-label text-uppercase text-secondary fw-medium mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                         Model
+
                     </label>
+
                     <input
                         type="text"
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="model"
-                        placeholder="np. Submariner"
-                    />
+                        placeholder="np. Submariner">
+
                 </div>
 
-                <!-- Cena od -->
+
+                <!-- CENA OD -->
+
                 <div class="col-6 col-md-2">
-                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                    <label
+                        class="form-label text-uppercase text-secondary fw-medium mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                         Cena od (zł)
+
                     </label>
+
                     <input
                         type="number"
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="minPrice"
-                        placeholder="Od"
-                    />
+                        placeholder="Od">
+
                 </div>
 
-                <!-- Cena do -->
+
+                <!-- CENA DO -->
+
                 <div class="col-6 col-md-2">
-                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                    <label
+                        class="form-label text-uppercase text-secondary fw-medium mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                         Cena do (zł)
+
                     </label>
+
                     <input
                         type="number"
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="maxPrice"
-                        placeholder="Do"
-                    />
+                        placeholder="Do">
+
                 </div>
 
             </div>
 
+
             <!-- ===================== -->
-            <!-- PRZYCISK ROZSZERZONYCH -->
+            <!-- PRZYCISK ZAAWANSOWANE -->
             <!-- ===================== -->
+
             <div class="mt-4 pt-2 border-top border-light">
+
                 <button
                     type="button"
                     class="btn btn-link text-decoration-none border-0 rounded-0 p-0 text-uppercase fw-semibold d-flex align-items-center"
                     style="color: #1a1a1a; font-size: 0.7rem; letter-spacing: 1.5px;"
                     (click)="toggleAdvancedFilters()">
-                    <span>{{ advancedFilters() ? 'Ukryj filtry zaawansowane' : 'Filtry zaawansowane' }}</span>
-                    <span class="ms-2 fs-6">{{ advancedFilters() ? '↑' : '↓' }}</span>
+
+                    <span>
+
+                        {{
+                            advancedFilters()
+                                ? 'Ukryj filtry zaawansowane'
+                                : 'Filtry zaawansowane'
+                        }}
+
+                    </span>
+
+                    <span class="ms-2 fs-6">
+
+                        {{
+                            advancedFilters()
+                                ? '↑'
+                                : '↓'
+                        }}
+
+                    </span>
+
                 </button>
+
             </div>
+
 
             <!-- ===================== -->
             <!-- FILTRY ZAAWANSOWANE -->
             <!-- ===================== -->
-            <div class="advanced-filters" [class.expanded]="advancedFilters()">
+
+            <div
+                class="advanced-filters"
+                [class.expanded]="advancedFilters()">
+
                 <div class="row g-4 pt-3">
 
-                    <!-- Rok od -->
+
+                    <!-- ROK OD -->
+
                     <div class="col-6 col-md-3">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                        <label
+                            class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                             Rok od
+
                         </label>
+
                         <input
                             type="number"
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="minYear"
-                            placeholder="np. 2015"
-                        />
+                            placeholder="np. 2015">
+
                     </div>
 
-                    <!-- Rok do -->
+
+                    <!-- ROK DO -->
+
                     <div class="col-6 col-md-3">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                        <label
+                            class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                             Rok do
+
                         </label>
+
                         <input
                             type="number"
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="maxYear"
-                            placeholder="np. 2026"
-                        />
+                            placeholder="np. 2026">
+
                     </div>
 
-                    <!-- Płeć -->
+
+                    <!-- PŁEĆ -->
+
                     <div class="col-12 col-md-3">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                        <label
+                            class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                             Płeć
+
                         </label>
+
                         <select
                             class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="gender">
-                            <option [ngValue]="null">Wszystkie</option>
-                            @for (gender of genderOptions; track gender) {
-                                <option [value]="gender">{{ genderLabels[gender] }}</option>
+
+                            <option [ngValue]="null">
+                                Wszystkie
+                            </option>
+
+                            @for (
+                                gender of genderOptions;
+                                track gender
+                            ) {
+
+                                <option [value]="gender">
+                                    {{ genderLabels[gender] }}
+                                </option>
+
                             }
+
                         </select>
+
                     </div>
 
-                    <!-- Typ mechanizmu -->
+
+                    <!-- TYP MECHANIZMU -->
+
                     <div class="col-12 col-md-3">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                        <label
+                            class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                             Typ mechanizmu
+
                         </label>
+
                         <select
                             class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="movementType">
-                            <option [ngValue]="null" disabled>Wszystkie</option>
-                            @for (movementType of movementTypeOptions; track movementType) {
-                                <option [value]="movementType">{{ movementTypeLabels[movementType] }}</option>
+
+                            <option [ngValue]="null">
+                                Wszystkie
+                            </option>
+
+                            @for (
+                                movementType of movementTypeOptions;
+                                track movementType
+                            ) {
+
+                                <option [value]="movementType">
+                                    {{ movementTypeLabels[movementType] }}
+                                </option>
+
                             }
+
                         </select>
+
                     </div>
 
-                    <!-- Status -->
+
+                    <!-- STATUS -->
+
                     <div class="col-12 col-md-4">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                        <label
+                            class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                             Status
+
                         </label>
+
                         <select
                             class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="status">
-                            <option [ngValue]="null" disabled>Wszystkie</option>
-                            @for (status of statusOptions; track status) {
-                                <option [value]="status">{{ statusLabels[status] }}</option>
+
+                            <option [ngValue]="null">
+                                Wszystkie
+                            </option>
+
+                            @for (
+                                status of statusOptions;
+                                track status
+                            ) {
+
+                                <option [value]="status">
+                                    {{ statusLabels[status] }}
+                                </option>
+
                             }
+
                         </select>
+
                     </div>
 
-                    <!-- Typ zegarka -->
+
+                    <!-- TYP ZEGARKA -->
+
                     <div class="col-12 col-md-4">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                        <label
+                            class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                             Typ zegarka
+
                         </label>
+
                         <select
                             class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="watchType">
-                            <option [ngValue]="null" disabled>Wszystkie</option>
-                            @for (watchType of watchTypeOptions; track watchType) {
-                                <option [value]="watchType">{{ watchTypeLabels[watchType] }}</option>
+
+                            <option [ngValue]="null">
+                                Wszystkie
+                            </option>
+
+                            @for (
+                                watchType of watchTypeOptions;
+                                track watchType
+                            ) {
+
+                                <option [value]="watchType">
+                                    {{ watchTypeLabels[watchType] }}
+                                </option>
+
                             }
+
                         </select>
+
                     </div>
 
-                    <!-- Oddział -->
+
+                    <!-- ODDZIAŁ -->
+
                     <div class="col-12 col-md-4">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                        <label
+                            class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
                             Oddział
+
                         </label>
-                        <select 
+
+                        <select
                             class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="branchId">
-                            <option [ngValue]="null" disabled>Wszystkie oddziały</option>
-                            @for (branch of branches(); track branch.id) {
-                                <option [value]="branch.id">{{ branch.name }}</option>
+
+                            <option [ngValue]="null">
+                                Wszystkie oddziały
+                            </option>
+
+                            @for (
+                                branch of branches();
+                                track branch.id
+                            ) {
+
+                                <option [value]="branch.id">
+                                    {{ branch.name }}
+                                </option>
+
                             }
+
                         </select>
+
                     </div>
 
                 </div>
+
             </div>
 
+
             <!-- ===================== -->
-            <!-- PRZYCISKI AKCJI (SZUKAJ / WYCZYŚĆ) -->
+            <!-- PRZYCISKI -->
             <!-- ===================== -->
+
             <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
+
                 <button
                     type="submit"
                     class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none flex-grow-1"
                     style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 80%;">
+
                     Szukaj w kolekcji
+
                 </button>
+
+
                 <button
                     type="button"
                     class="btn text-uppercase fw-semibold py-3 text-dark bg-transparent border border-dark rounded-0 transition-all shadow-none"
                     style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 150px;"
                     (click)="resetFilters()">
+
                     Wyczyść
+
                 </button>
+
             </div>
 
         </form>
+
     </div>
-    
+
+
+    <!-- ===================== -->
+    <!-- WYNIKI -->
+    <!-- ===================== -->
+
     <div id="section"></div>
-    
-    <!-- Liczba wyników -->
+
+
     <div>
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <p class="text-secondary small text-uppercase mb-0"
-               style="letter-spacing: 1.5px; font-size: 0.7rem;">
-                Znalezione zegarki na tej stronie:
-                <span class="fw-bold text-dark">{{ watches().length }}/9</span>
-            </p>
+
+
+        <!-- ===================== -->
+        <!-- NAGŁÓWEK WYNIKÓW -->
+        <!-- ===================== -->
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
+
+
+            <div>
+
+                <span
+                    class="text-uppercase text-secondary d-block mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                    Kolekcja
+
+                </span>
+
+
+                <h2 class="h4 text-dark fw-light mb-0">
+
+                    Zegarki
+
+                </h2>
+
+            </div>
+
+
+            <!-- ===================== -->
+            <!-- SORTOWANIE + LICZBA -->
+            <!-- ===================== -->
+
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+
+
+                <!-- SORTOWANIE -->
+
+                <div class="d-flex align-items-center gap-2">
+
+                    <label
+                        class="text-uppercase text-secondary mb-0"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                        Sortuj
+
+                    </label>
+
+
+                    <select
+                        class="form-select bg-transparent text-dark shadow-none rounded-0"
+                        style="width: 230px;"
+                        [value]="sort()"
+                        (change)="changeSort($event)">
+
+                        <option value="pricePerDay,asc">
+                            Cena: rosnąco
+                        </option>
+
+                        <option value="pricePerDay,desc">
+                            Cena: malejąco
+                        </option>
+
+                        <option value="yearOfProduction,desc">
+                            Rok produkcji: najnowsze
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- LICZBA -->
+
+                <p
+                    class="text-secondary small text-uppercase mb-0 text-end"
+                    style="letter-spacing: 1.5px; font-size: 0.7rem;">
+
+                    Na tej stronie:
+
+                    <span class="fw-bold text-dark">
+                        {{ watches().length }}/9
+                    </span>
+
+                </p>
+
+            </div>
+
         </div>
 
+
+        <!-- ===================== -->
+        <!-- LISTA ZEGARKÓW -->
+        <!-- ===================== -->
+
         <div class="row g-4">
-            @for (watch of watches(); track watch.id) {
+
+            @for (
+                watch of watches();
+                track watch.id
+            ) {
+
                 <div class="col-12 col-md-6 col-lg-4">
+
                     <app-watch-card
                         [watch]="watch"
                         (watchUpdated)="loadWatches()"
                         [editWatchPhotos]="editWatchPhotos()">
+
                     </app-watch-card>
+
                 </div>
+
             }
+
         </div>
+
+
+        <!-- ===================== -->
+        <!-- BRAK WYNIKÓW -->
+        <!-- ===================== -->
+
+        @if (watches().length === 0) {
+
+            <div
+                class="border border-light bg-white py-5 px-4 text-center mt-4">
+
+                <span
+                    class="text-uppercase text-secondary d-block mb-2"
+                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+
+                    Brak wyników
+
+                </span>
+
+
+                <p class="text-dark mb-0">
+
+                    Nie znaleziono zegarków
+                    spełniających podane kryteria.
+
+                </p>
+
+            </div>
+
+        }
+
     </div>
+
+
+    <!-- ===================== -->
+    <!-- PAGINACJA -->
+    <!-- ===================== -->
 
     <app-pagination-buttons
         [currentPage]="currentPage()"
         [totalPages]="totalPages()"
         (previous)="previousPage()"
         (next)="nextPage()">
+
     </app-pagination-buttons>
+
 </div>
+

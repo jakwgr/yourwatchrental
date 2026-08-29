@@ -1,9 +1,6 @@
 package com.yourwatchrental.watchrental.watch.watchphoto;
 
 import com.yourwatchrental.watchrental.watch.Watch;
-import com.yourwatchrental.watchrental.watch.watchhistory.WatchHistory;
-import com.yourwatchrental.watchrental.watch.watchhistory.dto.WatchHistoryRequestDTO;
-import com.yourwatchrental.watchrental.watch.watchhistory.dto.WatchHistoryResponseDTO;
 import com.yourwatchrental.watchrental.watch.watchphoto.dto.WatchPhotoRequestDTO;
 import com.yourwatchrental.watchrental.watch.watchphoto.dto.WatchPhotoResponseDTO;
 import org.mapstruct.Mapper;

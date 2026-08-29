@@ -46,6 +46,10 @@ public class RentalSpecification {
                         "endDate",
                         request.endDateFrom(),
                         request.endDateTo()
+                ))
+                .and(SpecificationUtil.equals(
+                        "createdAt",
+                        request.createdAt()
                 ));
     }
 }

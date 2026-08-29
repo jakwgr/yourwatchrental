@@ -1,14 +1,32 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { NavigationError, Router, RouterOutlet } from '@angular/router';
 import { Navbar } from './shared/components/navbar-view/navbar-view';
 import { FooterView } from './shared/components/footer-view/footer-view';
+import { WelcomeCookie } from './shared/components/welcome-cookie/welcome-cookie';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, FooterView],
+  imports: [RouterOutlet, Navbar, FooterView, WelcomeCookie],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('frontend');
+  private router = inject(Router);
+
+constructor() {
+  this.router.events.subscribe(event => {
+
+    if (event instanceof NavigationError) {
+
+      console.error('Błąd routingu:', event.error);
+
+      this.router.navigate([
+        '/error-something-went-wrong'
+      ]);
+
+    }
+
+  });
+}
 }

@@ -13,6 +13,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -66,6 +67,15 @@ public class Rental {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "watch_id", nullable = false)
     private Watch watch;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
 
     public Rental(LocalDate startDate, LocalDate endDate, BigDecimal totalPrice, PaymentMethod paymentMethod, RentalStatus rentalStatus, PaymentStatus paymentStatus, Branch branch, User user, Watch watch) {
         this.startDate = startDate;

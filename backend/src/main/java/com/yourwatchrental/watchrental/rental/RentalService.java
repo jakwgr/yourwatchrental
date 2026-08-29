@@ -4,6 +4,7 @@ import com.yourwatchrental.watchrental.branch.Branch;
 import com.yourwatchrental.watchrental.branch.BranchRepository;
 import com.yourwatchrental.watchrental.branch.BranchService;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchNotFoundException;
+import com.yourwatchrental.watchrental.email.EmailService;
 import com.yourwatchrental.watchrental.rental.dto.request.PaymentStatusChangeRequestDTO;
 import com.yourwatchrental.watchrental.rental.dto.request.RentalFilterRequestDTO;
 import com.yourwatchrental.watchrental.rental.dto.request.RentalRequestDTO;
@@ -43,6 +44,7 @@ public class RentalService {
     private final RentalRepository rentalRepository;
     private final RentalMapper rentalMapper;
 
+    private final EmailService emailService;
     private final WatchService watchService;
     private final BranchService branchService;
     private final UserService userService;
@@ -73,7 +75,7 @@ public class RentalService {
     @Transactional
     public RentalResponseDTO createRental(RentalRequestDTO request)
     {
-        Watch watch = watchRepository.findById(request.watchId())
+        Watch watch = watchRepository.findByIdWithLock(request.watchId())
                 .orElseThrow(() -> new WatchNotFoundException(request.watchId()));
 
         Branch branch = branchRepository.findById(watch.getBranch().getId())
@@ -134,7 +136,10 @@ public class RentalService {
                 watch
         );
 
-        return rentalMapper.toResponseDTO(rentalRepository.save(rental));
+        RentalResponseDTO response = rentalMapper.toResponseDTO(rentalRepository.save(rental));
+
+//        emailService.sendEmail("yourwatchrental@interia.pl", response);
+        return response;
     }
 
     @Transactional

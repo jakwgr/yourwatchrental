@@ -1,109 +1,505 @@
-<p>rentals works!</p>
-<form [formGroup]="rentalFilterForm" (ngSubmit)="searchRentals()">
+```html
+<div class="container py-5">
 
-  <select formControlName="rentalStatus">
-    <option [ngValue]="null">Każdy status</option>
+    <!-- ===================== -->
+    <!-- NAGŁÓWEK -->
+    <!-- ===================== -->
 
-    @for (status of rentalStatusOptions; track status) {
-      <option [ngValue]="status">
-        {{ status }}
-      </option>
-    }
-  </select>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
 
-  <select formControlName="paymentStatus">
-    <option [ngValue]="null">Każdy status płatności</option>
+        <div>
 
-    @for (status of paymentStatusOptions; track status) {
-      <option [ngValue]="status">
-        {{ status }}
-      </option>
-    }
-  </select>
+            <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
+                style="color: #bfa130; letter-spacing: 2px;">
+                Wypożyczenia
+            </span>
 
-  <select formControlName="paymentMethod">
-    <option [ngValue]="null">Każda metoda</option>
+            <h2 class="h3 text-dark fw-light mb-0">
+                Wyszukiwanie wypożyczeń
+            </h2>
 
-    @for (method of paymentMethodOptions; track method) {
-      <option [ngValue]="method">
-        {{ method }}
-      </option>
-    }
-  </select>
+        </div>
 
-  <select formControlName="watchId">
-  <option [ngValue]="null">Wszystkie zegarki</option>
+    </div>
 
-  @for (watch of watches(); track watch.id) {
-    <option [ngValue]="watch.id">
-      {{ watch.manufacturer }} {{ watch.model }}
-    </option>
-  }
-</select>
 
-<select formControlName="branchId">
-  <option [ngValue]="null">Wszystkie oddziały</option>
+    <!-- ===================== -->
+    <!-- FORMULARZ FILTROWANIA -->
+    <!-- ===================== -->
 
-  @for (branch of branches(); track branch.id) {
-    <option [ngValue]="branch.id">
-      {{ branch.name }} - {{ branch.city }}
-    </option>
-  }
-</select>
+    <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
 
-  <label>Data rozpoczęcia od:</label>
-  <input type="date" formControlName="startDateFrom">
+        <form [formGroup]="rentalFilterForm" (ngSubmit)="searchRentals()">
 
-  <label>Data rozpoczęcia do:</label>
-  <input type="date" formControlName="startDateTo">
 
-  <label>Data zakończenia od:</label>
-  <input type="date" formControlName="endDateFrom">
+            <!-- ===================== -->
+            <!-- PODSTAWOWE FILTRY -->
+            <!-- ===================== -->
 
-  <label>Data zakończenia do:</label>
-  <input type="date" formControlName="endDateTo">
+            <div class="row g-4">
 
-  <button (click)="searchRentals()">Szukaj</button>
 
-</form>
-<div class="rentals">
+                <!-- STATUS WYPOŻYCZENIA -->
 
-  @if(paramId() != null)
-  {
-    @if(isWatchId() == true)
-    {
-      <h1>wypozyczenia dla zegarka: {{this.watch()?.manufacturer}} {{this.watch()?.model}}</h1>
-    }
-    @else if(isWatchId() == false)
-    {
-    <h1>wypozyczenia uzytkownika: {{this.user()?.firstName}} {{this.user()?.lastName}}</h1>
-    }
-  }
-  @else {
-    <h1>Moje wypożyczenia</h1>
-  }
-  
+                <div class="col-12 col-md-4">
 
-  @for (rental of rentals(); track rental.id) {
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Status wypożyczenia
+                    </label>
 
-<app-rental-view
-    [rental]="rental"
-    [admin]="profile()?.role === role.ADMIN"
-    [seeUser]="adminId()"
-    [user]="user()?.id"
-    (reloadRental)="reloadRental()">
-</app-rental-view>
-  }
+                    <select
+                        class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;" formControlName="rentalStatus">
 
-  @if (rentals().length === 0) {
-    <p>Nie masz jeszcze żadnych wypożyczeń.</p>
-  }
+                        <option [ngValue]="null">
+                            Każdy status
+                        </option>
+
+                        @for (
+                        status of rentalStatusOptions;
+                        track status
+                        ) {
+
+                        <option [ngValue]="status">
+                            {{ statusLabel[status] }}
+                        </option>
+
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <!-- STATUS PŁATNOŚCI -->
+
+                <div class="col-12 col-md-4">
+
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Status płatności
+                    </label>
+
+                    <select
+                        class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;" formControlName="paymentStatus">
+
+                        <option [ngValue]="null">
+                            Każdy status płatności
+                        </option>
+
+                        @for (
+                        status of paymentStatusOptions;
+                        track status
+                        ) {
+
+                        <option [ngValue]="status">
+                            {{ paymentStatusLabel[status] }}
+                        </option>
+
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <!-- METODA PŁATNOŚCI -->
+
+                <div class="col-12 col-md-4">
+
+                    <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Metoda płatności
+                    </label>
+
+                    <select
+                        class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                        style="border-color: #dee2e6 !important;" formControlName="paymentMethod">
+
+                        <option [ngValue]="null">
+                            Każda metoda
+                        </option>
+
+                        @for (
+                        method of paymentMethodOptions;
+                        track method
+                        ) {
+
+                        <option [ngValue]="method">
+                            {{ paymentMethodLabel[method] }}
+                        </option>
+
+                        }
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===================== -->
+            <!-- FILTRY ZAAWANSOWANE -->
+            <!-- ===================== -->
+
+            <div class="mt-4 pt-2 border-top border-light">
+
+                <button type="button"
+                    class="btn btn-link text-decoration-none border-0 rounded-0 p-0 text-uppercase fw-semibold d-flex align-items-center"
+                    style="color: #1a1a1a; font-size: 0.7rem; letter-spacing: 1.5px;" (click)="toggleAdvancedFilters()">
+
+                    <span>
+                        {{
+                        advancedFilters()
+                        ? 'Ukryj filtry zaawansowane'
+                        : 'Filtry zaawansowane'
+                        }}
+                    </span>
+
+                    <span class="ms-2 fs-6">
+                        {{
+                        advancedFilters()
+                        ? '↑'
+                        : '↓'
+                        }}
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="advanced-filters" [class.expanded]="advancedFilters()">
+
+                <div class="row g-4 pt-3">
+
+
+                    <!-- ===================== -->
+                    <!-- ODDZIAŁ -->
+                    <!-- ===================== -->
+
+                    <div class="col-12 col-md-6">
+
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Oddział
+                        </label>
+
+                        <select
+                            class="form-select bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="branchId">
+
+                            <option [ngValue]="null">
+                                Wszystkie oddziały
+                            </option>
+
+                            @for (
+                            branch of branches();
+                            track branch.id
+                            ) {
+
+                            <option [ngValue]="branch.id">
+                                {{ branch.name }} - {{ branch.city }}
+                            </option>
+
+                            }
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ===================== -->
+                    <!-- PUSTA PRZESTRZEŃ -->
+                    <!-- ===================== -->
+
+                    <div class="col-12 col-md-6">
+                    </div>
+
+
+                    <!-- ===================== -->
+                    <!-- DATY ROZPOCZĘCIA -->
+                    <!-- ===================== -->
+
+                    <div class="col-12 col-md-6">
+
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Data rozpoczęcia od
+                        </label>
+
+                        <input type="date"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="startDateFrom">
+
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Data rozpoczęcia do
+                        </label>
+
+                        <input type="date"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="startDateTo">
+
+                    </div>
+
+
+                    <!-- ===================== -->
+                    <!-- DATY ZAKOŃCZENIA -->
+                    <!-- ===================== -->
+
+                    <div class="col-12 col-md-6">
+
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Data zakończenia od
+                        </label>
+
+                        <input type="date"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="endDateFrom">
+
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Data zakończenia do
+                        </label>
+
+                        <input type="date"
+                            class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
+                            style="border-color: #dee2e6 !important;" formControlName="endDateTo">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===================== -->
+            <!-- PRZYCISKI AKCJI -->
+            <!-- ===================== -->
+
+            ```html
+            <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
+
+                <button type="submit"
+                    class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none flex-grow-1"
+                    style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 60%;">
+
+                    Szukaj wypożyczeń
+
+                </button>
+
+
+                
+                
+
+
+                @if(profile()?.role === "ADMIN")
+                {
+                    <button type="button"
+                    class="btn text-uppercase fw-semibold py-3 text-dark bg-transparent border border-dark rounded-0 transition-all shadow-none"
+                    style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 180px;"
+                    (click)="showAllRentals()">
+
+                    Wszystkie wypożyczenia
+
+                </button>
+                }
+                <button type="button"
+                    class="btn text-uppercase fw-semibold py-3 text-dark bg-transparent border border-dark rounded-0 transition-all shadow-none"
+                    style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 150px;"
+                    (click)="resetFilters()">
+
+                    Wyczyść
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- ===================== -->
+    <!-- WYNIKI -->
+    <!-- ===================== -->
+
+    <div id="section"></div>
+
+
+    <div>
+
+
+        <!-- ===================== -->
+        <!-- NAGŁÓWEK WYNIKÓW -->
+        <!-- ===================== -->
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
+
+
+            <!-- LEWA STRONA -->
+
+            <div>
+
+                @if (paramId() != null) {
+
+                @if (isWatchId()) {
+
+                <span class="text-uppercase text-secondary d-block mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                    Wypożyczenia zegarka
+                </span>
+
+                <h2 class="h4 text-dark fw-light mb-0">
+                    {{ watch()?.manufacturer }}
+                    {{ watch()?.model }}
+                </h2>
+
+                }
+                @else {
+
+                <span class="text-uppercase text-secondary d-block mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                    Wypożyczenia użytkownika
+                </span>
+
+                <h2 class="h4 text-dark fw-light mb-0">
+                    {{ user()?.firstName }}
+                    {{ user()?.lastName }}
+                </h2>
+
+                }
+
+                }
+                @else {
+
+                <span class="text-uppercase text-secondary d-block mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                    Historia
+                </span>
+
+                <h2 class="h4 text-dark fw-light mb-0">
+                    Moje wypożyczenia
+                </h2>
+
+                }
+
+            </div>
+
+
+            <!-- PRAWA STRONA -->
+
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+
+
+                <!-- SORTOWANIE -->
+
+                <div class="d-flex align-items-center gap-2">
+
+                    <label class="text-uppercase text-secondary mb-0"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Sortuj
+                    </label>
+
+                    <select class="form-select bg-white text-dark shadow-none rounded-0" style="width: 220px;"
+                        [value]="sort()" (change)="changeSort($event)">
+
+                        <option value="createdAt,desc">
+                            Najnowsze
+                        </option>
+
+                        <option value="createdAt,asc">
+                            Najstarsze
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- LICZBA WYNIKÓW -->
+
+                <p class="text-secondary small text-uppercase mb-0 text-end" style="letter-spacing: 1.5px;">
+
+                    Wyniki:
+
+                    <span class="fw-bold text-dark">
+                        {{ rentals().length }}
+                    </span>
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================== -->
+        <!-- LISTA WYPOŻYCZEŃ -->
+        <!-- ===================== -->
+
+        <div class="d-flex flex-column gap-3">
+
+            @for (
+            rental of rentals();
+            track rental.id
+            ) {
+
+            <app-rental-view [rental]="rental" [admin]="profile()?.role === role.ADMIN" [seeUser]="adminId()"
+                [user]="user()?.id" (reloadRental)="reloadRental()">
+            </app-rental-view>
+
+            }
+
+        </div>
+
+
+        <!-- ===================== -->
+        <!-- BRAK WYNIKÓW -->
+        <!-- ===================== -->
+
+        @if (rentals().length === 0) {
+
+        <div class="border border-light bg-white py-5 px-4 text-center">
+
+            <span class="text-uppercase text-secondary d-block mb-2" style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Brak wyników
+            </span>
+
+            <p class="text-dark mb-0">
+                Nie znaleziono wypożyczeń
+                spełniających podane kryteria.
+            </p>
+
+        </div>
+
+        }
+
+    </div>
+
+
+    <!-- ===================== -->
+    <!-- PAGINACJA -->
+    <!-- ===================== -->
+
+    <app-pagination-buttons [currentPage]="currentPage()" [totalPages]="totalPages()" (previous)="previousPage()"
+        (next)="nextPage()">
+    </app-pagination-buttons>
 
 </div>
-
- <app-pagination-buttons
-    [currentPage]="currentPage()"
-    [totalPages]="totalPages()"
-    (previous)="previousPage()"
-    (next)="nextPage()">
-</app-pagination-buttons>
+```

@@ -4,10 +4,11 @@ import { PaymentStatus } from '../../../core/models/rentals/payment-status';
 import { RentalStatus } from '../../../core/models/rentals/rental-status';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RentalsService } from '../../../core/services/rentals/rentals-service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-rental-view',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, DatePipe],
   templateUrl: './rental-view.html',
   styleUrl: './rental-view.css',
 })

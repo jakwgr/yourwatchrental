@@ -1,5 +1,6 @@
 package com.yourwatchrental.watchrental.rental;
 
+import com.yourwatchrental.watchrental.email.EmailService;
 import com.yourwatchrental.watchrental.rental.dto.request.PaymentStatusChangeRequestDTO;
 import com.yourwatchrental.watchrental.rental.dto.request.RentalFilterRequestDTO;
 import com.yourwatchrental.watchrental.rental.dto.request.RentalRequestDTO;
@@ -23,6 +24,8 @@ import java.util.UUID;
 public class RentalController {
 
     private final RentalService rentalService;
+
+    private final EmailService emailService;
 
     @PostMapping
     public ResponseEntity<RentalResponseDTO> createRental(@RequestBody @Valid RentalRequestDTO request)

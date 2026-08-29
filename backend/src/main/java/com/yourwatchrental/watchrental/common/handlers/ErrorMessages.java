@@ -40,9 +40,11 @@ public enum ErrorMessages {
     RENTAL_TOO_LATE_CHANGE_CANCEL("It is too late to cancel this rental. Please contact support for assistance."),
     RENTAL_PAYMENT_STATUS_CHANGE_NOT_ALLOWED("Payment status change is not allowed from the current status"),
 
-    RESOURCE_FORBIDDEN("You don't have permission to access this resource");
+    RESOURCE_FORBIDDEN("You don't have permission to access this resource"),
 
+    RENTAL_EXISTS("Watch is already rented for the selected dates"),
 
+    FAILED_EMAIL("Failed to send rental confirmation email");
     private final String message;
     ErrorMessages(String message){
         this.message = message;

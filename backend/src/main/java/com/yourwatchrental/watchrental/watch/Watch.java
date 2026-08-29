@@ -3,7 +3,6 @@ package com.yourwatchrental.watchrental.watch;
 import com.yourwatchrental.watchrental.branch.Branch;
 import com.yourwatchrental.watchrental.rental.Rental;
 import com.yourwatchrental.watchrental.watch.enums.*;
-import com.yourwatchrental.watchrental.watch.watchhistory.WatchHistory;
 import com.yourwatchrental.watchrental.watch.watchphoto.PhotoType;
 import com.yourwatchrental.watchrental.watch.watchphoto.WatchPhoto;
 import jakarta.persistence.*;
@@ -76,10 +75,6 @@ public class Watch {
     @Column(nullable = false, name = "watch_type")
     @Enumerated(EnumType.STRING)
     private WatchType watchType;
-
-    @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "watch", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WatchHistory> history = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "watch", cascade = CascadeType.ALL, orphanRemoval = true)
