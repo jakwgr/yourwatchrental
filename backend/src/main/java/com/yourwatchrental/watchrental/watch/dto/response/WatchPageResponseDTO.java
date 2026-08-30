@@ -1,6 +1,8 @@
 package com.yourwatchrental.watchrental.watch.dto.response;
 
-import com.yourwatchrental.watchrental.watch.enums.*;
+import com.yourwatchrental.watchrental.watch.enums.Condition;
+import com.yourwatchrental.watchrental.watch.enums.Status;
+import com.yourwatchrental.watchrental.watch.enums.WatchType;
 
 import java.math.BigDecimal;
 import java.util.UUID;

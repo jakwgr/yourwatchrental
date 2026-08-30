@@ -1,7 +1,7 @@
 package com.yourwatchrental.watchrental.branch.exceptions;
 
-import com.yourwatchrental.watchrental.common.handlers.ErrorMessages;
 import com.yourwatchrental.watchrental.common.exceptions.ResourceNotFoundException;
+import com.yourwatchrental.watchrental.common.handlers.ErrorMessages;
 
 import java.util.UUID;
 

@@ -1,12 +1,12 @@
 package com.yourwatchrental.watchrental.watch.dto.request;
 
-import com.yourwatchrental.watchrental.watch.enums.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.yourwatchrental.watchrental.watch.enums.Condition;
+import com.yourwatchrental.watchrental.watch.enums.Gender;
+import com.yourwatchrental.watchrental.watch.enums.MovementType;
+import com.yourwatchrental.watchrental.watch.enums.WatchType;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public record WatchUpdateRequestDTO(
         String manufacturer,

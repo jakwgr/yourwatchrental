@@ -2,7 +2,6 @@ package com.yourwatchrental.watchrental.watch.watchphoto;
 
 import com.yourwatchrental.watchrental.watch.watchphoto.dto.WatchPhotoRequestDTO;
 import com.yourwatchrental.watchrental.watch.watchphoto.dto.WatchPhotoResponseDTO;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

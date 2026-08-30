@@ -4,7 +4,6 @@ package com.yourwatchrental.watchrental.watch.specification;
 import com.yourwatchrental.watchrental.common.specification.SpecificationUtil;
 import com.yourwatchrental.watchrental.watch.Watch;
 import com.yourwatchrental.watchrental.watch.dto.request.WatchFilterRequestDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 public class WatchSpecification {

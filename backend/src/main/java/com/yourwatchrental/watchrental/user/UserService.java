@@ -4,38 +4,28 @@ import com.yourwatchrental.watchrental.security.JwUtil;
 import com.yourwatchrental.watchrental.security.SecurityUtil;
 import com.yourwatchrental.watchrental.user.dto.request.*;
 import com.yourwatchrental.watchrental.user.dto.response.UserResponseDTO;
-
 import com.yourwatchrental.watchrental.user.exceptions.*;
 import com.yourwatchrental.watchrental.user.exceptions.userChangeEmail.UserUpdateSameEmailException;
-import com.yourwatchrental.watchrental.user.exceptions.UserDisabledException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdateNotSamePasswordException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdatePasswordChangeDoesNotMatchException;
 import com.yourwatchrental.watchrental.user.exceptions.userChangePassword.UserUpdateSamePasswordException;
-import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserSamePhoneNumberException;
 import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserSameRoleException;
 import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserSameStatusException;
 import com.yourwatchrental.watchrental.user.exceptions.userUpdate.UserWrongPasswordException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
-
 
 
 @Service

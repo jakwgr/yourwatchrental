@@ -19,9 +19,7 @@ import com.yourwatchrental.watchrental.user.exceptions.UserNotFoundException;
 import com.yourwatchrental.watchrental.watch.Watch;
 import com.yourwatchrental.watchrental.watch.WatchRepository;
 import com.yourwatchrental.watchrental.watch.WatchService;
-import com.yourwatchrental.watchrental.watch.dto.request.WatchStatusUpdateRequestDTO;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
-import com.yourwatchrental.watchrental.watch.enums.Status;
 import com.yourwatchrental.watchrental.watch.exceptions.WatchNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,9 +38,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class RentalCreateServiceTest {

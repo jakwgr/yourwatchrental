@@ -1,9 +1,7 @@
 package com.yourwatchrental.watchrental.watch.dto.response;
 
-import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import com.yourwatchrental.watchrental.branch.dto.BranchShortResponseDTO;
 import com.yourwatchrental.watchrental.watch.enums.*;
-import com.yourwatchrental.watchrental.watch.watchphoto.dto.WatchPhotoResponseDTO;
 import com.yourwatchrental.watchrental.watch.watchphoto.dto.WatchPhotoShortResponseDTO;
 
 import java.math.BigDecimal;

@@ -6,7 +6,6 @@ import com.yourwatchrental.watchrental.branch.exceptions.BranchNotFoundException
 import com.yourwatchrental.watchrental.watch.dto.request.*;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchCardResponseDTO;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
-import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
 import com.yourwatchrental.watchrental.watch.exceptions.WatchNotFoundException;
 import com.yourwatchrental.watchrental.watch.exceptions.WatchSameSerialNumberAsBeforeException;
 import com.yourwatchrental.watchrental.watch.exceptions.WatchSameSerialNumberException;

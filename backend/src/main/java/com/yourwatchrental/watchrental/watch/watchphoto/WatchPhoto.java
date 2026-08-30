@@ -2,14 +2,11 @@ package com.yourwatchrental.watchrental.watch.watchphoto;
 
 import com.yourwatchrental.watchrental.watch.Watch;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @NoArgsConstructor

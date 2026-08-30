@@ -1,12 +1,10 @@
 package com.yourwatchrental.watchrental.email;
 
-import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import com.yourwatchrental.watchrental.rental.dto.response.RentalResponseDTO;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;

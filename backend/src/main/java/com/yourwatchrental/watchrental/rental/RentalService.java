@@ -20,7 +20,6 @@ import com.yourwatchrental.watchrental.user.exceptions.UserNotFoundException;
 import com.yourwatchrental.watchrental.watch.Watch;
 import com.yourwatchrental.watchrental.watch.WatchRepository;
 import com.yourwatchrental.watchrental.watch.WatchService;
-import com.yourwatchrental.watchrental.watch.dto.request.WatchStatusUpdateRequestDTO;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchAvailabilityResponseDTO;
 import com.yourwatchrental.watchrental.watch.enums.Status;
 import com.yourwatchrental.watchrental.watch.exceptions.WatchNotFoundException;

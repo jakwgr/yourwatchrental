@@ -3,8 +3,6 @@ package com.yourwatchrental.watchrental.rental.specifications;
 import com.yourwatchrental.watchrental.common.specification.SpecificationUtil;
 import com.yourwatchrental.watchrental.rental.Rental;
 import com.yourwatchrental.watchrental.rental.dto.request.RentalFilterRequestDTO;
-import com.yourwatchrental.watchrental.watch.Watch;
-import com.yourwatchrental.watchrental.watch.dto.request.WatchFilterRequestDTO;
 import org.springframework.data.jpa.domain.Specification;
 
 public class RentalSpecification {

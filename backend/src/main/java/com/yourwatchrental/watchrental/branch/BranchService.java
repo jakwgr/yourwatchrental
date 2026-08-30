@@ -1,16 +1,12 @@
 package com.yourwatchrental.watchrental.branch;
 
 import com.yourwatchrental.watchrental.branch.dto.BranchFilterCriteriaRequest;
+import com.yourwatchrental.watchrental.branch.dto.BranchRequestDTO;
+import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import com.yourwatchrental.watchrental.branch.dto.BranchStatusUpdateRequestDTO;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchEmailUsedException;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchNotFoundException;
-import com.yourwatchrental.watchrental.branch.dto.BranchRequestDTO;
-import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchPhoneNumberUsedException;
-import com.yourwatchrental.watchrental.watch.Watch;
-import com.yourwatchrental.watchrental.watch.dto.request.WatchStatusUpdateRequestDTO;
-import com.yourwatchrental.watchrental.watch.dto.response.WatchResponseDTO;
-import com.yourwatchrental.watchrental.watch.exceptions.WatchNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;

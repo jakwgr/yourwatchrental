@@ -1,6 +1,5 @@
 package com.yourwatchrental.watchrental.watch.dto.request;
 
-import com.yourwatchrental.watchrental.branch.Branch;
 import com.yourwatchrental.watchrental.watch.enums.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

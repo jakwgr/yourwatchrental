@@ -1,6 +1,5 @@
 package com.yourwatchrental.watchrental.user;
 
-import com.yourwatchrental.watchrental.rental.dto.response.RentalResponseDTO;
 import com.yourwatchrental.watchrental.security.CustomUserDetailsService;
 import com.yourwatchrental.watchrental.security.JwUtil;
 import com.yourwatchrental.watchrental.security.SecurityUtil;

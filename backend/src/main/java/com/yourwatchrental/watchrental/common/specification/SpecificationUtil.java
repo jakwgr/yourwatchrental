@@ -1,10 +1,6 @@
 package com.yourwatchrental.watchrental.common.specification;
 
-import com.yourwatchrental.watchrental.watch.Watch;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 public class SpecificationUtil {
 

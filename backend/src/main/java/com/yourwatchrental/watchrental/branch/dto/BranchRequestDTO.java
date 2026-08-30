@@ -3,9 +3,6 @@ package com.yourwatchrental.watchrental.branch.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 public record BranchRequestDTO(
         @NotBlank(message = "City is required")

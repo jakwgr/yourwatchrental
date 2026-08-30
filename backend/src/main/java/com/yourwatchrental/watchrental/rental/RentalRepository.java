@@ -1,6 +1,5 @@
 package com.yourwatchrental.watchrental.rental;
 
-import com.yourwatchrental.watchrental.rental.dto.request.RentalFilterRequestDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

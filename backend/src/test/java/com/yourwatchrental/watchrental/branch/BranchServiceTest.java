@@ -6,7 +6,6 @@ import com.yourwatchrental.watchrental.branch.dto.BranchStatusUpdateRequestDTO;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchEmailUsedException;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchNotFoundException;
 import com.yourwatchrental.watchrental.branch.exceptions.BranchPhoneNumberUsedException;
-import com.yourwatchrental.watchrental.email.EmailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

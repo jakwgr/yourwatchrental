@@ -1,19 +1,17 @@
 package com.yourwatchrental.watchrental.watch;
 
 import com.yourwatchrental.watchrental.branch.BranchMapper;
-import com.yourwatchrental.watchrental.branch.dto.BranchResponseDTO;
 import com.yourwatchrental.watchrental.branch.dto.BranchShortResponseDTO;
+import com.yourwatchrental.watchrental.watch.dto.request.WatchRequestDTO;
+import com.yourwatchrental.watchrental.watch.dto.request.WatchUpdateRequestDTO;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchCardResponseDTO;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchFullInfoResponseDTO;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchPageResponseDTO;
-import com.yourwatchrental.watchrental.watch.dto.request.WatchRequestDTO;
 import com.yourwatchrental.watchrental.watch.dto.response.WatchResponseDTO;
-import com.yourwatchrental.watchrental.watch.dto.request.WatchUpdateRequestDTO;
 import com.yourwatchrental.watchrental.watch.watchphoto.WatchPhoto;
 import com.yourwatchrental.watchrental.watch.watchphoto.WatchPhotoMapper;
 import com.yourwatchrental.watchrental.watch.watchphoto.dto.WatchPhotoShortResponseDTO;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         uses = {WatchPhotoMapper.class, BranchMapper.class})

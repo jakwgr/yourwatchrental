@@ -1,9 +1,7 @@
 package com.yourwatchrental.watchrental.user.dto.response;
 
 import com.yourwatchrental.watchrental.user.Role;
-import com.yourwatchrental.watchrental.user.User;
 import com.yourwatchrental.watchrental.user.UserStatus;
-import com.yourwatchrental.watchrental.watch.enums.Status;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
