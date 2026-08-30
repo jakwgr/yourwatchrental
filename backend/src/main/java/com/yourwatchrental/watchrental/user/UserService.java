@@ -112,7 +112,7 @@ public class UserService {
 
         return users
                 .map(userMapper::toResponseDTO);
-    };
+    }
 
     @Transactional
     public UserResponseDTO updateUserAdmin(UUID id, UserInformationUpdateRequestDTO request)

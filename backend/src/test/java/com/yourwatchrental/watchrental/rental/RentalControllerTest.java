@@ -70,7 +70,7 @@ public class RentalControllerTest {
 
         verify(rentalService)
                 .createRental(any(RentalRequestDTO.class));
-    };
+    }
 
 
     @Test

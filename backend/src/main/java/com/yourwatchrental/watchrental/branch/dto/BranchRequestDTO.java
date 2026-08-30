@@ -24,4 +24,4 @@ public record BranchRequestDTO(
         @NotBlank(message = "Email is required")
         @Email(message = "Invalid email format")
         String email
-) {};
+) {}

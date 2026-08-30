@@ -13,4 +13,4 @@ public record BranchResponseDTO(
         String email,
         BranchStatus status
 ) {
-};
+}

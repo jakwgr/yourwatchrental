@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public class RentalConflictException extends ResourceAlreadyUsedException {
     public RentalConflictException() {
-        super(ErrorMessages.RENTAL_EXISTS.getMessage());;
+        super(ErrorMessages.RENTAL_EXISTS.getMessage());
     }
 }
