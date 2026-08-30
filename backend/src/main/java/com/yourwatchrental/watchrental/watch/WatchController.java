@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ public class WatchController {
     private final RentalService rentalService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WatchFullInfoResponseDTO> createWatch(@RequestBody @Valid WatchRequestDTO request) {
         WatchFullInfoResponseDTO watch = watchService.createWatch(request);
 
@@ -42,18 +44,21 @@ public class WatchController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WatchFullInfoResponseDTO> updateWatch(@PathVariable UUID id, @RequestBody @Valid WatchUpdateRequestDTO request)
     {
         return ResponseEntity.ok(watchService.updateWatch(id, request));
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WatchFullInfoResponseDTO> updateWatchStatus(@PathVariable UUID id, @RequestBody @Valid WatchStatusUpdateRequestDTO request)
     {
         return ResponseEntity.ok(watchService.updateWatchStatus(id, request));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> hardDeleteWatch(@PathVariable UUID id)
     {
         watchService.hardDeleteWatch(id);
@@ -63,6 +68,7 @@ public class WatchController {
     }
 
     @PatchMapping("/{id}/branch")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WatchFullInfoResponseDTO> updateWatchBranch(@PathVariable UUID id, @RequestBody @Valid WatchBranchUpdateRequestDTO request)
     {
         return ResponseEntity
@@ -70,6 +76,7 @@ public class WatchController {
     }
 
     @PatchMapping("/{id}/serial_number")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WatchFullInfoResponseDTO> updateWatchSerialNumber(@PathVariable UUID id, @RequestBody @Valid WatchSerialNumberUpdateRequestDTO request)
     {
         return ResponseEntity

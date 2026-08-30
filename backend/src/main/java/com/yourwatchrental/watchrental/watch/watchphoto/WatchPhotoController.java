@@ -5,6 +5,7 @@ import com.yourwatchrental.watchrental.watch.watchphoto.dto.WatchPhotoResponseDT
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,7 @@ public class WatchPhotoController {
     private final WatchPhotoService watchPhotoService;
 
     @PostMapping(value = "/{watchId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WatchPhotoResponseDTO> createPhoto(
             @PathVariable UUID watchId,
             @RequestPart("file") MultipartFile file,
@@ -53,6 +55,7 @@ public class WatchPhotoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletePhoto(@PathVariable UUID id)
     {
         watchPhotoService.deletePhoto(id);
