@@ -34,13 +34,17 @@ import {
 import { RentalFilterRequestDTO } from '../../core/models/rentals/rental-filter-request.dto';
 import { AdminService } from '../../core/services/admin/admin-service';
 import { WatchFullInfoResponseDTO } from '../../core/models/watches/watch-full-info-response.dto';
+import { PortfolioProjectAlert1 } from '../../shared/components/portfolio-project-alert-1/portfolio-project-alert-1';
+
+
 
 @Component({
   selector: 'app-rentals',
   imports: [
     RentalView,
     ReactiveFormsModule,
-    PaginationButtons
+    PaginationButtons,
+    PortfolioProjectAlert1
   ],
   templateUrl: './rentals.html',
   styleUrl: './rentals.css',

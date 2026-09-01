@@ -1,8 +1,7 @@
-```html
 <div class="container py-5">
 
     <!-- ===================== -->
-    <!-- NAGŁÓWEK -->
+    <!-- HEADER -->
     <!-- ===================== -->
 
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
@@ -11,11 +10,11 @@
 
             <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
                 style="color: #bfa130; letter-spacing: 2px;">
-                Wypożyczenia
+                Rentals
             </span>
 
             <h2 class="h3 text-dark fw-light mb-0">
-                Wyszukiwanie wypożyczeń
+                Rental Search
             </h2>
 
         </div>
@@ -24,7 +23,7 @@
 
 
     <!-- ===================== -->
-    <!-- FORMULARZ FILTROWANIA -->
+    <!-- FILTER FORM -->
     <!-- ===================== -->
 
     <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
@@ -33,19 +32,19 @@
 
 
             <!-- ===================== -->
-            <!-- PODSTAWOWE FILTRY -->
+            <!-- BASIC FILTERS -->
             <!-- ===================== -->
 
             <div class="row g-4">
 
 
-                <!-- STATUS WYPOŻYCZENIA -->
+                <!-- RENTAL STATUS -->
 
                 <div class="col-12 col-md-4">
 
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                        Status wypożyczenia
+                        Rental Status
                     </label>
 
                     <select
@@ -53,7 +52,7 @@
                         style="border-color: #dee2e6 !important;" formControlName="rentalStatus">
 
                         <option [ngValue]="null">
-                            Każdy status
+                            Any Status
                         </option>
 
                         @for (
@@ -72,13 +71,13 @@
                 </div>
 
 
-                <!-- STATUS PŁATNOŚCI -->
+                <!-- PAYMENT STATUS -->
 
                 <div class="col-12 col-md-4">
 
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                        Status płatności
+                        Payment Status
                     </label>
 
                     <select
@@ -86,7 +85,7 @@
                         style="border-color: #dee2e6 !important;" formControlName="paymentStatus">
 
                         <option [ngValue]="null">
-                            Każdy status płatności
+                            Any Payment Status
                         </option>
 
                         @for (
@@ -105,13 +104,13 @@
                 </div>
 
 
-                <!-- METODA PŁATNOŚCI -->
+                <!-- PAYMENT METHOD -->
 
                 <div class="col-12 col-md-4">
 
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                        Metoda płatności
+                        Payment Method
                     </label>
 
                     <select
@@ -119,7 +118,7 @@
                         style="border-color: #dee2e6 !important;" formControlName="paymentMethod">
 
                         <option [ngValue]="null">
-                            Każda metoda
+                            Any Payment Method
                         </option>
 
                         @for (
@@ -141,20 +140,21 @@
 
 
             <!-- ===================== -->
-            <!-- FILTRY ZAAWANSOWANE -->
+            <!-- ADVANCED FILTERS -->
             <!-- ===================== -->
 
             <div class="mt-4 pt-2 border-top border-light">
 
                 <button type="button"
                     class="btn btn-link text-decoration-none border-0 rounded-0 p-0 text-uppercase fw-semibold d-flex align-items-center"
-                    style="color: #1a1a1a; font-size: 0.7rem; letter-spacing: 1.5px;" (click)="toggleAdvancedFilters()">
+                    style="color: #1a1a1a; font-size: 0.7rem; letter-spacing: 1.5px;"
+                    (click)="toggleAdvancedFilters()">
 
                     <span>
                         {{
                         advancedFilters()
-                        ? 'Ukryj filtry zaawansowane'
-                        : 'Filtry zaawansowane'
+                        ? 'Hide Advanced Filters'
+                        : 'Advanced Filters'
                         }}
                     </span>
 
@@ -177,14 +177,14 @@
 
 
                     <!-- ===================== -->
-                    <!-- ODDZIAŁ -->
+                    <!-- BRANCH -->
                     <!-- ===================== -->
 
                     <div class="col-12 col-md-6">
 
                         <label class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Oddział
+                            Branch
                         </label>
 
                         <select
@@ -192,7 +192,7 @@
                             style="border-color: #dee2e6 !important;" formControlName="branchId">
 
                             <option [ngValue]="null">
-                                Wszystkie oddziały
+                                All Branches
                             </option>
 
                             @for (
@@ -212,7 +212,7 @@
 
 
                     <!-- ===================== -->
-                    <!-- PUSTA PRZESTRZEŃ -->
+                    <!-- EMPTY SPACE -->
                     <!-- ===================== -->
 
                     <div class="col-12 col-md-6">
@@ -220,14 +220,14 @@
 
 
                     <!-- ===================== -->
-                    <!-- DATY ROZPOCZĘCIA -->
+                    <!-- START DATES -->
                     <!-- ===================== -->
 
                     <div class="col-12 col-md-6">
 
                         <label class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Data rozpoczęcia od
+                            Start Date From
                         </label>
 
                         <input type="date"
@@ -241,7 +241,7 @@
 
                         <label class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Data rozpoczęcia do
+                            Start Date To
                         </label>
 
                         <input type="date"
@@ -252,14 +252,14 @@
 
 
                     <!-- ===================== -->
-                    <!-- DATY ZAKOŃCZENIA -->
+                    <!-- END DATES -->
                     <!-- ===================== -->
 
                     <div class="col-12 col-md-6">
 
                         <label class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Data zakończenia od
+                            End Date From
                         </label>
 
                         <input type="date"
@@ -273,7 +273,7 @@
 
                         <label class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Data zakończenia do
+                            End Date To
                         </label>
 
                         <input type="date"
@@ -288,42 +288,38 @@
 
 
             <!-- ===================== -->
-            <!-- PRZYCISKI AKCJI -->
+            <!-- ACTION BUTTONS -->
             <!-- ===================== -->
 
-            ```html
             <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
 
                 <button type="submit"
                     class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none flex-grow-1"
                     style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 60%;">
 
-                    Szukaj wypożyczeń
+                    Search Rentals
 
                 </button>
-
-
-                
-                
 
 
                 @if(profile()?.role === "ADMIN")
                 {
                     <button type="button"
-                    class="btn text-uppercase fw-semibold py-3 text-dark bg-transparent border border-dark rounded-0 transition-all shadow-none"
-                    style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 180px;"
-                    (click)="showAllRentals()">
+                        class="btn text-uppercase fw-semibold py-3 text-dark bg-transparent border border-dark rounded-0 transition-all shadow-none"
+                        style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 180px;"
+                        (click)="showAllRentals()">
 
-                    Wszystkie wypożyczenia
+                        All Rentals
 
-                </button>
+                    </button>
                 }
+
                 <button type="button"
                     class="btn text-uppercase fw-semibold py-3 text-dark bg-transparent border border-dark rounded-0 transition-all shadow-none"
                     style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 150px;"
                     (click)="resetFilters()">
 
-                    Wyczyść
+                    Clear
 
                 </button>
 
@@ -336,23 +332,26 @@
 
 
     <!-- ===================== -->
-    <!-- WYNIKI -->
+    <!-- RESULTS -->
     <!-- ===================== -->
 
     <div id="section"></div>
 
-
+    <div style="text-align: center;">
+        <app-portfolio-project-alert-1></app-portfolio-project-alert-1>
+    </div>
+    
     <div>
 
 
         <!-- ===================== -->
-        <!-- NAGŁÓWEK WYNIKÓW -->
+        <!-- RESULTS HEADER -->
         <!-- ===================== -->
 
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
 
 
-            <!-- LEWA STRONA -->
+            <!-- LEFT SIDE -->
 
             <div>
 
@@ -362,7 +361,7 @@
 
                 <span class="text-uppercase text-secondary d-block mb-1"
                     style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Wypożyczenia zegarka
+                    Watch Rentals
                 </span>
 
                 <h2 class="h4 text-dark fw-light mb-0">
@@ -371,11 +370,12 @@
                 </h2>
 
                 }
+                
                 @else {
 
                 <span class="text-uppercase text-secondary d-block mb-1"
                     style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Wypożyczenia użytkownika
+                    User Rentals
                 </span>
 
                 <h2 class="h4 text-dark fw-light mb-0">
@@ -388,13 +388,19 @@
                 }
                 @else {
 
+                    
                 <span class="text-uppercase text-secondary d-block mb-1"
                     style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Historia
+                    History
                 </span>
 
                 <h2 class="h4 text-dark fw-light mb-0">
-                    Moje wypożyczenia
+                    @if(showAll())
+                {
+                    All Rentals
+                } @else {
+                    My Rentals
+                }
                 </h2>
 
                 }
@@ -402,29 +408,31 @@
             </div>
 
 
-            <!-- PRAWA STRONA -->
+            <!-- RIGHT SIDE -->
 
             <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
 
 
-                <!-- SORTOWANIE -->
+                <!-- SORTING -->
 
                 <div class="d-flex align-items-center gap-2">
 
                     <label class="text-uppercase text-secondary mb-0"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                        Sortuj
+                        Sort
                     </label>
 
-                    <select class="form-select bg-white text-dark shadow-none rounded-0" style="width: 220px;"
-                        [value]="sort()" (change)="changeSort($event)">
+                    <select class="form-select bg-white text-dark shadow-none rounded-0"
+                        style="width: 220px;"
+                        [value]="sort()"
+                        (change)="changeSort($event)">
 
                         <option value="createdAt,desc">
-                            Najnowsze
+                            Newest
                         </option>
 
                         <option value="createdAt,asc">
-                            Najstarsze
+                            Oldest
                         </option>
 
                     </select>
@@ -432,11 +440,12 @@
                 </div>
 
 
-                <!-- LICZBA WYNIKÓW -->
+                <!-- RESULT COUNT -->
 
-                <p class="text-secondary small text-uppercase mb-0 text-end" style="letter-spacing: 1.5px;">
+                <p class="text-secondary small text-uppercase mb-0 text-end"
+                    style="letter-spacing: 1.5px;">
 
-                    Wyniki:
+                    Results:
 
                     <span class="fw-bold text-dark">
                         {{ rentals().length }}
@@ -450,7 +459,7 @@
 
 
         <!-- ===================== -->
-        <!-- LISTA WYPOŻYCZEŃ -->
+        <!-- RENTAL LIST -->
         <!-- ===================== -->
 
         <div class="d-flex flex-column gap-3">
@@ -460,8 +469,12 @@
             track rental.id
             ) {
 
-            <app-rental-view [rental]="rental" [admin]="profile()?.role === role.ADMIN" [seeUser]="adminId()"
-                [user]="user()?.id" (reloadRental)="reloadRental()">
+            <app-rental-view
+                [rental]="rental"
+                [admin]="profile()?.role === role.ADMIN"
+                [seeUser]="adminId()"
+                [user]="user()?.id"
+                (reloadRental)="reloadRental()">
             </app-rental-view>
 
             }
@@ -470,20 +483,21 @@
 
 
         <!-- ===================== -->
-        <!-- BRAK WYNIKÓW -->
+        <!-- NO RESULTS -->
         <!-- ===================== -->
 
         @if (rentals().length === 0) {
 
         <div class="border border-light bg-white py-5 px-4 text-center">
 
-            <span class="text-uppercase text-secondary d-block mb-2" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                Brak wyników
+            <span class="text-uppercase text-secondary d-block mb-2"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                No Results
             </span>
 
             <p class="text-dark mb-0">
-                Nie znaleziono wypożyczeń
-                spełniających podane kryteria.
+                No rentals were found
+                matching the specified criteria.
             </p>
 
         </div>
@@ -494,12 +508,14 @@
 
 
     <!-- ===================== -->
-    <!-- PAGINACJA -->
+    <!-- PAGINATION -->
     <!-- ===================== -->
 
-    <app-pagination-buttons [currentPage]="currentPage()" [totalPages]="totalPages()" (previous)="previousPage()"
+    <app-pagination-buttons
+        [currentPage]="currentPage()"
+        [totalPages]="totalPages()"
+        (previous)="previousPage()"
         (next)="nextPage()">
     </app-pagination-buttons>
 
 </div>
-```

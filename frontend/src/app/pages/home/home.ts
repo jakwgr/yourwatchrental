@@ -5,9 +5,13 @@ import { RouterLink } from '@angular/router';
 import { WatchesService } from '../../core/services/watches/watches-service';
 import { WatchCardResponseDTO } from '../../core/models/watches/watch-card-response.dto';
 import { WatchCard } from '../../shared/components/watch-card-view/watch-card-view';
+import { PortfolioProjectAlert1 } from '../../shared/components/portfolio-project-alert-1/portfolio-project-alert-1';
+import { PortfolioProjectAlert2 } from '../../shared/components/portfolio-project-alert-2/portfolio-project-alert-2';
+
+
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, WatchCard],
+  imports: [RouterLink, WatchCard, PortfolioProjectAlert2, PortfolioProjectAlert1],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -15,32 +19,37 @@ export class Home implements OnInit, OnDestroy {
 
   private platformId = inject(PLATFORM_ID);
   private watchesService = inject(WatchesService);
-  slides = [
-    {
-      eyebrow: 'Haute Horlogerie',
-      title: 'Czas w Twoich rękach',
-      description: 'Odkryj kolekcję najbardziej ekskluzywnych czasomierzy świata. Wynajmuj bez kompromisów, nosząc precyzję najwyższej klasy.',
-      buttonText: 'Poznaj kolekcję',
-      buttonLink: '/watches',
-      bgImage: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1920&auto=format&fit=crop'
-    },
-    {
-      eyebrow: 'Mistrzowska precyzja',
-      title: 'Szwajcarskie ikony',
-      description: 'Od klasycznych automatów po nowoczesne komplikacje. Wybierz model, który podkreśli Twój styl i status.',
-      buttonText: 'Zobacz nowości',
-      buttonLink: '/watches/new',
-      bgImage: 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?q=80&w=1920&auto=format&fit=crop'
-    },
-    {
-      eyebrow: 'Ekskluzywna oferta',
-      title: 'Limitowane edycje',
-      description: 'Dostęp do rzadkich i poszukiwanych modeli. Poczuj wyjątkowość marki na własnym nadgarstku.',
-      buttonText: 'Aplikuj do klubu',
-      buttonLink: '/membership',
-      bgImage: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1920&auto=format&fit=crop'
-    }
-  ];
+slides = [
+
+  {
+    eyebrow: 'Haute Horlogerie',
+    title: 'Time in Your Hands',
+    description: 'Discover a collection of the world’s most exclusive timepieces. Rent without compromise and experience precision at its finest.',
+    buttonText: 'Explore the Collection',
+    buttonLink: '/watches',
+    bgImage: '/static_photos/photo_slider_3.jpg'
+  },
+
+  {
+    eyebrow: 'Masterful Precision',
+    title: 'Swiss Icons',
+    description: 'From classic automatic watches to modern complications. Choose a timepiece that reflects your style and status.',
+    buttonText: 'Discover New Arrivals',
+    buttonLink: '/watches',
+    bgImage: '/static_photos/photo_slider_2.jpg'
+  },
+
+  {
+    eyebrow: 'Exclusive Selection',
+    title: 'Limited Editions',
+    description: 'Gain access to rare and sought-after timepieces. Experience the exclusivity of iconic brands on your wrist.',
+    buttonText: 'Let`s start the journey',
+    buttonLink: '/watches',
+    bgImage: '/static_photos/photo_slider_1.jpg'
+  }
+
+];
+
 watches = signal<WatchCardResponseDTO[]>([]);
   currentIndex = signal(0);
   private intervalId: ReturnType<typeof setInterval> | undefined;
@@ -84,7 +93,7 @@ onScroll() {
   private startAutoSlide(): void {
     this.intervalId = setInterval(() => {
       this.nextSlide();
-    }, 7000);
+    }, 9000);
   }
 
   private stopAutoSlide(): void {

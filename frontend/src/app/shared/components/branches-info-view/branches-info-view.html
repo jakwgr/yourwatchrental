@@ -1,9 +1,9 @@
-<div class="bg-white shadow-sm  p-4 p-md-5 rounded-0 border-top border-dark border-3 mb-4">
+<div class="bg-white shadow-sm p-4 p-md-5 rounded-0 mb-4">
     <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
         <div>
             <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
                 style="color: #bfa130; letter-spacing: 2px; font-size: 0.70rem;">
-                Szczegóły oddziału
+                Branch Details
             </span>
         </div>
     </div>
@@ -12,10 +12,13 @@
         @if (error()) {
             <app-small-error-view [message]="error()!" />
         }
+
         <div class="mb-3">
-            <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px;">
-                Oddział
+            <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
+                style="color: #bfa130; letter-spacing: 2px;">
+                Branch
             </span>
+
             <h1 class="h3 text-dark fw-light mb-2">
                 @if (!showUpdate()) {
                     {{ branch().name }}
@@ -25,7 +28,8 @@
                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;">
                     <app-form-error
-                     [control]="branchUpdate.controls.name"> </app-form-error>
+                        [control]="branchUpdate.controls.name">
+                    </app-form-error>
                 }
             </h1>
         </div>
@@ -40,14 +44,15 @@
                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;">
                     <app-form-error
-                     [control]="branchUpdate.controls.city"> </app-form-error>
+                        [control]="branchUpdate.controls.city">
+                    </app-form-error>
                 }
             </h2>
         </div>
 
         <div class="text-muted small fw-light mb-4" style="line-height: 1.8;">
             <div class="mb-2">
-                <strong>Adres:</strong> 
+                <strong>Address:</strong> 
                 @if (!showUpdate()) {
                     {{ branch().address }}
                 } @else {
@@ -56,11 +61,13 @@
                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold d-inline-block w-50"
                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;">
                     <app-form-error
-                     [control]="branchUpdate.controls.address"> </app-form-error>
+                        [control]="branchUpdate.controls.address">
+                    </app-form-error>
                 }
             </div>
+
             <div class="mb-2">
-                <strong>Telefon:</strong> 
+                <strong>Phone:</strong> 
                 @if (!showUpdate()) {
                     +48 {{ formatPhoneNumber(branch().phoneNumber) }}
                 } @else {
@@ -70,10 +77,12 @@
                                style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
                                maxlength="9" (input)="onlyNumbers($event)">
                     <app-form-error
-                     [control]="branchUpdate.controls.phoneNumber"
-                     patternMessage="Invalid phone number format. Expected format '123456789'"> </app-form-error>
+                        [control]="branchUpdate.controls.phoneNumber"
+                        patternMessage="Invalid phone number format. Expected format '123456789'">
+                    </app-form-error>
                 }
             </div>
+
             <div>
                 <strong>Email:</strong> 
                 @if (!showUpdate()) {
@@ -84,7 +93,8 @@
                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold d-inline-block w-50"
                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;">
                     <app-form-error
-                     [control]="branchUpdate.controls.email"> </app-form-error>
+                        [control]="branchUpdate.controls.email">
+                    </app-form-error>
                 }
             </div>
         </div>
@@ -93,9 +103,11 @@
     @if (showUpdateStatus()) {
         <div class="p-3 mb-4 bg-light border-start border-3" style="border-color: #bfa130 !important;">
             <form [formGroup]="branchUpdateStatus">
-                <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Wybierz nowy status oddziału
+                <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                    Select New Branch Status
                 </label>
+
                 <select formControlName="status" 
                         class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
                         style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto;">
@@ -111,46 +123,52 @@
         @if (role() === "ADMIN") {
             @if (!buttonVanish) {
                 <div class="d-flex flex-wrap gap-2 align-items-center">
+
                     <button (click)="openUpdate()"
                             class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
                             style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;">
-                        Edytuj informacje
+                        Edit Information
                     </button>
+
                     <button (click)="openUpdateStatus()"
                             class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
                             style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;">
-                        Zmień status
+                        Change Status
                     </button>
 
                     <a routerLink="/watches" 
                         [queryParams]="{ page: 0, size: 10, branchId: branch().id }"
                         class="btn text-uppercase fw-semibold py-2 px-3 text-dark bg-transparent border border-dark rounded-0 shadow-none ms-auto"
                         style="letter-spacing: 0.1em; font-size: 0.70rem; text-decoration: none; display: inline-flex; align-items: center;">
-                        Szukaj zegarków w oddziale →
+                        View Watches at This Branch →
                     </a>
                 </div>
+
             } @else {
                 <div class="d-flex flex-column flex-md-row gap-2 align-items-center">
+
                     <button (click)="save(branch().id)" 
                             class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none flex-grow-1 w-100"
                             style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
                             [disabled]="branchUpdate.invalid">
-                        Zapisz
+                        Save
                     </button>
+
                     <button (click)="cancel()"
                             class="btn text-uppercase fw-semibold py-2 text-dark bg-transparent border border-dark rounded-0 shadow-none px-4 w-100"
                             style="letter-spacing: 0.1em; font-size: 0.70rem;">
-                        Cofnij
+                        Cancel
                     </button>
                 </div>
             }
+
         } @else {
             <div class="d-flex justify-content-end">
                 <a routerLink="/watches" 
                     [queryParams]="{ page: 0, size: 10, branchId: branch().id }"
                     class="btn text-uppercase fw-semibold py-2 px-3 text-dark bg-transparent border border-dark rounded-0 shadow-none"
                     style="letter-spacing: 0.1em; font-size: 0.70rem; text-decoration: none; display: inline-flex; align-items: center;">
-                    Szukaj zegarków w oddziale →
+                    View Watches at This Branch →
                 </a>
             </div>
         }

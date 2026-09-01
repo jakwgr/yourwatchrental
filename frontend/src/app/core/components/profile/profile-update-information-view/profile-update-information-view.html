@@ -1,91 +1,81 @@
 <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.5);">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-0 shadow-lg p-4 p-md-5 bg-white">
-            
             <div class="modal-header border-0 pb-0">
                 <h5 class="modal-title text-uppercase fw-light h4 text-dark" style="letter-spacing: 1px;">
-                    Uaktualnienie danych
+                    Information Update
                 </h5>
-                <button type="button" class="btn-close shadow-none rounded-0" aria-label="Close" (click)="close.emit()"></button>
+                <button type="button" class="btn-close shadow-none rounded-0" aria-label="Close"
+                    (click)="close.emit()"></button>
             </div>
 
-            
+
             <div class="modal-body py-4">
                 @if (error()) {
                 <app-small-error-view [message]="error()!" />
-            }
+                }
                 <form [formGroup]="updateInformationForm">
                     <div class="mb-3">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Imię
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            First Name
                         </label>
-                        <input
-                            type="text"
+                        <input type="text"
                             class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
                             style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                            formControlName="firstName"
-                            placeholder="Imię">
-                            <app-form-error
-                            [control]="updateInformationForm.controls.firstName"> </app-form-error>
+                            formControlName="firstName" placeholder="First Name">
+                        <app-form-error [control]="updateInformationForm.controls.firstName"> </app-form-error>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Nazwisko
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Last Name
                         </label>
-                        <input
-                            type="text"
+                        <input type="text"
                             class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
                             style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                            formControlName="lastName"
-                            placeholder="Nazwisko">
-                            <app-form-error
-                            [control]="updateInformationForm.controls.lastName"> </app-form-error>
+                            formControlName="lastName" placeholder="Last Name">
+                        <app-form-error [control]="updateInformationForm.controls.lastName"> </app-form-error>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Nr telefonu
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Phone Number
                         </label>
-                        <input
-                            type="text"
+                        <input type="text"
                             class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
                             style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                            formControlName="phoneNumber"
-                            placeholder="Nr telefonu" maxlength="9" (input)="onlyNumbers($event)">
-                            <app-form-error
-                            [control]="updateInformationForm.controls.phoneNumber"
+                            formControlName="phoneNumber" placeholder="Phone Number" maxlength="9"
+                            (input)="onlyNumbers($event)">
+                        <app-form-error [control]="updateInformationForm.controls.phoneNumber"
                             patternMessage="Invalid phone number format. Expected format '123456789'"> </app-form-error>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Data urodzenia
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Date of Birth
                         </label>
-                        <input
-                            type="date"
+                        <input type="date"
                             class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
                             style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
                             formControlName="dateOfBirth">
-                            <app-form-error
-                            [control]="updateInformationForm.controls.dateOfBirth"> </app-form-error>
+                        <app-form-error [control]="updateInformationForm.controls.dateOfBirth"> </app-form-error>
                     </div>
 
                     <div class="d-flex gap-2 mt-4">
-                        <button
-                            type="button"
+                        <button type="button"
                             class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 shadow-none flex-grow-1"
                             style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                            (click)="saveUpdateInformationdModal()"
-                            [disabled]="updateInformationForm.invalid">
-                            Zmień
+                            (click)="saveUpdateInformationdModal()" [disabled]="updateInformationForm.invalid">
+                            Change
                         </button>
-                        <button
-                            type="button"
+                        <button type="button"
                             class="btn text-uppercase fw-semibold py-2 px-4 text-dark bg-transparent border border-dark rounded-0 shadow-none"
-                            style="letter-spacing: 0.1em; font-size: 0.70rem;"
-                            (click)="close.emit()">
-                            Zamknij
+                            style="letter-spacing: 0.1em; font-size: 0.70rem;" (click)="close.emit()">
+                            Close
                         </button>
                     </div>
                 </form>

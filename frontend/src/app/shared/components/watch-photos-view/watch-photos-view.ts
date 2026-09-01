@@ -44,21 +44,23 @@ export class WatchPhotosView {
 
   closePhotos = output<boolean>();
 
-  addPhotos = {
-  [PhotoType.FRONT]: this.fb.group({
-    file: [null as File | null, Validators.required],
-    description: ['', Validators.required]
-  }),
+addPhotos = {
 
-  [PhotoType.BACK]: this.fb.group({
-    file: [null as File | null, Validators.required],
-    description: ['', Validators.required]
-  }),
+    [PhotoType.FRONT]: this.fb.group({
+        file: [null as File | null, Validators.required],
+        description: [PhotoType.FRONT as string, Validators.required]
+    }),
 
-  [PhotoType.FULL]: this.fb.group({
-    file: [null as File | null, Validators.required],
-    description: ['', Validators.required]
-  })
+    [PhotoType.BACK]: this.fb.group({
+        file: [null as File | null, Validators.required],
+        description: [PhotoType.BACK as string, Validators.required]
+    }),
+
+    [PhotoType.FULL]: this.fb.group({
+        file: [null as File | null, Validators.required],
+        description: [PhotoType.FULL as string, Validators.required]
+    })
+
 };
 
   photosReload() {

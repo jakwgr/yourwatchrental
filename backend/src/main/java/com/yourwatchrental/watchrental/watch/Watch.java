@@ -44,6 +44,7 @@ public class Watch {
     @Column(nullable = false)
     private String movement;
 
+    @Column(length = 2000)
     private String description;
 
     @Column(nullable = false, name = "year_of_production")

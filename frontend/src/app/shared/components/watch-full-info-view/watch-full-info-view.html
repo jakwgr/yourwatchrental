@@ -1,343 +1,449 @@
-<!-- Główna powłoka modalna (backdrop) blokująca interakcję z tłem i scrollowanie strony -->
-<div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center p-3" 
-     style="background-color: rgba(0, 0, 0, 0.6); z-index: 1050; backdrop-filter: blur(3px); overflow: hidden;">
+<!-- Main modal wrapper (backdrop) blocking background interaction and page scrolling -->
+<div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center p-3"
+    style="background-color: rgba(0, 0, 0, 0.6); z-index: 1050; backdrop-filter: blur(3px); overflow: hidden;">
 
-    <!-- Kontener modala z ograniczeniem wysokości, scrollem i pozycjonowaniem względnym na X -->
-    <div class="bg-white shadow-lg p-4 p-md-5 rounded-0 position-relative w-100" 
-         style="max-width: 1050px; max-height: 90vh; overflow-y: auto;">
+    <!-- Modal container with height limit, scrolling and relative positioning for the close button -->
+    <div class="bg-white shadow-lg p-4 p-md-5 rounded-0 position-relative w-100"
+        style="max-width: 1050px; max-height: 90vh; overflow-y: auto;">
 
-        <!-- Przycisk zamknięcia (X) w prawym górnym rogu -->
-        <button 
-            type="button" 
-            class="btn-close position-absolute top-0 end-0 m-4 shadow-none" 
-            aria-label="Zamknij"
+        <!-- Close button (X) in the top right corner -->
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-4 shadow-none" aria-label="Close"
             (click)="closeModal()">
         </button>
 
         <form [formGroup]="watchUpdate">
             @if (watchFullInfo(); as watch) {
-            
-            <!-- Górny nagłówek / Tytuł -->
+
+            <!-- Top header / Title -->
             <div class="mb-4 pe-4">
-                <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px; font-size: 0.70rem;">
-                    Szczegóły zegarka
+                <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
+                    style="color: #bfa130; letter-spacing: 2px; font-size: 0.70rem;">
+                    Watch Details
                 </span>
                 <h2 class="h3 text-dark fw-light mb-0">
                     @if(this.saveType != null && this.saveType === 1)
                     {
-                        <div class="d-inline-flex gap-2 w-100 mt-2">
-                            <input type="text" class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;" formControlName="manufacturer" placeholder="Producent">
-                                    <app-form-error 
-                            [control]="watchUpdate.controls.manufacturer"
-                            />
+                    <div class="d-inline-flex gap-2 w-100 mt-2">
+                        <input type="text"
+                            class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="manufacturer" placeholder="Manufacturer">
+                        <app-form-error [control]="watchUpdate.controls.manufacturer" />
 
-                            <input type="text" class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;" formControlName="model" placeholder="Model">
-                            <app-form-error
-                            [control]="watchUpdate.controls.model"
-                            />
-                        </div>
+                        <input type="text"
+                            class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="model" placeholder="Model">
+                        <app-form-error [control]="watchUpdate.controls.model" />
+                    </div>
                     } @else {
-                        {{ watch.manufacturer }} {{ watch.model }}
+                    {{ watch.manufacturer }} {{ watch.model }}
                     }
                 </h2>
             </div>
 
             <div class="border-top pt-3">
-                <!-- Rząd 1: Numer referencyjny oraz Numer seryjny -->
+
+                <!-- Row 1: Reference number and serial number -->
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Numer referencyjny</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Reference Number
+                        </span>
                         @if(this.saveType != null && this.saveType === 1)
                         {
-                            <input type="text" class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;" formControlName="referenceNumber">
-                            <app-form-error
-                            [control]="watchUpdate.controls.referenceNumber"
-                            />
+                        <input type="text"
+                            class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="referenceNumber">
+                        <app-form-error [control]="watchUpdate.controls.referenceNumber" />
                         } @else {
-                            <span class="text-dark">{{ watch.referenceNumber }}</span>
+                        <span class="text-dark">{{ watch.referenceNumber }}</span>
                         }
                     </div>
+
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Numer seryjny</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Serial Number
+                        </span>
                         @if(this.saveType != null && this.saveType === 4)
                         {
-                            <input type="text" class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;" formControlName="serialNumber">
-                            <app-form-error
-                            [control]="watchUpdate.controls.serialNumber"
-                            />
+                        <input type="text"
+                            class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="serialNumber">
+                        <app-form-error [control]="watchUpdate.controls.serialNumber" />
                         } @else {
-                            <span class="text-dark">{{ watch.serialNumber }}</span>
+                        <span class="text-dark">{{ watch.serialNumber }}</span>
                         }
                     </div>
                 </div>
 
-                <!-- Opis (pełna szerokość, bo bywa dłuższy) -->
+                <!-- Description -->
                 <div class="mb-3">
-                    <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Opis</span>
+                    <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Description
+                    </span>
                     @if(this.saveType != null && this.saveType === 1)
                     {
-                        <input type="text" class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;" formControlName="description">
+                    <input type="text"
+                        class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold justify"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                        formControlName="description">
                     } @else {
-                        <span class="text-dark">{{ watch.description }}</span>
+                    <span class="text-dark">{{ watch.description }}</span>
                     }
                 </div>
 
-                <!-- Rząd 2: Mechanizm oraz Rok produkcji -->
+                <!-- Row 2: Movement and production year -->
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Mechanizm</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Movement
+                        </span>
                         @if(this.saveType != null && this.saveType === 1)
                         {
-                            <input type="text" class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;" formControlName="movement">
-                            <app-form-error
-                            [control]="watchUpdate.controls.movement"
-                            />
+                        <input type="text"
+                            class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="movement">
+                        <app-form-error [control]="watchUpdate.controls.movement" />
                         } @else {
-                            <span class="text-dark">{{ watch.movement }}</span>
+                        <span class="text-dark">{{ watch.movement }}</span>
                         }
                     </div>
+
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Rok produkcji</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Year of Production
+                        </span>
                         @if(this.saveType != null && this.saveType === 1)
                         {
-                            <input type="text" class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;" formControlName="yearOfProduction">
-                            <app-form-error
-                            [control]="watchUpdate.controls.yearOfProduction"
-                            />
+                        <input type="text"
+                            class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="yearOfProduction">
+                        <app-form-error [control]="watchUpdate.controls.yearOfProduction" />
                         } @else {
-                            <span class="text-dark">{{ watch.yearOfProduction }}</span>
+                        <span class="text-dark">{{ watch.yearOfProduction }}</span>
                         }
                     </div>
                 </div>
 
-                <!-- Rząd 3: Cena za dzień oraz Stan -->
+                <!-- Row 3: Price per day and condition -->
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Cena za dzień</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Price per Day
+                        </span>
                         @if(this.saveType != null && this.saveType === 1)
                         {
-                            <input type="number" class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;" formControlName="pricePerDay">
-                            <app-form-error
-                            [control]="watchUpdate.controls.pricePerDay"
-                            />
+                        <input type="number"
+                            class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="pricePerDay">
+                        <app-form-error [control]="watchUpdate.controls.pricePerDay" />
                         } @else {
-                            <span class="text-dark fw-semibold">{{ watch.pricePerDay }} zł</span>
+                        <span class="text-dark fw-semibold">{{ watch.pricePerDay }} PLN</span>
                         }
                     </div>
+
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Stan</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Condition
+                        </span>
                         @if(this.saveType != null && this.saveType === 1)
                         {
-                            <select class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;" formControlName="condition">
-                                @for(condition of conditionOptions; track $index)
-                                {
-                                    <option [value]="condition">{{conditionOptionsLabels[condition]}}</option>
-                                }
-                            </select>
-                            <app-form-error
-                            [control]="watchUpdate.controls.condition"
-                            />
+                        <select
+                            class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;"
+                            formControlName="condition">
+                            @for(condition of conditionOptions; track $index)
+                            {
+                            <option [value]="condition">{{conditionOptionsLabels[condition]}}</option>
+                            }
+                        </select>
+                        <app-form-error [control]="watchUpdate.controls.condition" />
                         } @else {
-                            <span class="text-dark">{{ conditionOptionsLabels[watch.condition] }}</span>
+                        <span class="text-dark">{{ conditionOptionsLabels[watch.condition] }}</span>
                         }
                     </div>
                 </div>
 
-                <!-- Rząd 4: Płeć oraz Typ mechanizmu -->
+                <!-- Row 4: Gender and movement type -->
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Płeć</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Gender
+                        </span>
                         @if(this.saveType != null && this.saveType === 1)
                         {
-                            <select class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;" formControlName="gender">
-                                @for(gender of genderOptions; track $index)
-                                {
-                                    <option [value]="gender">{{gender}}</option>
-                                }
-                            </select>
-                            <app-form-error
-                            [control]="watchUpdate.controls.gender"
-                            />
+                        <select
+                            class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;"
+                            formControlName="gender">
+                            @for(gender of genderOptions; track $index)
+                            {
+                            <option [value]="gender">{{gender}}</option>
+                            }
+                        </select>
+                        <app-form-error [control]="watchUpdate.controls.gender" />
                         } @else {
-                            <span class="text-dark">{{ genderLabels[watch.gender] }}</span>
+                        <span class="text-dark">{{ genderLabels[watch.gender] }}</span>
                         }
                     </div>
+
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Typ mechanizmu</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Movement Type
+                        </span>
                         @if(this.saveType != null && this.saveType === 1)
                         {
-                            <select class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;" formControlName="movementType">
-                                @for(movementType of movementTypeOptions; track $index)
-                                {
-                                    <option [value]="movementType">{{movementType}}</option>
-                                }
-                            </select>
-                            <app-form-error
-                            [control]="watchUpdate.controls.movementType"
-                            />
+                        <select
+                            class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;"
+                            formControlName="movementType">
+                            @for(movementType of movementTypeOptions; track $index)
+                            {
+                            <option [value]="movementType">{{movementType}}</option>
+                            }
+                        </select>
+                        <app-form-error [control]="watchUpdate.controls.movementType" />
                         } @else {
-                            <span class="text-dark">{{ movementTypeLabels[watch.movementType] }}</span>
+                        <span class="text-dark">{{ movementTypeLabels[watch.movementType] }}</span>
                         }
                     </div>
                 </div>
 
-                <!-- Rząd 5: Status oraz Typ zegarka -->
+                <!-- Row 5: Status and watch type -->
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Status</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Status
+                        </span>
                         @if(this.saveType != null && this.saveType === 2)
                         {
-                            <select class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;" formControlName="status">
-                                @for(status of statusOptions; track $index)
-                                {
-                                    <option [value]="status">{{status}}</option>
-                                }
-                                <app-form-error
-                            [control]="watchUpdate.controls.status"
-                            />
-                            </select>
+                        <select
+                            class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;"
+                            formControlName="status">
+                            @for(status of statusOptions; track $index)
+                            {
+                            <option [value]="status">{{status}}</option>
+                            }
+                            <app-form-error [control]="watchUpdate.controls.status" />
+                        </select>
                         } @else {
-                            <span class="text-dark">
-                                @if (watch.status === watchStatus.AVAILABLE || watch.status === watchStatus.RENTED) {
-                                    Sprawdź dostępność
-                                } @else if (watch.status === watchStatus.IN_SERVICE) {
-                                    W serwisie
-                                } @else if (watch.status === watchStatus.UNAVAILABLE) {
-                                    Niedostępny
-                                } @else if (watch.status === watchStatus.DISABLED) {
-                                    Wyłączony
-                                }
-                            </span>
+                        <span class="text-dark">
+                            @if (watch.status === watchStatus.AVAILABLE || watch.status === watchStatus.RENTED) {
+                            Check Availability
+                            } @else if (watch.status === watchStatus.IN_SERVICE) {
+                            In Service
+                            } @else if (watch.status === watchStatus.UNAVAILABLE) {
+                            Unavailable
+                            } @else if (watch.status === watchStatus.DISABLED) {
+                            Disabled
+                            }
+                        </span>
                         }
                     </div>
+
                     <div class="col-6 mb-3">
-                        <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Typ zegarka</span>
+                        <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Watch Type
+                        </span>
                         @if(this.saveType != null && this.saveType === 1)
                         {
-                            <select class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;" formControlName="watchType">
-                                @for(watchType of watchTypeOptions; track $index)
-                                {
-                                    <option [value]="watchType">{{watchType}}</option>
-                                }
-                            </select>
-                            <app-form-error
-                            [control]="watchUpdate.controls.watchType"
-                            />
+                        <select
+                            class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;"
+                            formControlName="watchType">
+                            @for(watchType of watchTypeOptions; track $index)
+                            {
+                            <option [value]="watchType">{{watchType}}</option>
+                            }
+                        </select>
+                        <app-form-error [control]="watchUpdate.controls.watchType" />
                         } @else {
-                            <span class="text-dark">{{ watchTypeLabels[watch.watchType] }}</span>
+                        <span class="text-dark">{{ watchTypeLabels[watch.watchType] }}</span>
                         }
                     </div>
                 </div>
 
-                <!-- Oddział (pełna szerokość) -->
+                <!-- Branch -->
                 <div class="mb-4">
-                    <span class="text-uppercase text-secondary fw-medium d-block mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">Oddział</span>
+                    <span class="text-uppercase text-secondary fw-medium d-block mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                        Branch
+                    </span>
                     @if(this.saveType != null && this.saveType === 3)
                     {
-                        <select class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold" style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;" formControlName="branchId">
-                            @for(branch of branchOptions(); track $index)
-                            {
-                                <option [value]="branch.id">{{branch.name}}</option>
-                            }
-                            <app-form-error
-                            [control]="watchUpdate.controls.branchId"
-                            />
-                        </select>
+                    <select
+                        class="form-control text-dark shadow-none py-1 ps-2 pe-4 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto; -webkit-appearance: menulist;"
+                        formControlName="branchId">
+                        @for(branch of branchOptions(); track $index)
+                        {
+                        <option [value]="branch.id">{{branch.name}}</option>
+                        }
+                        <app-form-error [control]="watchUpdate.controls.branchId" />
+                    </select>
                     } @else {
-                        <span class="text-dark">{{ watch.branch.name }}</span>
+                    <span class="text-dark">{{ watch.branch.name }}</span>
                     }
                 </div>
             </div>
 
-           <!-- Zdjęcia w układzie obok siebie (wszystkie w jednej orzędowej siatce) -->
-<!-- Zdjęcia obok siebie w jednej równej linii (flexbox) -->
-@if (watch.photos && watch.photos.length > 0) {
-    <div class="mb-4">
 
-        <span
-            class="text-uppercase text-secondary fw-medium d-block mb-3 text-center"
-            style="font-size: 0.65rem; letter-spacing: 1.5px;">
-            Zdjęcia
-        </span>
+            <!-- Photos -->
+            @if (watch.photos && watch.photos.length > 0) {
+            <div class="mb-4">
 
-        <!-- Główne zdjęcie -->
-        <div class="watch-gallery-main mb-2">
-            <img
-                [src]="watch.photos[selectedPhotoIndex()].photoUrl"
-                [alt]="watch.photos[selectedPhotoIndex()].description || watch.model">
-        </div>
+                <span class="text-uppercase text-secondary fw-medium d-block mb-3 text-center"
+                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                    Photos
+                </span>
 
-        <!-- Miniatury -->
-        @if (watch.photos.length > 1) {
-            <div class="watch-gallery-thumbnails">
+                <!-- Main photo -->
+                <div class="watch-gallery-main mb-2" style="cursor: pointer;">
+                    <img [src]="watch.photos[selectedPhotoIndex()].photoUrl"
+                        [alt]="watch.photos[selectedPhotoIndex()].description || watch.model" (click)="openPhotoZoom()">
+                </div>
 
-                @for (photo of watch.photos; track $index) {
-                    <button
-                        type="button"
-                        class="watch-gallery-thumbnail"
-                        [class.active]="selectedPhotoIndex() === $index"
-                        (click)="selectedPhotoIndex.set($index)">
+                <!-- Thumbnails -->
+                @if (watch.photos.length > 1) {
+                <div class="watch-gallery-thumbnails">
 
-                        <img
-                            [src]="photo.photoUrl"
-                            [alt]="photo.description || watch.model">
+                    @for (photo of watch.photos; track $index) {
+                    <button type="button" class="watch-gallery-thumbnail"
+                        [class.active]="selectedPhotoIndex() === $index" (click)="selectedPhotoIndex.set($index)">
+
+                        <img [src]="photo.photoUrl" [alt]="photo.description || watch.model">
                     </button>
+                    }
+
+                </div>
                 }
 
+                <!-- Photo zoom -->
+                @if (showPhotoZoom()) {
+                <app-watch-photo-zoom-component [photoUrl]="watch.photos[selectedPhotoIndex()].photoUrl"
+                    [alt]="watch.photos[selectedPhotoIndex()].description || watch.model" (close)="closePhotoZoom()">
+                </app-watch-photo-zoom-component>
+                }
             </div>
-        }
+            }
 
-    </div>
-}
 
-            <!-- Kalendarz -->
+            <!-- Calendar -->
             <div class="mb-4">
                 <app-watch-calendar [watch]="watch" [isDatePicker]="false"></app-watch-calendar>
             </div>
 
-            
-                @if (watchesError()) {
-                <app-small-error-view [message]="watchesError()!" />
-                }
-                
-            <!-- Panel przycisków akcji -->
+
+            @if (watchesError()) {
+            <app-small-error-view [message]="watchesError()!" />
+            }
+
+
+            <!-- Action buttons -->
             <div class="d-flex flex-column gap-2 mt-4 pt-3">
+
                 @if (isLogged)
                 {
-                    <button type="button" class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none w-100" style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;" [class.disabledButton]="buttonVanish" (click)="newRental()">Wypożycz</button>
-                    
-                    @if (profile()?.role === "ADMIN")
-                    {
-                        <div class="d-flex flex-wrap gap-2">
-                            <button type="button" class="btn btn-outline-dark btn-sm rounded-0 flex-grow-1" (click)="updateInformation()" [class.disabledButton]="buttonVanish">Edytuj ogłoszenie</button>
-                            <button type="button" class="btn btn-outline-dark btn-sm rounded-0 flex-grow-1" (click)="updateStatus()" [class.disabledButton]="buttonVanish">Zmień status</button>
-                            <button type="button" class="btn btn-outline-dark btn-sm rounded-0 flex-grow-1" (click)="updateBranch()" [class.disabledButton]="buttonVanish">Zmień oddział</button>
-                            <button type="button" class="btn btn-outline-dark btn-sm rounded-0 flex-grow-1" (click)="updateSerialNumber()" [class.disabledButton]="buttonVanish">Zmień nr seryjny</button>
-                            <button type="button" class="btn btn-outline-dark btn-sm rounded-0 w-100" (click)="openPhotosModal()"  [class.disabledButton]="buttonVanish">Zarządzaj zdjęciami</button>
-                            <button type="button" class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none w-100" style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"  [class.disabledButton]="buttonVanish"  [routerLink]="['/rentals', watchFullInfo()?.id]" [queryParams]="{ watch: 'true' }">Przeglądaj wypożyczenia</button>
-                        </div>
+                <button type="button" class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none w-100"
+                    style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                    [class.disabledButton]="buttonVanish" (click)="newRental()">
+                    Rent Now
+                </button>
 
-                        <div class="d-flex gap-2 mt-1">
-                            <button type="button" class="btn btn-dark btn-sm rounded-0 flex-grow-1" (click)="save(watch.id)" [class.disabledButton]="!buttonVanish">Zapisz</button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 flex-grow-1" [class.disabledButton]="!buttonVanish" (click)="cancel()">Cofnij</button>
-                        </div>
-                    }
+                @if (profile()?.role === "ADMIN")
+                {
+                <div class="d-flex flex-wrap gap-2">
+
+                    <button type="button" class="btn btn-outline-dark btn-sm rounded-0 flex-grow-1"
+                        (click)="updateInformation()" [class.disabledButton]="buttonVanish">
+                        Edit Listing
+                    </button>
+
+                    <button type="button" class="btn btn-outline-dark btn-sm rounded-0 flex-grow-1"
+                        (click)="updateStatus()" [class.disabledButton]="buttonVanish">
+                        Change Status
+                    </button>
+
+                    <button type="button" class="btn btn-outline-dark btn-sm rounded-0 flex-grow-1"
+                        (click)="updateBranch()" [class.disabledButton]="buttonVanish">
+                        Change Branch
+                    </button>
+
+                    <button type="button" class="btn btn-outline-dark btn-sm rounded-0 flex-grow-1"
+                        (click)="updateSerialNumber()" [class.disabledButton]="buttonVanish">
+                        Change Serial Number
+                    </button>
+
+                    <button type="button" class="btn btn-outline-dark btn-sm rounded-0 w-100"
+                        (click)="openPhotosModal()" [class.disabledButton]="buttonVanish">
+                        Manage Photos
+                    </button>
+
+                    <button type="button"
+                        class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none w-100"
+                        style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                        [class.disabledButton]="buttonVanish" [routerLink]="['/rentals', watchFullInfo()?.id]"
+                        [queryParams]="{ watch: 'true' }">
+                        View Rentals
+                    </button>
+
+                </div>
+
+                <div class="d-flex gap-2 mt-1">
+
+                    <button type="button" class="btn btn-dark btn-sm rounded-0 flex-grow-1" (click)="save(watch.id)"
+                        [class.disabledButton]="!buttonVanish">
+                        Save
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 flex-grow-1"
+                        [class.disabledButton]="!buttonVanish" (click)="cancel()">
+                        Cancel
+                    </button>
+
+                </div>
+                }
                 }
                 @else {
-                    <button type="button" class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none w-100" style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;" [routerLink]="['/login']">Zaloguj się by wypożyczyć</button>
+                <button type="button" class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none w-100"
+                    style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                    [routerLink]="['/login']">
+                    Log in to Rent
+                </button>
                 }
-                
-                <!-- Czerwony, normalny przycisk Zamknij na dole -->
-                <button type="button" class="btn btn-danger btn-sm rounded-0 w-100 mt-2 shadow-none" [class.disabledButton]="buttonVanish" (click)="closeModal()">Zamknij</button>
+
+                <!-- Red close button at the bottom -->
+                <button type="button" class="btn btn-danger btn-sm rounded-0 w-100 mt-2 shadow-none"
+                    [class.disabledButton]="buttonVanish" (click)="closeModal()">
+                    Close
+                </button>
+
             </div>
 
             @if (showPhotosModal()) {
-                <app-watch-photos-view
-                    [watchId]="watch.id"
-                    (closePhotos)="closePhotosModal()"
-                    (reload)="watchReload(watch.id)">
-                </app-watch-photos-view>
+            <app-watch-photos-view [watchId]="watch.id" (closePhotos)="closePhotosModal()"
+                (reload)="watchReload(watch.id)">
+            </app-watch-photos-view>
             }
+
             }
         </form>
     </div>

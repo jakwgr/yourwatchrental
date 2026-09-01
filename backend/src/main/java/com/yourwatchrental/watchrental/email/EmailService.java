@@ -5,6 +5,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -69,5 +70,31 @@ public class EmailService {
         } catch (MessagingException | MailException e) {
             throw new EmailSendException();
         }
+    }
+
+    public void sendPasswordResetEmail(String email, String resetUrl) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setTo(email);
+        message.setSubject("Password Reset - YourWatchRental");
+
+        message.setText("""
+            Hello,
+
+            We received a request to reset your password.
+
+            Click the link below to reset your password:
+
+            %s
+
+            This link will expire in 15 minutes.
+
+            If you did not request a password reset, you can safely ignore this email.
+
+            YourWatchRental
+            """.formatted(resetUrl));
+
+        mailSender.send(message);
     }
 }

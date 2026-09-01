@@ -55,9 +55,31 @@ export class AuthService {
             return false;
         }
     }
-    
+
     logout(): void {
         this.tokenStorageService.removeToken();
         this.isLoggedIn.set(false);
+    }
+
+    forgotPassword(email: string) {
+        return this.http.post<void>(
+            '/api/auth/forgot-password',
+            { email }
+        );
+    }
+
+    resetPassword(
+        userId: string,
+        token: string,
+        newPassword: string
+    ) {
+        return this.http.post<void>(
+            '/api/auth/reset-password',
+            {
+                userId,
+                token,
+                newPassword
+            }
+        );
     }
 }

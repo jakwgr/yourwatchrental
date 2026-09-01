@@ -137,7 +137,7 @@ public class RentalService {
 
         RentalResponseDTO response = rentalMapper.toResponseDTO(rentalRepository.save(rental));
 
-        emailService.sendEmail("yourwatchrental@interia.pl", response);
+//        emailService.sendEmail("yourwatchrental@interia.pl", response);
         return response;
     }
 
@@ -214,7 +214,7 @@ public class RentalService {
             RentalFilterRequestDTO request,
             Pageable page)
     {
-        User userId = userRepository.findById(securityUtil.getCurrentUserId())
+        User user = userRepository.findById(securityUtil.getCurrentUserId())
                 .orElseThrow(() -> new UserNotFoundException(securityUtil.getCurrentUserId()));
 
         Specification<Rental> specification =
@@ -222,7 +222,7 @@ public class RentalService {
 
         specification = specification.and(
                 (root, query, cb) ->
-                        cb.equal(root.get("user").get("id"), userId)
+                        cb.equal(root.get("user"), user)
         );
 
         return rentalRepository.findAll(specification, page)

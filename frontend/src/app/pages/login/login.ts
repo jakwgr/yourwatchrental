@@ -1,13 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth/auth-service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SmallErrorView } from '../../shared/components/small-error-view/small-error-view';
 import { FormError } from '../../shared/components/form-error/form-error';
+import { PortfolioProjectAlert2 } from '../../shared/components/portfolio-project-alert-2/portfolio-project-alert-2';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, SmallErrorView, FormError],
+  imports: [ReactiveFormsModule, SmallErrorView, FormError, RouterLink, PortfolioProjectAlert2],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

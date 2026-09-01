@@ -1,100 +1,225 @@
 <div style="padding-top: 98px;"></div>
-<nav class="navbar navbar-expand-lg navbar-dark px-4 py-3 fixed-top navbar-slide-in" style="background-color: var(--luxury-dark); border-bottom: 1px solid var(--luxury-border); z-index: 1030;">
+<nav class="navbar navbar-expand-lg navbar-dark px-4 py-3 fixed-top navbar-slide-in"
+    style="background-color: var(--luxury-dark); border-bottom: 1px solid var(--luxury-border); z-index: 1030;">
+
     <div class="container-fluid">
-        <!-- Logo graficzne po lewej -->
+
+        <!-- Graphic logo on the left -->
         <a class="navbar-brand d-flex align-items-center" routerLink="/">
-            <img src="/images/c4963248-efd7-4451-b619-8c9a42dd3d91_removalai_preview.png" alt="Logo" style="height: 56px; width: auto; object-fit: contain;">
+            <img src="/images/c4963248-efd7-4451-b619-8c9a42dd3d91_removalai_preview.png"
+                alt="Logo"
+                style="height: 56px; width: auto; object-fit: contain;">
         </a>
 
-        <!-- Przycisk hamburgera -->
-        <button class="navbar-toggler border-0 text-light" type="button" (click)="isMenuOpen = !isMenuOpen" aria-label="Toggle navigation">
+        <!-- Hamburger button -->
+        <button class="navbar-toggler border-0 text-light"
+            type="button"
+            (click)="isMenuOpen = !isMenuOpen"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Standardowy widok na dużych ekranach (Desktop) -->
+        <!-- Standard view on large screens (Desktop) -->
         <div class="collapse navbar-collapse justify-content-between d-none d-lg-flex">
+
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3 text-uppercase small tracking-wide">
+
                 <li class="nav-item">
-                    <a class="nav-link text-light" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Strona główna</a>
+                    <a class="nav-link text-light"
+                        routerLink="/"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        Home
+                    </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link text-light" routerLink="/watches" routerLinkActive="active">Zegarki</a>
+                    <a class="nav-link text-light"
+                        routerLink="/watches"
+                        routerLinkActive="active">
+                        Watches
+                    </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link text-light" routerLink="/branches" routerLinkActive="active">Współpracujące firmy</a>
+                    <a class="nav-link text-light"
+                        routerLink="/branches"
+                        routerLinkActive="active">
+                        Partner Branches
+                    </a>
                 </li>
 
                 @if (authService.isLoggedIn()) {
+
                     <li class="nav-item">
-                        <a class="nav-link text-light" routerLink="/rentals" routerLinkActive="active">Wynajmy</a>
+                        <a class="nav-link text-light"
+                            routerLink="/rentals"
+                            routerLinkActive="active">
+                            Rentals
+                        </a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link text-light" routerLink="/profile" routerLinkActive="active">Profil</a>
+                        <a class="nav-link text-light"
+                            routerLink="/profile"
+                            routerLinkActive="active">
+                            Profile
+                        </a>
                     </li>
+
                     @if (profile()?.role === 'ADMIN') {
                         <li class="nav-item">
-                            <a class="nav-link fw-semibold" style="color: var(--luxury-gold);" routerLink="/admin" routerLinkActive="active">Panel administratora</a>
+                            <a class="nav-link fw-semibold"
+                                style="color: var(--luxury-gold);"
+                                routerLink="/admin"
+                                routerLinkActive="active">
+                                Admin Panel
+                            </a>
                         </li>
                     }
+
                 } @else {
+
                     <li class="nav-item">
-                        <a class="nav-link text-light" routerLink="/login" routerLinkActive="active">Logowanie</a>
+                        <a class="nav-link text-light"
+                            routerLink="/login"
+                            routerLinkActive="active">
+                            Login
+                        </a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link text-light" routerLink="/register" routerLinkActive="active">Rejestracja</a>
+                        <a class="nav-link text-light"
+                            routerLink="/register"
+                            routerLinkActive="active">
+                            Register
+                        </a>
                     </li>
+
                 }
+
             </ul>
 
             <div class="d-flex align-items-center gap-3">
+
                 @if (authService.isLoggedIn()) {
                     <span class="small" style="color: var(--luxury-muted);">
-                        Witaj, <span class="text-light fw-semibold">{{ profile()?.firstName }}</span>
+                        Welcome, <span class="text-light fw-semibold">{{ profile()?.firstName }}</span>
                     </span>
-                    <button class="btn btn-outline-light btn-sm text-uppercase px-3" (click)="logout()" routerLink="/">
+
+                    <button class="btn btn-outline-light btn-sm text-uppercase px-3"
+                        (click)="logout()"
+                        routerLink="/">
                         Logout
                     </button>
                 }
+
             </div>
         </div>
     </div>
 </nav>
 
-<!-- PEŁNOEKRANOWY OVERLAY WYSUWANY Z GÓRY -->
+<!-- FULLSCREEN MENU SLIDING DOWN FROM THE TOP -->
 <div class="fullscreen-menu" [class.show]="isMenuOpen">
-    <!-- Góra: małe logo graficzne i przycisk zamknięcia (X) -->
+
+    <!-- Top: small graphic logo and close button (X) -->
     <div class="d-flex justify-content-between align-items-center w-100 p-5 pb-0">
-        <a routerLink="/" (click)="isMenuOpen = false" class="d-flex align-items-center">
-            <img src="/images/c4963248-efd7-4451-b619-8c9a42dd3d91_removalai_preview.png" alt="Logo" style="height: 55px; width: auto; object-fit: contain;">
+
+        <a routerLink="/"
+            (click)="isMenuOpen = false"
+            class="d-flex align-items-center">
+            <img src="/images/c4963248-efd7-4451-b619-8c9a42dd3d91_removalai_preview.png"
+                alt="Logo"
+                style="height: 55px; width: auto; object-fit: contain;">
         </a>
-        <button class="btn btn-link text-white fs-2 text-decoration-none" (click)="isMenuOpen = false">&times;</button>
+
+        <button class="btn btn-link text-white fs-2 text-decoration-none"
+            (click)="isMenuOpen = false">
+            &times;
+        </button>
+
     </div>
 
-    <!-- Środek: Linki -->
+    <!-- Center: Links -->
     <div class="text-center my-auto d-flex flex-column gap-4 py-4">
-        <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider" routerLink="/" (click)="isMenuOpen = false">Strona główna</a>
-        <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider" routerLink="/watches" (click)="isMenuOpen = false">Zegarki</a>
-        <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider" routerLink="/branches" (click)="isMenuOpen = false">Współpracujące firmy</a>
+
+        <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider"
+            routerLink="/"
+            (click)="isMenuOpen = false">
+            Home
+        </a>
+
+        <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider"
+            routerLink="/watches"
+            (click)="isMenuOpen = false">
+            Watches
+        </a>
+
+        <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider"
+            routerLink="/branches"
+            (click)="isMenuOpen = false">
+            Partner Branches
+        </a>
 
         @if (authService.isLoggedIn()) {
-            <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider" routerLink="/rentals" (click)="isMenuOpen = false">Wynajmy</a>
-            <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider" routerLink="/profile" (click)="isMenuOpen = false">Profil</a>
+
+            <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider"
+                routerLink="/rentals"
+                (click)="isMenuOpen = false">
+                Rentals
+            </a>
+
+            <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider"
+                routerLink="/profile"
+                (click)="isMenuOpen = false">
+                Profile
+            </a>
+
             @if (profile()?.role === 'ADMIN') {
-                <a class="text-decoration-none fs-4 text-uppercase tracking-wider fw-semibold" style="color: var(--luxury-gold);" routerLink="/admin" (click)="isMenuOpen = false">Panel administratora</a>
+                <a class="text-decoration-none fs-4 text-uppercase tracking-wider fw-semibold"
+                    style="color: var(--luxury-gold);"
+                    routerLink="/admin"
+                    (click)="isMenuOpen = false">
+                    Admin Panel
+                </a>
             }
+
         } @else {
-            <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider" routerLink="/login" (click)="isMenuOpen = false">Logowanie</a>
-            <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider" routerLink="/register" (click)="isMenuOpen = false">Rejestracja</a>
+
+            <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider"
+                routerLink="/login"
+                (click)="isMenuOpen = false">
+                Login
+            </a>
+
+            <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider"
+                routerLink="/register"
+                (click)="isMenuOpen = false">
+                Register
+            </a>
+
         }
+
     </div>
 
-    <!-- Dół: Użytkownik / Logout -->
+    <!-- Bottom: User / Logout -->
     <div class="text-center pb-5 px-5">
+
         @if (authService.isLoggedIn()) {
-            <p class="mb-3" style="color: var(--luxury-muted);">Witaj, <span class="text-white fw-semibold">{{ profile()?.firstName }}</span></p>
-            <button class="btn btn-outline-light text-uppercase px-5 py-2 w-100" style="max-width: 300px;" (click)="logout(); isMenuOpen = false" routerLink="/">
+
+            <p class="mb-3" style="color: var(--luxury-muted);">
+                Welcome, <span class="text-white fw-semibold">{{ profile()?.firstName }}</span>
+            </p>
+
+            <button class="btn btn-outline-light text-uppercase px-5 py-2 w-100"
+                style="max-width: 300px;"
+                (click)="logout(); isMenuOpen = false"
+                routerLink="/">
                 Logout
             </button>
+
         }
+
     </div>
+
 </div>

@@ -4,79 +4,134 @@
         <div class="container-fluid px-0">
             <div class="row g-5 justify-content-between">
 
-                <!-- Kolumna 1: O marce -->
+                <!-- Column 1: About the brand -->
                 <div class="col-12 col-md-5 d-flex flex-column align-items-center text-center">
-                    <!-- Logo wyśrodkowane nad tekstem -->
                     <img src="/images/c4963248-efd7-4451-b619-8c9a42dd3d91_removalai_preview.png" alt="Logo"
                         class="mb-4" style="height: 55px; width: auto; object-fit: contain;">
 
-                    <!-- Paragraf -->
                     <p class="small fw-light leading-relaxed mb-4 mx-auto"
                         style="color: var(--luxury-muted); max-width: 400px;">
-                        Synonim luksusu, precyzji i niezależnego kunsztu zegarmistrzowskiego. Tworzymy czasomierze dla
-                        pasjonatów unikalnej mechaniki.
+                        <i class="bi bi-info-circle"></i>
+                            This is a portfolio project. All accounts, rentals and transactions are for demonstration
+                            purposes only.
+ <br>
+                        <br>
+                        YourWatchRental is a professional watch rental company. We operate across Poland through our
+                        network of partner branches. 
                     </p>
 
-                    <!-- Miasta -->
-                    <div class="d-flex gap-3 text-uppercase small justify-content-center"
+                    <div class="d-flex gap-3 text-uppercase small justify-content-center mb-3"
                         style="color: var(--luxury-gold);">
-                        <span>Genewa</span> &bull; <span>Zurych</span> &bull; <span>Warszawa</span>
+                        <span>Warszawa</span> &bull; <span>Kraków</span> &bull; <span>Nowy Sącz</span>
+                    </div>
+
+                    <div class="small fw-light" style="color: var(--luxury-muted);">
+                        Contact: <a href="mailto:jwaligora006@gmail.com" class="text-decoration-none hover-gold" style="color: var(--luxury-gold);">jwaligora006@gmail.com</a>
                     </div>
                 </div>
 
-                <!-- Kolumna 2: Szybkie linki -->
+                <!-- Column 2: Quick links -->
                 <div class="col-6 col-md-3">
-                    <h5 class="text-white text-xs uppercase tracking-[0.2em] fw-semibold mb-4">Nawigacja</h5>
+                    <h5 class="text-white text-xs uppercase tracking-[0.2em] fw-semibold mb-4">
+                        Navigation
+                    </h5>
+
                     <ul class="list-unstyled d-flex flex-column gap-2 small fw-light">
-                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
-                                routerLink="/">Strona główna</a></li>
-                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
-                                routerLink="/watches">Zegarki</a></li>
-                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
-                                routerLink="/branches">Współpracujące firmy</a></li>
+                        <li>
+                            <a class="text-decoration-none text-light transition-colors hover-gold" routerLink="/">
+                                Home
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/watches">
+                                Watches
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/branches">
+                                Partner Branches
+                            </a>
+                        </li>
+
                         @if (authService.isLoggedIn()) {
-                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
-                                routerLink="/rentals">Wynajmy</a></li>
+                        <li>
+                            <a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/rentals">
+                                Rentals
+                            </a>
+                        </li>
                         }
                     </ul>
                 </div>
 
-                <!-- Kolumna 3: Strefa klienta / Konto -->
+                <!-- Column 3: Customer / Account -->
                 <div class="col-6 col-md-3">
-                    <h5 class="text-white text-xs uppercase tracking-[0.2em] fw-semibold mb-4">Klient</h5>
+                    <h5 class="text-white text-xs uppercase tracking-[0.2em] fw-semibold mb-4">
+                        Customer
+                    </h5>
+
                     <ul class="list-unstyled d-flex flex-column gap-2 small fw-light">
                         @if (authService.isLoggedIn()) {
-                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
-                                routerLink="/profile">Mój profil</a></li>
+                        <li>
+                            <a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/profile">
+                                My Profile
+                            </a>
+                        </li>
+
                         @if (profile()?.role === 'ADMIN') {
-                        <li><a class="text-decoration-none fw-semibold" style="color: var(--luxury-gold);"
-                                routerLink="/admin">Panel admina</a></li>
+                        <li>
+                            <a class="text-decoration-none fw-semibold" style="color: var(--luxury-gold);"
+                                routerLink="/admin">
+                                Admin Panel
+                            </a>
+                        </li>
                         }
                         } @else {
-                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
-                                routerLink="/login">Logowanie</a></li>
-                        <li><a class="text-decoration-none text-light transition-colors hover-gold"
-                                routerLink="/register">Rejestracja</a></li>
+                        <li>
+                            <a class="text-decoration-none text-light transition-colors hover-gold" routerLink="/login">
+                                Login
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="text-decoration-none text-light transition-colors hover-gold"
+                                routerLink="/register">
+                                Register
+                            </a>
+                        </li>
                         }
                     </ul>
                 </div>
 
             </div>
 
-            <!-- Dolny pasek (Copyright i polityka) -->
+            <!-- Bottom bar (Copyright and policies) -->
             <div class="row pt-5 mt-5 align-items-center justify-content-between"
                 style="border-top: 1px solid var(--luxury-border);">
+
                 <div class="col-12 col-md-auto text-center text-md-start mb-3 mb-md-0">
-                    <p class="small fw-light mb-0" style="color: var(--luxury-muted);">&copy; 2026 AURELIA Horlogerie.
-                        Wszelkie prawa zastrzeżone.</p>
+                    <p class="small fw-light mb-0" style="color: var(--luxury-muted);">
+                        &copy; 2026 YourWatchRental. All rights reserved.
+                    </p>
                 </div>
+
                 <div class="col-12 col-md-auto text-center text-md-end">
                     <div class="d-flex justify-content-center justify-content-md-end gap-4 small fw-light"
                         style="color: var(--luxury-muted);">
-                        <a href="#" class="text-decoration-none text-secondary hover-gold">Polityka prywatności</a>
-                        <a href="#" class="text-decoration-none text-secondary hover-gold">Regulamin serwisu</a>
+                        <a href="#" class="text-decoration-none text-secondary hover-gold">
+                            Privacy Policy
+                        </a>
+                        <a href="#" class="text-decoration-none text-secondary hover-gold">
+                            Terms of Service
+                        </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

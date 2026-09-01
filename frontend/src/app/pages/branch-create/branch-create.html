@@ -2,24 +2,24 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
             
-            <!-- Dodana klasa position-relative, aby przycisk absolutny pozycjonował się względem karty -->
+            <!-- Added position-relative class so the absolute button is positioned relative to the card -->
             <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 position-relative">
                 
-                <!-- Przycisk X w prawym górnym rogu -->
+                <!-- X button in the top-right corner -->
                 <button 
                     type="button" 
                     class="btn-close position-absolute top-0 end-0 m-4 shadow-none" 
-                    aria-label="Zamknij"
+                    aria-label="Close"
                     (click)="onClose()">
                 </button>
 
-                <!-- Nagłówek -->
+                <!-- Header -->
                 <div class="mb-4">
                     <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px; font-size: 0.75rem;">
-                        Zarządzanie
+                        Management
                     </span>
                     <h2 class="h3 text-dark fw-light mb-0">
-                        Dodaj oddział
+                        Add Branch
                     </h2>
                 </div>
 
@@ -27,13 +27,13 @@
                 <app-small-error-view [message]="branchesError()!" />
                 }
 
-                <!-- Formularz -->
+                <!-- Form -->
                 <form [formGroup]="branchForm" (ngSubmit)="createBranch()">
 
-                    <!-- Miasto -->
+                    <!-- City -->
                     <div class="mb-4">
                         <label for="city" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Miasto
+                            City
                         </label>
                         <input
                             id="city"
@@ -41,17 +41,17 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="city"
-                            placeholder="np. Warszawa"
+                            placeholder="e.g. Warsaw"
                         >
                         @if (branchForm.get('city')?.touched && branchForm.get('city')?.hasError('required')) {
-                            <div class="text-danger small mt-1" style="font-size: 0.7rem;">Miasto jest wymagane.</div>
+                            <div class="text-danger small mt-1" style="font-size: 0.7rem;">City is required.</div>
                         }
                     </div>
 
-                    <!-- Nazwa -->
+                    <!-- Name -->
                     <div class="mb-4">
                         <label for="name" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Nazwa
+                            Name
                         </label>
                         <input
                             id="name"
@@ -59,17 +59,17 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="name"
-                            placeholder="np. Centrala"
+                            placeholder="e.g. Headquarters"
                         >
                         @if (branchForm.get('name')?.touched && branchForm.get('name')?.hasError('required')) {
-                            <div class="text-danger small mt-1" style="font-size: 0.7rem;">Nazwa jest wymagana.</div>
+                            <div class="text-danger small mt-1" style="font-size: 0.7rem;">Name is required.</div>
                         }
                     </div>
 
-                    <!-- Adres -->
+                    <!-- Address -->
                     <div class="mb-4">
                         <label for="address" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Adres
+                            Address
                         </label>
                         <input
                             id="address"
@@ -77,17 +77,17 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="addres"
-                            placeholder="np. Marszałkowska 10"
+                            placeholder="e.g. 10 Marszałkowska Street"
                         >
                         @if (branchForm.get('addres')?.touched && branchForm.get('addres')?.hasError('required')) {
-                            <div class="text-danger small mt-1" style="font-size: 0.7rem;">Adres jest wymagany.</div>
+                            <div class="text-danger small mt-1" style="font-size: 0.7rem;">Address is required.</div>
                         }
                     </div>
 
-                    <!-- Numer telefonu -->
+                    <!-- Phone number -->
                     <div class="mb-4">
                         <label for="phoneNumber" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                            Numer telefonu
+                            Phone Number
                         </label>
                         <input
                             id="phoneNumber"
@@ -95,14 +95,14 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="phoneNumber"
-                            placeholder="np. 123456789"
+                            placeholder="e.g. 123456789"
                             maxlength="9"
                         >
                         @if (branchForm.get('phoneNumber')?.touched) {
                             @if (branchForm.get('phoneNumber')?.hasError('required')) {
-                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Numer telefonu jest wymagany.</div>
+                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Phone number is required.</div>
                             } @else if (branchForm.get('phoneNumber')?.hasError('pattern')) {
-                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Numer musi składać się z dokładnie 9 cyfr.</div>
+                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">The phone number must consist of exactly 9 digits.</div>
                             }
                         }
                     </div>
@@ -118,18 +118,18 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="email"
-                            placeholder="np. kontakt@..."
+                            placeholder="e.g. contact@..."
                         >
                         @if (branchForm.get('email')?.touched) {
                             @if (branchForm.get('email')?.hasError('required')) {
-                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Email jest wymagany.</div>
+                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Email is required.</div>
                             } @else if (branchForm.get('email')?.hasError('email')) {
-                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Podaj poprawny adres email.</div>
+                                <div class="text-danger small mt-1" style="font-size: 0.7rem;">Please enter a valid email address.</div>
                             }
                         }
                     </div>
 
-                    <!-- Przycisk zapisu -->
+                    <!-- Save button -->
                     <div>
                         <button
                             type="submit"
@@ -137,24 +137,24 @@
                             [class.opacity-50]="branchForm.invalid"
                             class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none w-100"
                             style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem;">
-                            Dodaj oddział
+                            Add Branch
                         </button>
                     </div>
 
                 </form>
 
-                <!-- OKNO MODALNE (POUP) PO ZAPISIE -->
+                <!-- SUCCESS MODAL AFTER SAVING -->
                 @if (successModal()) {
                 <div class="position-fixed top-0 start-0 w-100 vh-100 bg-white bg-opacity-95 d-flex flex-column justify-content-center align-items-center p-4 text-center "
                     style="z-index: 1050; backdrop-filter: blur(2px);">
 
                     <span class="text-uppercase tracking-widest small fw-bold mb-2"
                         style="color: #bfa130; letter-spacing: 2px; font-size: 0.7rem;">
-                        Sukces
+                        Success
                     </span>
 
                     <h3 class="h4 text-dark fw-light mb-4">
-                        Chcesz dodać kolejny?
+                        Would you like to add another?
                     </h3>
 
                     <div class="d-flex gap-3 justify-content-center">
@@ -162,12 +162,12 @@
                             <button type="button" (click)="onConfirmAddAnother(true)"
                                 class="btn text-uppercase fw-semibold px-4 py-2 text-white rounded-0 shadow-none"
                                 style="background-color: #1a1a1a; font-size: 0.75rem; letter-spacing: 1px;">
-                                Tak
+                                Yes
                             </button>
                             <button type="button" (click)="onConfirmAddAnother(false)"
                                 class="btn btn-outline-dark text-uppercase fw-semibold px-4 py-2 rounded-0 shadow-none"
                                 style="font-size: 0.75rem; letter-spacing: 1px;">
-                                Nie
+                                No
                             </button>
                         </div>
                     </div>

@@ -23,10 +23,11 @@ import { Router, RouterLink, RouterState } from '@angular/router';
 import { inputIcon } from '@primeuix/themes/aura/datepicker';
 import { FormError } from '../form-error/form-error';
 import { SmallErrorView } from '../small-error-view/small-error-view';
+import { WatchPhotoZoomComponent } from '../watch-photo-zoom-component/watch-photo-zoom-component';
 
 @Component({
   selector: 'app-watch-full-info-view',
-  imports: [FormsModule, WatchCalendar, ReactiveFormsModule, WatchPhotosView, RouterLink, FormError, SmallErrorView],
+  imports: [FormsModule, WatchCalendar, ReactiveFormsModule, WatchPhotosView, RouterLink, FormError, SmallErrorView, WatchPhotoZoomComponent],
   templateUrl: './watch-full-info-view.html',
   styleUrl: './watch-full-info-view.css',
 })
@@ -161,6 +162,16 @@ selectedPhotoIndex = signal(0);
       });
     })
   };
+
+showPhotoZoom = signal(false);
+
+openPhotoZoom() {
+  this.showPhotoZoom.set(true);
+}
+
+closePhotoZoom() {
+  this.showPhotoZoom.set(false);
+}
 
   ngOnInit() {
 

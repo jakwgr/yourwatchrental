@@ -1,8 +1,7 @@
-
 <div class="container py-5">
 
     <!-- ===================== -->
-    <!-- NAGŁÓWEK -->
+    <!-- HEADER -->
     <!-- ===================== -->
 
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
@@ -12,17 +11,17 @@
             <span
                 class="text-uppercase tracking-widest small fw-bold d-block mb-1"
                 style="color: #bfa130; letter-spacing: 2px;">
-                Kolekcja
+                Collection
             </span>
 
             <h2 class="h3 text-dark fw-light mb-0">
-                Wyszukiwanie zegarków
+                Watch Search
             </h2>
 
         </div>
 
 
-        <!-- DODAJ ZEGAREK -->
+        <!-- ADD WATCH -->
 
         @if (profile()?.role === "ADMIN" && profile()) {
 
@@ -33,7 +32,7 @@
                     class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 transition-all shadow-none"
                     style="background-color: #1a1a1a; letter-spacing: 0.15em; font-size: 0.75rem;">
 
-                    + Dodaj zegarek
+                    + Add Watch
 
                 </button>
 
@@ -45,7 +44,7 @@
 
 
     <!-- ===================== -->
-    <!-- FORMULARZ FILTROWANIA -->
+    <!-- FILTER FORM -->
     <!-- ===================== -->
 
     <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
@@ -56,13 +55,13 @@
 
 
             <!-- ===================== -->
-            <!-- PODSTAWOWE FILTRY -->
+            <!-- BASIC FILTERS -->
             <!-- ===================== -->
 
             <div class="row g-4">
 
 
-                <!-- PRODUCENT -->
+                <!-- MANUFACTURER -->
 
                 <div class="col-12 col-md-4">
 
@@ -70,7 +69,7 @@
                         class="form-label text-uppercase text-secondary fw-medium mb-1"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                        Producent
+                        Manufacturer
 
                     </label>
 
@@ -79,7 +78,7 @@
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="manufacturer"
-                        placeholder="np. Rolex">
+                        placeholder="e.g. Rolex">
 
                 </div>
 
@@ -101,12 +100,12 @@
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="model"
-                        placeholder="np. Submariner">
+                        placeholder="e.g. Submariner">
 
                 </div>
 
 
-                <!-- CENA OD -->
+                <!-- PRICE FROM -->
 
                 <div class="col-6 col-md-2">
 
@@ -114,7 +113,7 @@
                         class="form-label text-uppercase text-secondary fw-medium mb-1"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                        Cena od (zł)
+                        Price from (PLN)
 
                     </label>
 
@@ -123,12 +122,12 @@
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="minPrice"
-                        placeholder="Od">
+                        placeholder="From">
 
                 </div>
 
 
-                <!-- CENA DO -->
+                <!-- PRICE TO -->
 
                 <div class="col-6 col-md-2">
 
@@ -136,7 +135,7 @@
                         class="form-label text-uppercase text-secondary fw-medium mb-1"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                        Cena do (zł)
+                        Price to (PLN)
 
                     </label>
 
@@ -145,7 +144,7 @@
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="maxPrice"
-                        placeholder="Do">
+                        placeholder="To">
 
                 </div>
 
@@ -153,7 +152,7 @@
 
 
             <!-- ===================== -->
-            <!-- PRZYCISK ZAAWANSOWANE -->
+            <!-- ADVANCED FILTER BUTTON -->
             <!-- ===================== -->
 
             <div class="mt-4 pt-2 border-top border-light">
@@ -168,8 +167,8 @@
 
                         {{
                             advancedFilters()
-                                ? 'Ukryj filtry zaawansowane'
-                                : 'Filtry zaawansowane'
+                                ? 'Hide advanced filters'
+                                : 'Advanced filters'
                         }}
 
                     </span>
@@ -190,7 +189,7 @@
 
 
             <!-- ===================== -->
-            <!-- FILTRY ZAAWANSOWANE -->
+            <!-- ADVANCED FILTERS -->
             <!-- ===================== -->
 
             <div
@@ -200,7 +199,7 @@
                 <div class="row g-4 pt-3">
 
 
-                    <!-- ROK OD -->
+                    <!-- YEAR FROM -->
 
                     <div class="col-6 col-md-3">
 
@@ -208,7 +207,7 @@
                             class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                            Rok od
+                            Year from
 
                         </label>
 
@@ -217,12 +216,12 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="minYear"
-                            placeholder="np. 2015">
+                            placeholder="e.g. 2015">
 
                     </div>
 
 
-                    <!-- ROK DO -->
+                    <!-- YEAR TO -->
 
                     <div class="col-6 col-md-3">
 
@@ -230,7 +229,7 @@
                             class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                            Rok do
+                            Year to
 
                         </label>
 
@@ -239,12 +238,12 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;"
                             formControlName="maxYear"
-                            placeholder="np. 2026">
+                            placeholder="e.g. 2026">
 
                     </div>
 
 
-                    <!-- PŁEĆ -->
+                    <!-- GENDER -->
 
                     <div class="col-12 col-md-3">
 
@@ -252,7 +251,7 @@
                             class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                            Płeć
+                            Gender
 
                         </label>
 
@@ -262,7 +261,7 @@
                             formControlName="gender">
 
                             <option [ngValue]="null">
-                                Wszystkie
+                                All
                             </option>
 
                             @for (
@@ -281,7 +280,7 @@
                     </div>
 
 
-                    <!-- TYP MECHANIZMU -->
+                    <!-- MOVEMENT TYPE -->
 
                     <div class="col-12 col-md-3">
 
@@ -289,7 +288,7 @@
                             class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                            Typ mechanizmu
+                            Movement type
 
                         </label>
 
@@ -299,7 +298,7 @@
                             formControlName="movementType">
 
                             <option [ngValue]="null">
-                                Wszystkie
+                                All
                             </option>
 
                             @for (
@@ -336,7 +335,7 @@
                             formControlName="status">
 
                             <option [ngValue]="null">
-                                Wszystkie
+                                All
                             </option>
 
                             @for (
@@ -355,7 +354,7 @@
                     </div>
 
 
-                    <!-- TYP ZEGARKA -->
+                    <!-- WATCH TYPE -->
 
                     <div class="col-12 col-md-4">
 
@@ -363,7 +362,7 @@
                             class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                            Typ zegarka
+                            Watch type
 
                         </label>
 
@@ -373,7 +372,7 @@
                             formControlName="watchType">
 
                             <option [ngValue]="null">
-                                Wszystkie
+                                All
                             </option>
 
                             @for (
@@ -392,7 +391,7 @@
                     </div>
 
 
-                    <!-- ODDZIAŁ -->
+                    <!-- BRANCH -->
 
                     <div class="col-12 col-md-4">
 
@@ -400,7 +399,7 @@
                             class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                            Oddział
+                            Branch
 
                         </label>
 
@@ -410,7 +409,7 @@
                             formControlName="branchId">
 
                             <option [ngValue]="null">
-                                Wszystkie oddziały
+                                All branches
                             </option>
 
                             @for (
@@ -434,7 +433,7 @@
 
 
             <!-- ===================== -->
-            <!-- PRZYCISKI -->
+            <!-- BUTTONS -->
             <!-- ===================== -->
 
             <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
@@ -444,7 +443,7 @@
                     class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none flex-grow-1"
                     style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 80%;">
 
-                    Szukaj w kolekcji
+                    Search Collection
 
                 </button>
 
@@ -455,7 +454,7 @@
                     style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 150px;"
                     (click)="resetFilters()">
 
-                    Wyczyść
+                    Clear
 
                 </button>
 
@@ -467,7 +466,7 @@
 
 
     <!-- ===================== -->
-    <!-- WYNIKI -->
+    <!-- RESULTS -->
     <!-- ===================== -->
 
     <div id="section"></div>
@@ -477,7 +476,7 @@
 
 
         <!-- ===================== -->
-        <!-- NAGŁÓWEK WYNIKÓW -->
+        <!-- RESULTS HEADER -->
         <!-- ===================== -->
 
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
@@ -489,14 +488,14 @@
                     class="text-uppercase text-secondary d-block mb-1"
                     style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                    Kolekcja
+                    Collection
 
                 </span>
 
 
                 <h2 class="h4 text-dark fw-light mb-0">
 
-                    Zegarki
+                    Watches
 
                 </h2>
 
@@ -504,13 +503,13 @@
 
 
             <!-- ===================== -->
-            <!-- SORTOWANIE + LICZBA -->
+            <!-- SORTING + COUNT -->
             <!-- ===================== -->
 
             <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
 
 
-                <!-- SORTOWANIE -->
+                <!-- SORTING -->
 
                 <div class="d-flex align-items-center gap-2">
 
@@ -518,7 +517,7 @@
                         class="text-uppercase text-secondary mb-0"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                        Sortuj
+                        Sort by
 
                     </label>
 
@@ -530,15 +529,15 @@
                         (change)="changeSort($event)">
 
                         <option value="pricePerDay,asc">
-                            Cena: rosnąco
+                            Price: lowest first
                         </option>
 
                         <option value="pricePerDay,desc">
-                            Cena: malejąco
+                            Price: highest first
                         </option>
 
                         <option value="yearOfProduction,desc">
-                            Rok produkcji: najnowsze
+                            Production year: newest
                         </option>
 
                     </select>
@@ -546,13 +545,13 @@
                 </div>
 
 
-                <!-- LICZBA -->
+                <!-- COUNT -->
 
                 <p
                     class="text-secondary small text-uppercase mb-0 text-end"
                     style="letter-spacing: 1.5px; font-size: 0.7rem;">
 
-                    Na tej stronie:
+                    On this page:
 
                     <span class="fw-bold text-dark">
                         {{ watches().length }}/9
@@ -566,7 +565,7 @@
 
 
         <!-- ===================== -->
-        <!-- LISTA ZEGARKÓW -->
+        <!-- WATCH LIST -->
         <!-- ===================== -->
 
         <div class="row g-4">
@@ -593,7 +592,7 @@
 
 
         <!-- ===================== -->
-        <!-- BRAK WYNIKÓW -->
+        <!-- NO RESULTS -->
         <!-- ===================== -->
 
         @if (watches().length === 0) {
@@ -605,15 +604,15 @@
                     class="text-uppercase text-secondary d-block mb-2"
                     style="font-size: 0.65rem; letter-spacing: 1.5px;">
 
-                    Brak wyników
+                    No results
 
                 </span>
 
 
                 <p class="text-dark mb-0">
 
-                    Nie znaleziono zegarków
-                    spełniających podane kryteria.
+                    No watches were found
+                    matching the selected criteria.
 
                 </p>
 
@@ -625,7 +624,7 @@
 
 
     <!-- ===================== -->
-    <!-- PAGINACJA -->
+    <!-- PAGINATION -->
     <!-- ===================== -->
 
     <app-pagination-buttons
@@ -637,4 +636,3 @@
     </app-pagination-buttons>
 
 </div>
-

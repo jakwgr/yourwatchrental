@@ -6,12 +6,12 @@
         style="font-size: 0.7rem; letter-spacing: 2px;"
         (click)="previousPage()"
         [disabled]="currentPage() === 0">
-        ← Poprzednia
+        ← Previous page
     </button>
 
     <!-- Licznik stron -->
     <span class="text-uppercase text-secondary fw-medium" style="font-size: 0.75rem; letter-spacing: 2px;">
-        Strona <span class="text-dark fw-bold">{{ currentPage() + 1 }}</span> z <span class="text-dark fw-bold">{{ totalPages() }}</span>
+        Page <span class="text-dark fw-bold">{{ currentPage() + 1 }}</span> of <span class="text-dark fw-bold">{{ totalPages() }}</span>
     </span>
 
     <!-- Następna strona -->
@@ -21,7 +21,7 @@
         style="font-size: 0.7rem; letter-spacing: 2px;"
         (click)="nextPage()"
         [disabled]="currentPage() >= totalPages() - 1">
-        Następna →
+        Next page →
     </button>
 </div>
 

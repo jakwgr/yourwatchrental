@@ -11,6 +11,7 @@ import { DatePipe, ɵnormalizeQueryParams } from '@angular/common';
 import { RentalsService } from '../../core/services/rentals/rentals-service';
 import { RentalRequestDTO } from '../../core/models/rentals/rental-request.dto';
 import { SmallErrorView } from '../../shared/components/small-error-view/small-error-view';
+import { PortfolioProjectAlert1 } from '../../shared/components/portfolio-project-alert-1/portfolio-project-alert-1';
 
 // import {}
 
@@ -18,7 +19,7 @@ import { SmallErrorView } from '../../shared/components/small-error-view/small-e
   selector: 'app-rental-create',
   imports: [WatchCalendar,
     ReactiveFormsModule,
-    DatePipe, SmallErrorView],
+    DatePipe, SmallErrorView, PortfolioProjectAlert1],
     providers: [DatePipe],
   templateUrl: './rental-create.html',
   styleUrl: './rental-create.css',

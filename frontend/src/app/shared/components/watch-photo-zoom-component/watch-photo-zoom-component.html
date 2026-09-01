@@ -1,0 +1,19 @@
+<div
+    class="photo-zoom-backdrop"
+    (click)="close.emit()">
+
+    <button
+        type="button"
+        class="photo-zoom-close"
+        aria-label="Close"
+        (click)="close.emit()">
+        &times;
+    </button>
+
+    <img
+        [src]="photoUrl()"
+        [alt]="alt()"
+        class="photo-zoom-image"
+        (click)="$event.stopPropagation()">
+
+</div>

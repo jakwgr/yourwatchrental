@@ -3,400 +3,398 @@
         <div>
             <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
                 style="color: #bfa130; letter-spacing: 2px; font-size: 0.70rem;">
-                Szczegóły profilu
+                Profile Details
             </span>
-
-            <h2 class="h3 text-dark fw-light mb-0">
-                @if (saveType === 1) {
-                Edycja danych osobowych
-                } @else if (saveType === 2) {
-                Zmiana adresu email
-                } @else if (saveType === 3) {
-                Zmiana statusu konta
-                } @else if (saveType === 4) {
-                Zmiana roli użytkownika
-                } @else if (saveType === 5) {
-                Zmiana hasła
-                } @else {
-                Profil użytkownika
-                }
-            </h2>
-        </div>
-
-        <div class="text-secondary small font-monospace" style="font-size: 0.75rem;">
-            Utworzono: {{ profile().createdAt }}
-        </div>
+        <h2 class="h3 text-dark fw-light mb-0">
+            @if (saveType === 1) {
+            Edit Personal Information
+            } @else if (saveType === 2) {
+            Change Email Address
+            } @else if (saveType === 3) {
+            Change Account Status
+            } @else if (saveType === 4) {
+            Change User Role
+            } @else if (saveType === 5) {
+            Change Password
+            } @else {
+            User Profile
+            }
+        </h2>
     </div>
 
-
-    <form [formGroup]="adminUserUpdate">
-
-        <!-- BŁĘDY Z BACKENDU -->
-
-        @if (saveType === 1 && informationError()) {
-        <app-small-error-view [message]="informationError()!" />
-        }
-
-        @if (saveType === 2 && emailError()) {
-        <app-small-error-view [message]="emailError()!" />
-        }
-
-        @if (saveType === 3 && statusError()) {
-        <app-small-error-view [message]="statusError()!" />
-        }
-
-        @if (saveType === 4 && roleError()) {
-        <app-small-error-view [message]="roleError()!" />
-        }
-
-        @if (saveType === 5 && passwordError()) {
-        <app-small-error-view [message]="passwordError()!" />
-        }
+    <div class="text-secondary small font-monospace" style="font-size: 0.75rem;">
+        Created: {{ profile().createdAt }}
+    </div>
+</div>
 
 
-        <div class="row g-4">
+<form [formGroup]="adminUserUpdate">
 
-            <!-- Imię -->
+    <!-- BACKEND ERRORS -->
 
-            <div class="col-md-6">
-                <label class="form-label text-uppercase text-secondary fw-medium"
-                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Imię
-                </label>
+    @if (saveType === 1 && informationError()) {
+    <app-small-error-view [message]="informationError()!" />
+    }
 
-                @if (saveType != null && saveType === 1) {
+    @if (saveType === 2 && emailError()) {
+    <app-small-error-view [message]="emailError()!" />
+    }
 
-                <input type="text"
-                    class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                    style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                    formControlName="firstName">
+    @if (saveType === 3 && statusError()) {
+    <app-small-error-view [message]="statusError()!" />
+    }
 
-                <app-form-error [control]="adminUserUpdate.controls.firstName">
-                </app-form-error>
+    @if (saveType === 4 && roleError()) {
+    <app-small-error-view [message]="roleError()!" />
+    }
 
-                } @else {
+    @if (saveType === 5 && passwordError()) {
+    <app-small-error-view [message]="passwordError()!" />
+    }
 
-                <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
-                    style="background-color: rgba(0, 0, 0, 0.01);">
-                    {{ profile().firstName }}
-                </div>
-                }
+
+    <div class="row g-4">
+
+        <!-- First Name -->
+
+        <div class="col-md-6">
+            <label class="form-label text-uppercase text-secondary fw-medium"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                First Name
+            </label>
+
+            @if (saveType != null && saveType === 1) {
+
+            <input type="text"
+                class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                formControlName="firstName">
+
+            <app-form-error [control]="adminUserUpdate.controls.firstName">
+            </app-form-error>
+
+            } @else {
+
+            <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
+                style="background-color: rgba(0, 0, 0, 0.01);">
+                {{ profile().firstName }}
             </div>
-
-
-            <!-- Nazwisko -->
-
-            <div class="col-md-6">
-                <label class="form-label text-uppercase text-secondary fw-medium"
-                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Nazwisko
-                </label>
-
-                @if (saveType != null && saveType === 1) {
-
-                <input type="text"
-                    class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                    style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                    formControlName="lastName">
-
-                <app-form-error [control]="adminUserUpdate.controls.lastName">
-                </app-form-error>
-
-                } @else {
-
-                <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
-                    style="background-color: rgba(0, 0, 0, 0.01);">
-                    {{ profile().lastName }}
-                </div>
-                }
-            </div>
-
-
-            <!-- Numer telefonu -->
-
-            <div class="col-md-6">
-                <label class="form-label text-uppercase text-secondary fw-medium"
-                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Numer telefonu
-                </label>
-
-                @if (saveType != null && saveType === 1) {
-
-                <input type="text"
-                    class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                    style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                    formControlName="phoneNumber" maxlength="9" (input)="onlyNumbers($event)">
-
-                <app-form-error [control]="adminUserUpdate.controls.phoneNumber"
-                    patternMessage="Invalid phone number format. Expected format '123456789'">
-                </app-form-error>
-
-                } @else {
-
-                <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
-                    style="background-color: rgba(0, 0, 0, 0.01);">
-                    {{ formatPhoneNumber(profile().phoneNumber) }}
-                </div>
-                }
-            </div>
-
-
-            <!-- Data urodzenia -->
-
-            <div class="col-md-6">
-                <label class="form-label text-uppercase text-secondary fw-medium"
-                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Data urodzenia
-                </label>
-
-                @if (saveType != null && saveType === 1) {
-
-                <input type="date"
-                    class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                    style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                    formControlName="dateOfBirth">
-
-                <app-form-error [control]="adminUserUpdate.controls.dateOfBirth">
-                </app-form-error>
-
-                } @else {
-
-                <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
-                    style="background-color: rgba(0, 0, 0, 0.01);">
-                    {{ profile().dateOfBirth }}
-                </div>
-                }
-            </div>
-
-
-            <!-- Email -->
-
-            <div class="col-md-6">
-                <label class="form-label text-uppercase text-secondary fw-medium"
-                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Email
-                </label>
-
-                @if (saveType != null && saveType === 2) {
-
-                <input type="email"
-                    class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                    style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                    formControlName="email">
-
-                <app-form-error [control]="adminUserUpdate.controls.email">
-                </app-form-error>
-
-                } @else {
-
-                <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
-                    style="background-color: rgba(0, 0, 0, 0.01);">
-                    {{ profile().email }}
-                </div>
-                }
-            </div>
-
-
-            <!-- Status konta -->
-
-            <div class="col-md-6">
-                <label class="form-label text-uppercase text-secondary fw-medium"
-                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Status konta
-                </label>
-
-                @if (saveType != null && saveType === 3) {
-
-                <select
-                    class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                    style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto;"
-                    formControlName="status">
-
-                    @for (status of statusOptions; track status) {
-                    <option [value]="status">
-                        {{ userStatusLabel[status] }}
-                    </option>
-                    }
-
-                </select>
-
-                <app-form-error [control]="adminUserUpdate.controls.status">
-                </app-form-error>
-
-                } @else {
-
-                <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
-                    style="background-color: rgba(0, 0, 0, 0.01);">
-                    {{ userStatusLabel[profile().status] }}
-                </div>
-                }
-            </div>
-
-
-            <!-- Rola użytkownika -->
-
-            <div class="col-md-6">
-                <label class="form-label text-uppercase text-secondary fw-medium"
-                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Rola użytkownika
-                </label>
-
-                @if (saveType != null && saveType === 4) {
-
-                <select
-                    class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                    style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto;"
-                    formControlName="role">
-
-                    @for (role of roleOptions; track role) {
-                    <option [value]="role">
-                        {{ roleLabel[role] }}
-                    </option>
-                    }
-
-                </select>
-
-                <app-form-error [control]="adminUserUpdate.controls.role">
-                </app-form-error>
-
-                } @else {
-
-                <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
-                    style="background-color: rgba(0, 0, 0, 0.01);">
-                    {{ roleLabel[profile().role] }}
-                </div>
-                }
-            </div>
-
-
-            <!-- Hasło -->
-
-            <div class="col-md-6">
-                <label class="form-label text-uppercase text-secondary fw-medium"
-                    style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                    Hasło
-                </label>
-
-                @if (saveType != null && saveType === 5) {
-
-                <div class="d-flex gap-2">
-
-                    <div class="flex-grow-1">
-                        <input type="password"
-                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                            formControlName="newPassword" placeholder="Nowe hasło">
-
-                        <app-form-error [control]="adminUserUpdate.controls.newPassword">
-                        </app-form-error>
-                    </div>
-
-                    <div class="flex-grow-1">
-                        <input type="password"
-                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                            formControlName="newPassword1" placeholder="Powtórz hasło">
-
-                        <app-form-error [control]="adminUserUpdate.controls.newPassword1">
-                        </app-form-error>
-                    </div>
-
-                </div>
-
-                } @else {
-
-                <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
-                    style="background-color: rgba(0, 0, 0, 0.01);">
-                    **********
-                </div>
-                }
-            </div>
-
+            }
         </div>
 
 
-        <!-- Przyciski akcji -->
+        <!-- Last Name -->
 
-        <div class="mt-5 pt-3 border-top">
+        <div class="col-md-6">
+            <label class="form-label text-uppercase text-secondary fw-medium"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Last Name
+            </label>
 
-            @if (!buttonVanish) {
+            @if (saveType != null && saveType === 1) {
 
-            <div class="d-flex flex-wrap gap-2">
+            <input type="text"
+                class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                formControlName="lastName">
 
-                <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
-                    style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                    (click)="updateInformation()">
-                    Zmień dane
-                </button>
+            <app-form-error [control]="adminUserUpdate.controls.lastName">
+            </app-form-error>
 
-                <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
-                    style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                    (click)="updatePassword()">
-                    Zmień hasło
-                </button>
+            } @else {
 
-                <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
-                    style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                    (click)="updateEmail()">
-                    Zmień email
-                </button>
+            <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
+                style="background-color: rgba(0, 0, 0, 0.01);">
+                {{ profile().lastName }}
+            </div>
+            }
+        </div>
 
-                <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
-                    style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                    (click)="updateStatus()">
-                    Zmień status
-                </button>
 
-                <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
-                    style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                    (click)="updateRole()">
-                    Zmień rolę
-                </button>
+        <!-- Phone Number -->
 
-                <a [routerLink]="['/rentals', profile().id]"
-                    class="btn text-uppercase fw-semibold py-2 px-3 text-dark bg-transparent border border-dark rounded-0 shadow-none"
-                    style="letter-spacing: 0.1em; font-size: 0.70rem; text-decoration: none; display: inline-flex; align-items: center;">
-                    Zobacz wypożyczenia
-                </a>
+        <div class="col-md-6">
+            <label class="form-label text-uppercase text-secondary fw-medium"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Phone Number
+            </label>
+
+            @if (saveType != null && saveType === 1) {
+
+            <input type="text"
+                class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                formControlName="phoneNumber" maxlength="9" (input)="onlyNumbers($event)">
+
+            <app-form-error [control]="adminUserUpdate.controls.phoneNumber"
+                patternMessage="Invalid phone number format. Expected format '123456789'">
+            </app-form-error>
+
+            } @else {
+
+            <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
+                style="background-color: rgba(0, 0, 0, 0.01);">
+                {{ formatPhoneNumber(profile().phoneNumber) }}
+            </div>
+            }
+        </div>
+
+
+        <!-- Date of Birth -->
+
+        <div class="col-md-6">
+            <label class="form-label text-uppercase text-secondary fw-medium"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Date of Birth
+            </label>
+
+            @if (saveType != null && saveType === 1) {
+
+            <input type="date"
+                class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                formControlName="dateOfBirth">
+
+            <app-form-error [control]="adminUserUpdate.controls.dateOfBirth">
+            </app-form-error>
+
+            } @else {
+
+            <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
+                style="background-color: rgba(0, 0, 0, 0.01);">
+                {{ profile().dateOfBirth }}
+            </div>
+            }
+        </div>
+
+
+        <!-- Email -->
+
+        <div class="col-md-6">
+            <label class="form-label text-uppercase text-secondary fw-medium"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Email
+            </label>
+
+            @if (saveType != null && saveType === 2) {
+
+            <input type="email"
+                class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                formControlName="email">
+
+            <app-form-error [control]="adminUserUpdate.controls.email">
+            </app-form-error>
+
+            } @else {
+
+            <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
+                style="background-color: rgba(0, 0, 0, 0.01);">
+                {{ profile().email }}
+            </div>
+            }
+        </div>
+
+
+        <!-- Account Status -->
+
+        <div class="col-md-6">
+            <label class="form-label text-uppercase text-secondary fw-medium"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Account Status
+            </label>
+
+            @if (saveType != null && saveType === 3) {
+
+            <select
+                class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto;"
+                formControlName="status">
+
+                @for (status of statusOptions; track status) {
+                <option [value]="status">
+                    {{ userStatusLabel[status] }}
+                </option>
+                }
+
+            </select>
+
+            <app-form-error [control]="adminUserUpdate.controls.status">
+            </app-form-error>
+
+            } @else {
+
+            <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
+                style="background-color: rgba(0, 0, 0, 0.01);">
+                {{ userStatusLabel[profile().status] }}
+            </div>
+            }
+        </div>
+
+
+        <!-- User Role -->
+
+        <div class="col-md-6">
+            <label class="form-label text-uppercase text-secondary fw-medium"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                User Role
+            </label>
+
+            @if (saveType != null && saveType === 4) {
+
+            <select
+                class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important; appearance: auto;"
+                formControlName="role">
+
+                @for (role of roleOptions; track role) {
+                <option [value]="role">
+                    {{ roleLabel[role] }}
+                </option>
+                }
+
+            </select>
+
+            <app-form-error [control]="adminUserUpdate.controls.role">
+            </app-form-error>
+
+            } @else {
+
+            <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
+                style="background-color: rgba(0, 0, 0, 0.01);">
+                {{ roleLabel[profile().role] }}
+            </div>
+            }
+        </div>
+
+
+        <!-- Password -->
+
+        <div class="col-md-6">
+            <label class="form-label text-uppercase text-secondary fw-medium"
+                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                Password
+            </label>
+
+            @if (saveType != null && saveType === 5) {
+
+            <div class="d-flex gap-2">
+
+                <div class="flex-grow-1">
+                    <input type="password"
+                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                        formControlName="newPassword" placeholder="New password">
+
+                    <app-form-error [control]="adminUserUpdate.controls.newPassword">
+                    </app-form-error>
+                </div>
+
+                <div class="flex-grow-1">
+                    <input type="password"
+                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                        formControlName="newPassword1" placeholder="Repeat password">
+
+                    <app-form-error [control]="adminUserUpdate.controls.newPassword1">
+                    </app-form-error>
+                </div>
 
             </div>
 
             } @else {
 
-            <div class="d-flex flex-column flex-md-row gap-2">
-
-                <button type="button"
-                    class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none flex-grow-1"
-                    style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                    (click)="save(profile().id)" [disabled]="
-    (saveType === 1 && (
-        adminUserUpdate.controls.firstName.invalid ||
-        adminUserUpdate.controls.lastName.invalid ||
-        adminUserUpdate.controls.dateOfBirth.invalid ||
-        adminUserUpdate.controls.phoneNumber.invalid
-    )) ||
-    (saveType === 2 && adminUserUpdate.controls.email.invalid) ||
-    (saveType === 3 && adminUserUpdate.controls.status.invalid) ||
-    (saveType === 4 && adminUserUpdate.controls.role.invalid) ||
-    (saveType === 5 && (
-        adminUserUpdate.controls.newPassword.invalid ||
-        adminUserUpdate.controls.newPassword1.invalid
-    ))
-">
-                    Zapisz
-                </button>
-
-                <button type="button"
-                    class="btn text-uppercase fw-semibold py-2 text-dark bg-transparent border border-dark rounded-0 shadow-none px-4"
-                    style="letter-spacing: 0.1em; font-size: 0.70rem;" (click)="cancel()">
-                    Cofnij
-                </button>
-
+            <div class="form-control-plaintext text-dark fw-bold py-2 px-3"
+                style="background-color: rgba(0, 0, 0, 0.01);">
+                **********
             </div>
-
             }
+        </div>
+
+    </div>
+
+
+    <!-- Action Buttons -->
+
+    <div class="mt-5 pt-3 border-top">
+
+        @if (!buttonVanish) {
+
+        <div class="d-flex flex-wrap gap-2">
+
+            <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                (click)="updateInformation()">
+                Edit Information
+            </button>
+
+            <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                (click)="updatePassword()">
+                Change Password
+            </button>
+
+            <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                (click)="updateEmail()">
+                Change Email
+            </button>
+
+            <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                (click)="updateStatus()">
+                Change Status
+            </button>
+
+            <button type="button" class="btn text-uppercase fw-semibold py-2 px-3 text-white rounded-0 shadow-none"
+                style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                (click)="updateRole()">
+                Change Role
+            </button>
+
+            <a [routerLink]="['/rentals', profile().id]"
+                class="btn text-uppercase fw-semibold py-2 px-3 text-dark bg-transparent border border-dark rounded-0 shadow-none"
+                style="letter-spacing: 0.1em; font-size: 0.70rem; text-decoration: none; display: inline-flex; align-items: center;">
+                View Rentals
+            </a>
 
         </div>
 
-    </form>
+        } @else {
+
+        <div class="d-flex flex-column flex-md-row gap-2">
+
+            <button type="button"
+                class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none flex-grow-1"
+                style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                (click)="save(profile().id)" [disabled]="
+(saveType === 1 && (
+    adminUserUpdate.controls.firstName.invalid ||
+    adminUserUpdate.controls.lastName.invalid ||
+    adminUserUpdate.controls.dateOfBirth.invalid ||
+    adminUserUpdate.controls.phoneNumber.invalid
+)) ||
+(saveType === 2 && adminUserUpdate.controls.email.invalid) ||
+(saveType === 3 && adminUserUpdate.controls.status.invalid) ||
+(saveType === 4 && adminUserUpdate.controls.role.invalid) ||
+(saveType === 5 && (
+    adminUserUpdate.controls.newPassword.invalid ||
+    adminUserUpdate.controls.newPassword1.invalid
+))
+">
+Save </button>
+            <button type="button"
+                class="btn text-uppercase fw-semibold py-2 text-dark bg-transparent border border-dark rounded-0 shadow-none px-4"
+                style="letter-spacing: 0.1em; font-size: 0.70rem;" (click)="cancel()">
+                Cancel
+            </button>
+
+        </div>
+
+        }
+
+    </div>
+
+</form>
+
 </div>

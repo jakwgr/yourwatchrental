@@ -1,81 +1,80 @@
 <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.5);">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-0 shadow-lg p-4 p-md-5 bg-white">
-            
             <div class="modal-header border-0 pb-0">
                 <h5 class="modal-title text-uppercase fw-light h4 text-dark" style="letter-spacing: 1px;">
-                    Potwierdzenie akcji
+                    Action Confirmation
                 </h5>
-                <button type="button" class="btn-close shadow-none rounded-0" aria-label="Close" (click)="close.emit()"></button>
+                <button type="button" class="btn-close shadow-none rounded-0" aria-label="Close"
+                    (click)="close.emit()"></button>
             </div>
 
             <div class="modal-body py-4">
                 <p class="text-secondary mb-4" style="font-size: 0.9rem;">
-                    Czy na pewno chcesz wykonać tę operację?
+                    Are you sure you want to perform this operation?
                 </p>
 
                 @if (!formOpen()) {
-                    <div class="d-flex gap-2">
-                        <button
-                            type="button"
-                            class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 shadow-none flex-grow-1"
-                            style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                            (click)="openForm()">
-                            Tak
-                        </button>
-                        <button
-                            type="button"
-                            class="btn text-uppercase fw-semibold py-2 px-4 text-dark bg-transparent border border-dark rounded-0 shadow-none"
-                            style="letter-spacing: 0.1em; font-size: 0.70rem;"
-                            (click)="close.emit()">
-                            Cofnij
-                        </button>
-                    </div>
+                <div class="d-flex gap-2">
+                    <button type="button"
+                        class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 shadow-none flex-grow-1"
+                        style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                        (click)="openForm()">
+                        Yes
+                    </button>
+
+                    <button type="button"
+                        class="btn text-uppercase fw-semibold py-2 px-4 text-dark bg-transparent border border-dark rounded-0 shadow-none"
+                        style="letter-spacing: 0.1em; font-size: 0.70rem;" (click)="close.emit()">
+                        Cancel
+                    </button>
+                </div>
                 }
 
                 @if (formOpen()) {
-                    @if (error()) {
-                            <app-small-error-view [message]="error()!" />
-                        }
-                    <form [formGroup]="softDeleteForm" class="mt-3">
-                        <div class="modal-body py-4">
-                            
+                @if (error()) {
+                <app-small-error-view [message]="error()!" />
+                }
+
+                <form [formGroup]="softDeleteForm" class="mt-3">
+                    <div class="modal-body py-4">
+
                         <div class="mb-3">
-                            <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                                Podaj hasło
+                            <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                                style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                                Enter your password
                             </label>
-                            <input
-                                type="password"
+
+                            <input type="password"
                                 class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
                                 style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                                formControlName="password"
-                                placeholder="••••••••"
-                                >
-                                <app-form-error
-                            [control]="softDeleteForm.controls.password"> </app-form-error>
+                                formControlName="password" placeholder="••••••••">
+
+                            <app-form-error [control]="softDeleteForm.controls.password">
+                            </app-form-error>
                         </div>
+
                         <div class="d-flex gap-2 mt-4">
-                            <button
-                                type="button"
+                            <button type="button"
                                 class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 shadow-none flex-grow-1"
                                 style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                                (click)="saveSoftDeleteModal()"
-                                [disabled]="softDeleteForm.invalid">
-                                Zmień
+                                (click)="saveSoftDeleteModal()" [disabled]="softDeleteForm.invalid">
+                                Confirm
                             </button>
-                            <button
-                                type="button"
+
+                            <button type="button"
                                 class="btn text-uppercase fw-semibold py-2 px-4 text-dark bg-transparent border border-dark rounded-0 shadow-none"
-                                style="letter-spacing: 0.1em; font-size: 0.70rem;"
-                                (click)="close.emit()">
-                                Cofnij
+                                style="letter-spacing: 0.1em; font-size: 0.70rem;" (click)="close.emit()">
+                                Cancel
                             </button>
                         </div>
-                        </div>
-                    </form>
+
+                    </div>
+                </form>
                 }
             </div>
 
         </div>
     </div>
+
 </div>

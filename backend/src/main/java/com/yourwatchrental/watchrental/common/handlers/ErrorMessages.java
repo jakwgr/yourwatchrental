@@ -44,7 +44,10 @@ public enum ErrorMessages {
 
     RENTAL_EXISTS("Watch is already rented for the selected dates"),
 
-    FAILED_EMAIL("Failed to send rental confirmation email");
+    FAILED_EMAIL("Failed to send rental confirmation email"),
+
+    INVALID_RESET_TOKEN("Invalid or expired password reset token");
+
     private final String message;
     ErrorMessages(String message){
         this.message = message;

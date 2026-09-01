@@ -1,47 +1,47 @@
 <div class="container py-5">
     
-    <!-- Nagłówek -->
+    <!-- Header -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
             <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px;">
-                Zarządzanie
+                Management
             </span>
             <h2 class="h3 text-dark fw-light mb-0">
-                Wyszukiwanie użytkowników
+                User Search
             </h2>
         </div>
     </div>
 
-    <!-- Formularz kryteriów -->
+    <!-- Search criteria form -->
     <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
         <form [formGroup]="filterForm" (ngSubmit)="search()">
 
             <div class="row g-4">
-                <!-- Imię -->
+                <!-- First name -->
                 <div class="col-12 col-md-3">
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                        Imię
+                        First Name
                     </label>
                     <input
                         type="text"
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="firstName"
-                        placeholder="np. Jan"
+                        placeholder="e.g. John"
                     />
                 </div>
 
-                <!-- Nazwisko -->
+                <!-- Last name -->
                 <div class="col-12 col-md-3">
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                        Nazwisko
+                        Last Name
                     </label>
                     <input
                         type="text"
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="lastName"
-                        placeholder="np. Kowalski"
+                        placeholder="e.g. Smith"
                     />
                 </div>
 
@@ -55,52 +55,52 @@
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="email"
-                        placeholder="np. jan@example.com"
+                        placeholder="e.g. john@example.com"
                     />
                 </div>
 
-                <!-- Numer telefonu -->
+                <!-- Phone number -->
                 <div class="col-12 col-md-3">
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                        Numer telefonu
+                        Phone Number
                     </label>
                     <input
                         type="number"
                         class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                         style="border-color: #dee2e6 !important;"
                         formControlName="phoneNumber"
-                        placeholder="np. +48..."
+                        placeholder="e.g. +48..."
                     />
                 </div>
             </div>
 
-            <!-- Przyciski Szukaj / Wyczyść -->
+            <!-- Search / Clear buttons -->
             <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
                 <button
                     type="submit"
                     class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none flex-grow-1"
                     style="background-color: #1a1a1a; letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 80%;">
-                    Szukaj użytkowników
+                    Search Users
                 </button>
                 <button
                     type="button"
                     class="btn text-uppercase fw-semibold py-3 text-dark bg-transparent border border-dark rounded-0 transition-all shadow-none"
                     style="letter-spacing: 0.2em; font-size: 0.75rem; flex-basis: 20%; min-width: 150px;"
                     (click)="filterForm.reset()">
-                    Wyczyść
+                    Clear
                 </button>
             </div>
 
         </form>
     </div>
 
-    <!-- Liczba wyników i wyświetlanie JEDEN POD DRUGIM -->
+    <!-- Result count and display ONE BELOW THE OTHER -->
     <div class="mb-4">
         <p class="text-secondary small text-uppercase mb-4" style="letter-spacing: 1.5px; font-size: 0.7rem;">
-            Znalezione profile: <span class="fw-bold text-dark">{{ users().length }}</span>
+            Profiles Found: <span class="fw-bold text-dark">{{ users().length }}</span>
         </p>
 
-        <!-- Kontener z elementami w kolumnie (jeden pod drugim) -->
+        <!-- Container with elements displayed in a column (one below another) -->
         <div class="d-flex flex-column gap-3">
             @for (user of users(); track user.id) {
                 @if (user.id != profile()?.id) {
