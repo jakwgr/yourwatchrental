@@ -26,4 +26,5 @@ Thumbs.db
 application-local.properties
 
 # Uploaded watch photos
-/backend/uploads/watches/
+/backend/uploads/watches/*
+!/backend/uploads/watches/.gitkeep
