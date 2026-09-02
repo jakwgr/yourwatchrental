@@ -60,10 +60,10 @@ public class WebSecurityConfig {
                                 .requestMatchers("/branches/me").authenticated()
                                 .requestMatchers("/branches/*").authenticated()
 
-                                .requestMatchers("/users/me").authenticated()
-                                .requestMatchers("/users/admin").authenticated()
+                                .requestMatchers("/users/me/**").authenticated()
+                                .requestMatchers("/users/admin/**").authenticated()
 
-                                .requestMatchers("/rentals").authenticated()
+                                .requestMatchers("/rentals/**").authenticated()
 
                                 .anyRequest(
                                 )
