@@ -51,10 +51,6 @@ export class AdminUsers {
 
   ngOnInit() {
 
-    // =========================
-    // ODCZYT PARAMETRÓW Z URL
-    // =========================
-
     this.route.queryParams.subscribe(params => {
 
       const page = Number(params['page'] ?? 0);
@@ -74,11 +70,6 @@ export class AdminUsers {
 
     });
 
-
-    // =========================
-    // POBRANIE PROFILU ADMINA
-    // =========================
-
     this.profileService.getMyProfile().subscribe(
       response => {
         this.profile.set(response);
@@ -86,11 +77,6 @@ export class AdminUsers {
     );
 
   }
-
-
-  // =========================
-  // POBIERANIE UŻYTKOWNIKÓW
-  // =========================
 
   loadUsers() {
 
@@ -130,11 +116,6 @@ export class AdminUsers {
 
   }
 
-
-  // =========================
-  // WYSZUKIWANIE
-  // =========================
-
   search() {
 
     const value = this.filterForm.getRawValue();
@@ -148,8 +129,6 @@ export class AdminUsers {
         lastName: value.lastName || null,
         email: value.email || null,
         phoneNumber: value.phoneNumber || null,
-
-        // po nowym wyszukiwaniu zaczynamy od pierwszej strony
         page: 0
       }
 
@@ -157,21 +136,11 @@ export class AdminUsers {
 
   }
 
-
-  // =========================
-  // ODŚWIEŻENIE LISTY
-  // =========================
-
   loadProfile() {
 
     this.loadUsers();
 
   }
-
-
-  // =========================
-  // POPRZEDNIA STRONA
-  // =========================
 
   previousPage() {
 
@@ -187,11 +156,6 @@ export class AdminUsers {
 
   }
 
-
-  // =========================
-  // NASTĘPNA STRONA
-  // =========================
-
   nextPage() {
 
     if (this.currentPage() >= this.totalPages() - 1) {
@@ -205,11 +169,6 @@ export class AdminUsers {
     this.updatePageInUrl(newPage);
 
   }
-
-
-  // =========================
-  // ZMIANA STRONY W URL
-  // =========================
 
   private updatePageInUrl(page: number) {
 

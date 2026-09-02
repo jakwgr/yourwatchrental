@@ -1,6 +1,4 @@
 <div class="container py-5">
-    
-    <!-- Header and add branch button -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
             <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px;">
@@ -10,8 +8,6 @@
                 Branch Search
             </h2>
         </div>
-
-        <!-- Add branch button -->
         @if(profile()?.role === "ADMIN" && profile()) {
         <div>
             <button
@@ -23,8 +19,6 @@
         </div>
         }
     </div>
-
-    <!-- Search criteria form -->
     <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
         <form [formGroup]="criteriaForm">
 
@@ -42,8 +36,6 @@
                         placeholder="e.g. Warsaw"
                     />
                 </div>
-
-                <!-- Name -->
                 <div class="col-12 col-md-4">
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                         Name
@@ -56,8 +48,6 @@
                         placeholder="e.g. Headquarters"
                     />
                 </div>
-
-                <!-- Address -->
                 <div class="col-12 col-md-4">
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                         Address
@@ -72,7 +62,6 @@
                 </div>
 
                 @if(profile()?.role === "ADMIN") {
-                    <!-- Phone Number -->
                     <div class="col-12 col-md-4">
                         <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                             Phone Number
@@ -86,8 +75,6 @@
                             maxlength="9" (input)="onlyNumbers($event)"
                         />
                     </div>
-
-                    <!-- Email -->
                     <div class="col-12 col-md-4">
                         <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                             Email
@@ -100,8 +87,6 @@
                             placeholder="e.g. contact@..."
                         />
                     </div>
-
-                    <!-- Status -->
                     <div class="col-12 col-md-4">
                         <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                             Status
@@ -118,8 +103,6 @@
                     </div>
                 }
             </div>
-
-            <!-- Search / Clear buttons -->
             <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
                 <button
                     type="submit"
@@ -139,14 +122,10 @@
 
         </form>
     </div>
-
-    <!-- Number of results and vertical list -->
     <div class="mb-4">
         <p class="text-secondary small text-uppercase mb-4" style="letter-spacing: 1.5px; font-size: 0.7rem;">
             Found branches: <span class="fw-bold text-dark">{{ branches().length }}</span>
         </p>
-
-        <!-- Container with items displayed vertically -->
         <div class="d-flex flex-column gap-3">
             @for (branch of branches(); track branch.id) {
                 <div class="w-100">

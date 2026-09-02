@@ -4,22 +4,17 @@
 
     <div class="container-fluid">
 
-        <!-- Graphic logo on the left -->
         <a class="navbar-brand d-flex align-items-center" routerLink="/">
             <img src="/images/c4963248-efd7-4451-b619-8c9a42dd3d91_removalai_preview.png"
                 alt="Logo"
                 style="height: 56px; width: auto; object-fit: contain;">
         </a>
-
-        <!-- Hamburger button -->
         <button class="navbar-toggler border-0 text-light"
             type="button"
             (click)="isMenuOpen = !isMenuOpen"
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-        <!-- Standard view on large screens (Desktop) -->
         <div class="collapse navbar-collapse justify-content-between d-none d-lg-flex">
 
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3 text-uppercase small tracking-wide">
@@ -119,10 +114,8 @@
     </div>
 </nav>
 
-<!-- FULLSCREEN MENU SLIDING DOWN FROM THE TOP -->
 <div class="fullscreen-menu" [class.show]="isMenuOpen">
 
-    <!-- Top: small graphic logo and close button (X) -->
     <div class="d-flex justify-content-between align-items-center w-100 p-5 pb-0">
 
         <a routerLink="/"
@@ -139,8 +132,6 @@
         </button>
 
     </div>
-
-    <!-- Center: Links -->
     <div class="text-center my-auto d-flex flex-column gap-4 py-4">
 
         <a class="text-white text-decoration-none fs-4 text-uppercase tracking-wider"
@@ -201,8 +192,6 @@
         }
 
     </div>
-
-    <!-- Bottom: User / Logout -->
     <div class="text-center pb-5 px-5">
 
         @if (authService.isLoggedIn()) {

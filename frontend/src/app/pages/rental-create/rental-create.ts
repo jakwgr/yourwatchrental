@@ -20,7 +20,7 @@ import { PortfolioProjectAlert1 } from '../../shared/components/portfolio-projec
   imports: [WatchCalendar,
     ReactiveFormsModule,
     DatePipe, SmallErrorView, PortfolioProjectAlert1],
-    providers: [DatePipe],
+  providers: [DatePipe],
   templateUrl: './rental-create.html',
   styleUrl: './rental-create.css',
 })
@@ -31,7 +31,7 @@ export class RentalCreate {
   private fb = inject(FormBuilder);
   private rentalsService = inject(RentalsService);
   private datePipe = inject(DatePipe);
-rentalError = signal<string | null>(null);
+  rentalError = signal<string | null>(null);
   fullPrice = signal<number>(-1);
 
   paymentMethodOptions = Object.values(PaymentMethod);
@@ -60,13 +60,12 @@ rentalError = signal<string | null>(null);
   reloadSummary(type: boolean) {
     if (type === false) { this.closeRentalModal(); }
   }
-closeRentalError() {
-  this.rentalError.set(null);
-}
+  closeRentalError() {
+    this.rentalError.set(null);
+  }
   getWatchInfo() {
     const watch = this.route.snapshot.paramMap.get('id');
     if (watch != null) {
-      console.log(watch);
       this.watchesService.getWatch(watch).subscribe(
         response => {
           this.watchInfo.set(response);
@@ -79,44 +78,44 @@ closeRentalError() {
   }
 
   calculatePrice() {
-  const startDate = this.datePickerStartDate();
-  const endDate = this.datePickerEndDate();
-  const watch = this.watchInfo();
+    const startDate = this.datePickerStartDate();
+    const endDate = this.datePickerEndDate();
+    const watch = this.watchInfo();
 
-  if (startDate === null || endDate === null || watch === null) {
-    return;
+    if (startDate === null || endDate === null || watch === null) {
+      return;
+    }
+
+    if (endDate < startDate) {
+      this.amoutOfDays.set(0);
+      this.fullPrice.set(-1);
+      return;
+    }
+
+    const millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+    const days =
+      Math.round(
+        (endDate.getTime() - startDate.getTime()) / millisecondsPerDay
+      ) + 1;
+
+    this.amoutOfDays.set(days);
+    this.fullPrice.set(watch.pricePerDay * days);
   }
-
-  if (endDate < startDate) {
-    this.amoutOfDays.set(0);
-    this.fullPrice.set(-1);
-    return;
-  }
-
-  const millisecondsPerDay = 1000 * 60 * 60 * 24;
-
-  const days =
-    Math.round(
-      (endDate.getTime() - startDate.getTime()) / millisecondsPerDay
-    ) + 1;
-
-  this.amoutOfDays.set(days);
-  this.fullPrice.set(watch.pricePerDay * days);
-}
 
   showRentalModal = signal(false);
 
   openRentalModal() {
-  if (
-    this.datePickerStartDate() === null ||
-    this.datePickerEndDate() === null ||
-    this.amoutOfDays() <= 0
-  ) {
-    return;
-  }
+    if (
+      this.datePickerStartDate() === null ||
+      this.datePickerEndDate() === null ||
+      this.amoutOfDays() <= 0
+    ) {
+      return;
+    }
 
-  this.showRentalModal.set(true);
-}
+    this.showRentalModal.set(true);
+  }
 
   closeRentalModal() {
     this.showRentalModal.set(false);
@@ -132,74 +131,68 @@ closeRentalError() {
 
   createRental() {
 
-  if (
-    this.rentalForm.invalid ||
-    this.datePickerStartDate() === null ||
-    this.datePickerEndDate() === null ||
-    this.watchInfo() === null
-  ) {
-    return;
-  }
-
-  const value = this.rentalForm.getRawValue();
-
-  const rentalRequest: RentalRequestDTO = {
-    startDate: this.datePipe.transform(
-      this.datePickerStartDate(),
-      'yyyy-MM-dd'
-    )!,
-    endDate: this.datePipe.transform(
-      this.datePickerEndDate(),
-      'yyyy-MM-dd'
-    )!,
-    paymentMethod: value.paymentMethod!,
-    watchId: this.watchInfo()!.id
-  };
-
-  this.rentalsService.createRental(rentalRequest).subscribe({
-    next: response => {
-      console.log(response);
-      this.router.navigate(['/rentals'],{
-        queryParams : {
-          isRentalId : 'true',
-          rentalId : response.id
-        }}
-      );
-    },
-
-    error: err => {
-  console.log('BŁĄD WYPOŻYCZENIA:', err);
-  console.log('err.error:', err.error);
-
-  this.closeRentalModal();
-
-  let message = 'Nie udało się utworzyć wypożyczenia.';
-
-  if (err.error?.message) {
-    message = err.error.message;
-  } else if (typeof err.error === 'string') {
-    try {
-      const error = JSON.parse(err.error);
-      message = error.message ?? message;
-    } catch {
-      message = err.error;
+    if (
+      this.rentalForm.invalid ||
+      this.datePickerStartDate() === null ||
+      this.datePickerEndDate() === null ||
+      this.watchInfo() === null
+    ) {
+      return;
     }
+
+    const value = this.rentalForm.getRawValue();
+
+    const rentalRequest: RentalRequestDTO = {
+      startDate: this.datePipe.transform(
+        this.datePickerStartDate(),
+        'yyyy-MM-dd'
+      )!,
+      endDate: this.datePipe.transform(
+        this.datePickerEndDate(),
+        'yyyy-MM-dd'
+      )!,
+      paymentMethod: value.paymentMethod!,
+      watchId: this.watchInfo()!.id
+    };
+
+    this.rentalsService.createRental(rentalRequest).subscribe({
+      next: response => {
+        this.router.navigate(['/rentals'], {
+          queryParams: {
+            isRentalId: 'true',
+            rentalId: response.id
+          }
+        }
+        );
+      },
+
+      error: err => {
+        this.closeRentalModal();
+
+        let message = 'Nie udało się utworzyć wypożyczenia.';
+
+        if (err.error?.message) {
+          message = err.error.message;
+        } else if (typeof err.error === 'string') {
+          try {
+            const error = JSON.parse(err.error);
+            message = error.message ?? message;
+          } catch {
+            message = err.error;
+          }
+        }
+
+        this.rentalForm.reset({
+          paymentMethod: PaymentMethod.CASH
+        });
+
+        this.datePickerStartDate.set(null);
+        this.datePickerEndDate.set(null);
+        this.amoutOfDays.set(0);
+        this.fullPrice.set(-1);
+        
+        this.rentalError.set(message);
+      }
+    });
   }
-
-  // Czyszczenie formularza
-  this.rentalForm.reset({
-    paymentMethod: PaymentMethod.CASH
-  });
-
-  // Czyszczenie wybranych dat i podsumowania
-  this.datePickerStartDate.set(null);
-  this.datePickerEndDate.set(null);
-  this.amoutOfDays.set(0);
-  this.fullPrice.set(-1);
-
-  // Pokazanie błędu
-  this.rentalError.set(message);
-}
-  });
-}
 }

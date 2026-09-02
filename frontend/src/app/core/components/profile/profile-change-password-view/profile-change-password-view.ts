@@ -15,10 +15,10 @@ import { SmallErrorView } from '../../../../shared/components/small-error-view/s
 })
 export class ProfileChangePasswordView {
   fb = inject(FormBuilder);
-  error = input<string|null>(null);
+  error = input<string | null>(null);
 
   close = output<void>();
-  
+
   changePasswordForm = this.fb.nonNullable.group(
     {
       newPassword: ['', [Validators.required, Validators.minLength(5)]],
@@ -28,8 +28,7 @@ export class ProfileChangePasswordView {
   )
 
   save = output<UserPasswordUpdateRequestDTO>();
-  saveChangePasswordModal()
-  {
+  saveChangePasswordModal() {
     const request = this.changePasswordForm.getRawValue();
     this.save.emit(request);
   }

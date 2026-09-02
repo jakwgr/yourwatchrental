@@ -1,6 +1,4 @@
 <div class="container py-5">
-    
-    <!-- Header -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
             <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px;">
@@ -11,13 +9,10 @@
             </h2>
         </div>
     </div>
-
-    <!-- Search criteria form -->
     <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
         <form [formGroup]="filterForm" (ngSubmit)="search()">
 
             <div class="row g-4">
-                <!-- First name -->
                 <div class="col-12 col-md-3">
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                         First Name
@@ -30,8 +25,6 @@
                         placeholder="e.g. John"
                     />
                 </div>
-
-                <!-- Last name -->
                 <div class="col-12 col-md-3">
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                         Last Name
@@ -44,8 +37,6 @@
                         placeholder="e.g. Smith"
                     />
                 </div>
-
-                <!-- Email -->
                 <div class="col-12 col-md-3">
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                         Email
@@ -58,8 +49,6 @@
                         placeholder="e.g. john@example.com"
                     />
                 </div>
-
-                <!-- Phone number -->
                 <div class="col-12 col-md-3">
                     <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                         Phone Number
@@ -73,8 +62,6 @@
                     />
                 </div>
             </div>
-
-            <!-- Search / Clear buttons -->
             <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
                 <button
                     type="submit"
@@ -93,14 +80,11 @@
 
         </form>
     </div>
-
-    <!-- Result count and display ONE BELOW THE OTHER -->
     <div class="mb-4">
         <p class="text-secondary small text-uppercase mb-4" style="letter-spacing: 1.5px; font-size: 0.7rem;">
             Profiles Found: <span class="fw-bold text-dark">{{ users().length }}</span>
         </p>
 
-        <!-- Container with elements displayed in a column (one below another) -->
         <div class="d-flex flex-column gap-3">
             @for (user of users(); track user.id) {
                 @if (user.id != profile()?.id) {

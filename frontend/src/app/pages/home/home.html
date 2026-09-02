@@ -1,6 +1,5 @@
 <div class="slider-container position-relative overflow-hidden" style="height: calc(100vh - 98px);">
 
-    <!-- TRACK -->
     <div class="slider-track d-flex h-100" [style.transform]="'translateX(-' + (currentIndex() * 33.333333) + '%)'">
 
         @for (slide of slides; track $index) {
@@ -8,11 +7,8 @@
         <div class="slider-slide position-relative flex-shrink-0 h-100">
             <div class="parallax-bg" [style.background-image]="'url(' + slide.bgImage + ')'"
                 [style.transform]="'translateY(' + (scrollY() * 0.25) + 'px)'"></div>
-
-            <!-- Przyciemnienie -->
             <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
 
-            <!-- Treść -->
             <div class="position-relative h-100 d-flex align-items-center">
 
                 <div class="container text-light">
@@ -47,8 +43,6 @@
 
     </div>
 
-
-    <!-- KROPKI -->
     <div class="position-absolute bottom-0 start-50 translate-middle-x
                d-flex gap-3 mb-4" style="z-index: 10;">
 
@@ -63,10 +57,6 @@
     </div>
 
 </div>
-<!-- utworz konto - wybierz miejsce odbioru - wybierz zegarek - kup i oplac zegarek - odbierz zegarek w oddziale wybranym podczas rezerwacji -->
-<!-- ========================================== -->
-<!-- SEKCJA: JAK DZIAŁA WYPOŻYCZALNIA (5 ETAPÓW)-->
-<!-- ========================================== -->
 <section class="py-5 bg-white text-center border-bottom border-light">
     <div class="container py-4">
         <span class="text-uppercase tracking-widest small fw-bold d-block mb-2"
@@ -79,8 +69,6 @@
         </h2>
 
         <div class="row g-4 text-start">
-
-            <!-- Step 1 -->
             <div class="col-12 col-md-4">
                 <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
                     <span class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">
@@ -102,8 +90,6 @@
                     </p>
                 </div>
             </div>
-
-            <!-- Step 2 -->
             <div class="col-12 col-md-4">
                 <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
                     <span class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">
@@ -125,8 +111,6 @@
                     </p>
                 </div>
             </div>
-
-            <!-- Step 3 -->
             <div class="col-12 col-md-4">
                 <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
                     <span class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">
@@ -148,8 +132,6 @@
                     </p>
                 </div>
             </div>
-
-            <!-- Step 4 -->
             <div class="col-12 col-md-6">
                 <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
                     <span class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">
@@ -171,8 +153,6 @@
                     </p>
                 </div>
             </div>
-
-            <!-- Step 5 -->
             <div class="col-12 col-md-6">
                 <div class="p-4 bg-light h-100 position-relative border-0 rounded-0">
                     <span class="display-5 fw-light text-muted opacity-25 position-absolute top-0 end-0 m-3 font-serif">
@@ -198,16 +178,11 @@
         </div>
     </div>
 
-<!-- ========================================== -->
-<!-- PRZERYWNIK STRONY (FULL-WIDTH BANNER)      -->
-<!-- ========================================== -->
 <section class="position-relative py-5 overflow-hidden text-center text-light bg-dark"
     style="min-height: 400px; background-image: url('TUTAJ_WKLEJ_LINK_DO_ZDJECIA'); background-size: cover; background-position: center; background-attachment: fixed;">
 
-    <!-- Przyciemnienie tła, żeby tekst był czytelny -->
     <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-60"></div>
 
-    <!-- Treść przerywnika -->
     <div class="container position-relative py-5 d-flex flex-column align-items-center justify-content-center"
         style="z-index: 2; min-height: 300px;">
         <span class="text-uppercase tracking-widest small fw-bold mb-2" style="color: #bfa130; letter-spacing: 3px;">
@@ -231,13 +206,9 @@
     </div>
 </section>
 
-<!-- ========================================== -->
-<!-- SEKCJA: NASZE ZEGARKI (MIEJSCE NA BAZĘ)    -->
-<!-- ========================================== -->
 <section class="py-5 bg-light border-top border-light">
     <div class="container py-4">
 
-        <!-- Nagłówek sekcji + Szybkie filtry -->
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3">
             <div>
                 <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
@@ -261,7 +232,6 @@
             </div>
         </div>
 
-        <!-- Siatka pod Twoje zegarki z bazy danych -->
         <div class="row g-4">
 
             @for (watch of watches(); track watch.id) {
@@ -274,13 +244,9 @@
 
     </div>
 </section>
-<!-- ========================================== -->
-<!-- 1. SEKCYJNY ELEMENT: MIĘDZY ETAPAMI A ZEGARKAMI -->
-<!-- ========================================== -->
 <section class="py-5 bg-white border-bottom border-light">
     <div class="container py-4">
         <div class="row align-items-stretch g-5">
-            <!-- Kolumna tekstowa -->
             <div class="col-12 col-lg-6 d-flex flex-column justify-content-center">
                 <span class="text-uppercase tracking-widest small fw-bold d-block mb-2"
                     style="color: #bfa130; letter-spacing: 2px;">
@@ -315,7 +281,6 @@
                 </div>
             </div>
 
-            <!-- Kolumna ze zdjęciem na pełną wysokość -->
             <div class="col-12 col-lg-6">
                 <div class="bg-light border border-light position-relative overflow-hidden h-100 min-vh-50">
                     <div
@@ -328,9 +293,6 @@
         </div>
     </div>
 </section>
-<!-- ========================================== -->
-<!-- SEKCJA: WSPÓŁPRACUJĄCE MANUFAKTURY         -->
-<!-- ========================================== -->
 <section class="py-5 bg-white text-center mt-4">
     <div class="container py-3">
         <span class="text-uppercase tracking-widest small text-dark opacity-75 d-block mb-4"

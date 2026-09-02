@@ -69,7 +69,6 @@ addPhotos = {
   this.watchesService.getPhotos(this.watchId()).subscribe({
     next: response => {
       this.photos.set(response);
-      console.log(response);
     },
     error: err => {
       this.watchesError.set(err.error?.message ?? err.message);

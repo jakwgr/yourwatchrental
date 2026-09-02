@@ -33,10 +33,6 @@ export class RentalView {
 
     this.rentalsService.cancelRental(this.rental().id).subscribe({
       next: response => {
-
-        console.log("Anulowano wypożyczenie", response);
-
-        // Informacja do rodzica, żeby ponownie pobrał wypożyczenia
         this.reloadRental.emit();
 
       },
@@ -55,10 +51,6 @@ export class RentalView {
       PaymentStatus.SUCCESSFUL
     ).subscribe({
       next: response => {
-
-        console.log("Opłacono wypożyczenie", response);
-
-        // Informacja do rodzica, żeby ponownie pobrał wypożyczenia
         this.reloadRental.emit();
 
       },

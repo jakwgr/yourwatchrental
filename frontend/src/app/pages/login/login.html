@@ -1,8 +1,6 @@
 <div class="container-fluid d-flex flex-column px-0" style="background-color: #f8f9fa; min-height: calc(100vh - 98px);">
 
     <div class="row g-0 flex-grow-1">
-
-        <!-- Left Column: LIGHT Login Page -->
         <div class="col-12 col-lg-6 d-flex align-items-center p-4 p-md-5 bg-white">
             <div class="w-100 mx-auto py-4" style="max-width: 500px;">
 
@@ -15,10 +13,8 @@
                 @if (loginError()) {
                 <app-small-error-view [message]="loginError()!" />
                 }
-<app-portfolio-project-alert-2></app-portfolio-project-alert-2>
+                <app-portfolio-project-alert-2></app-portfolio-project-alert-2>
                 <form [formGroup]="loginForm" (ngSubmit)="login()">
-
-                    <!-- Email -->
                     <div class="mb-3">
                         <label class="form-label text-uppercase small text-secondary" style="font-size: 0.7rem;">
                             Email Address *
@@ -28,8 +24,6 @@
                             style="border-bottom: 2px solid #e0e0e0 !important;" />
                         <app-form-error [control]="loginForm.controls.email" />
                     </div>
-
-                    <!-- Password -->
                     <div class="mb-2">
                         <label class="form-label text-uppercase small text-secondary" style="font-size: 0.7rem;">
                             Password *
@@ -41,23 +35,17 @@
 
                         <app-form-error [control]="loginForm.controls.password" />
                     </div>
-
-                    <!-- Forgot password -->
                     <div class="text-end mb-4">
                         <a routerLink="/forgot-password" class="small text-decoration-none fw-semibold"
                             style="color: #bfa130;">
                             Forgot your password?
                         </a>
                     </div>
-
-                    <!-- Submit button -->
                     <button type="submit"
                         class="btn w-100 text-uppercase fw-semibold py-3 text-white transition-all mb-3"
                         style="background-color: #1a1a1a; letter-spacing: 0.15em; font-size: 0.8rem;">
                         Log In
                     </button>
-
-                    <!-- Registration link -->
                     <div class="text-center mt-3">
                         <span class="small fw-light text-muted">Don't have an account yet? </span>
                         <a routerLink="/register" class="small text-decoration-none fw-semibold"
@@ -68,8 +56,6 @@
 
             </div>
         </div>
-
-        <!-- Right Column: Atmospheric Image -->
         <div class="col-12 col-lg-6 d-none d-lg-block position-relative p-0">
             <div class="w-100 h-100"
                 style="background-image: url('/static_photos/photo_login.jpg'); background-size: cover; background-position: center; filter: brightness(0.85);">

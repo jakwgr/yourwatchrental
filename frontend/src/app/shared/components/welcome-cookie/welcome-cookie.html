@@ -1,247 +1,234 @@
-@if(showModal())
-{
-    <div
-    class="position-fixed top-0 start-0 w-100 min-vh-100 d-flex justify-content-center align-items-center p-3 p-md-4"
-    style="
-        background-color: rgba(0, 0, 0, 0.65);
-        z-index: 2000;
-        backdrop-filter: blur(4px);
-    ">
-
-    <div
-        class="bg-white shadow-lg rounded-0 w-100 d-flex flex-column"
-        style="
-            max-width: 1100px;
-            max-height: 90vh;
-        ">
-
-
-        <!-- ===================== -->
-        <!-- NAGŁÓWEK -->
-        <!-- ===================== -->
-<div
-    class="d-flex justify-content-between align-items-center gap-3 border-bottom p-4 p-md-5">
-
-    <!-- ===================== -->
-    <!-- LEWA STRONA -->
-    <!-- ===================== -->
-
-    <div class="d-flex align-items-center gap-4">
-
-        <!-- JĘZYK -->
-
-        <div
-            class="btn-group flex-shrink-0"
-            role="group">
-
-            <button
-                type="button"
-                class="btn rounded-0 px-4 py-2"
-                [class.btn-dark]="language() === 'PL'"
-                [class.btn-outline-dark]="language() !== 'PL'"
-                (click)="setLanguage('PL')">
-
-                PL
-
-            </button>
-
-            <button
-                type="button"
-                class="btn rounded-0 px-4 py-2"
-                [class.btn-dark]="language() === 'EN'"
-                [class.btn-outline-dark]="language() !== 'EN'"
-                (click)="setLanguage('EN')">
-
-                EN
-
-            </button>
-
-        </div>
-
-
-        <!-- NAGŁÓWEK -->
-
-        <div>
-
-            <span
-                class="text-uppercase fw-bold d-block mb-1"
-                style="
-                    color: #bfa130;
-                    letter-spacing: 2.5px;
-                    font-size: 0.65rem;
-                ">
-                Informacja
-            </span>
-
-            <h2 class="h3 fw-light text-dark mb-0">
-
-                @if (language() === 'PL') {
-                    Lorem ipsum
-                } @else {
-                    Lorem ipsum
-                }
-
-            </h2>
-
-        </div>
-
-    </div>
-
-
-    <!-- ===================== -->
-    <!-- PRAWA STRONA -->
-    <!-- ===================== -->
-
-    <button
-        type="button"
-        class="btn-close shadow-none flex-shrink-0"
-        aria-label="Zamknij"
-        (click)="closeModal()">
-    </button>
-
-</div>
-
-
-
-        <!-- ===================== -->
-        <!-- TREŚĆ -->
-        <!-- ===================== -->
-
-        <div class="p-4 p-md-5 overflow-auto">
-
-            @if (language() === 'PL') {
-
-                <p
-                    class="text-secondary lh-lg mb-4"
-                    style="font-size: 0.95rem;">
-
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-                </p>
-
-                <p
-                    class="text-secondary lh-lg mb-4"
-                    style="font-size: 0.95rem;">
-
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
-
-                </p>
-
-                <p
-                    class="text-secondary lh-lg mb-0"
-                    style="font-size: 0.95rem;">
-
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Integer nec odio. Praesent libero. Sed cursus ante dapibus
-                    diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
-
-                </p>
-
-            } @else {
-
-                <p
-                    class="text-secondary lh-lg mb-4"
-                    style="font-size: 0.95rem;">
-
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    English content is displayed when the EN option is selected.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
-
-                </p>
-
-                <p
-                    class="text-secondary lh-lg mb-4"
-                    style="font-size: 0.95rem;">
-
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
-
-                </p>
-
-                <p
-                    class="text-secondary lh-lg mb-0"
-                    style="font-size: 0.95rem;">
-
-                    Integer nec odio. Praesent libero. Sed cursus ante dapibus
-                    diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
-
-                </p>
-
-            }
-
-        </div>
-
-
-        <!-- ===================== -->
-        <!-- STOPKA -->
-        <!-- ===================== -->
-
-        <div
-            class="border-top p-4 p-md-5">
-
-            <div
-                class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-3">
-
-
-                <span
-                    class="text-secondary text-center text-sm-start"
-                    style="font-size: 0.7rem; letter-spacing: 1px;">
-
-                    @if (language() === 'PL') {
-                        Zapoznaj się z informacją przed kontynuowaniem.
-                    } @else {
-                        Please read the information before continuing.
-                    }
-
-                </span>
-
-
-                <div
-                    class="d-flex flex-column flex-sm-row gap-2 flex-shrink-0">
-
-                    <button
-                        type="button"
-                        class="btn text-uppercase fw-semibold text-dark bg-white border border-dark rounded-0 shadow-none px-5 py-3">
-
-                        @if (language() === 'PL') {
-                            Pobierz
-                        } @else {
-                            Download
-                        }
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="btn text-uppercase fw-semibold text-white rounded-0 shadow-none px-5 py-3"
-                        style="background-color: #1a1a1a;">
-
-                        @if (language() === 'PL') {
-                            Weź
-                        } @else {
-                            Take
-                        }
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
+@if(showModal()) 
+{ 
+    <div 
+        class="position-fixed top-0 start-0 w-100 min-vh-100 d-flex justify-content-center align-items-center p-3 p-md-4" 
+        style=" 
+            background-color: rgba(0, 0, 0, 0.65); 
+            z-index: 2000; 
+            backdrop-filter: blur(4px); 
+        "> 
+ 
+        <div 
+            class="bg-white shadow-lg rounded-0 w-100 d-flex flex-column" 
+            style=" 
+                max-width: 800px; 
+                max-height: 80vh; 
+            "> 
+
+            <div 
+                class="d-flex justify-content-between align-items-center gap-3 border-bottom p-4 p-md-5"> 
+ 
+                <div class="d-flex align-items-center gap-4"> 
+
+
+                    <div 
+                        class="btn-group flex-shrink-0" 
+                        role="group"> 
+ 
+                        <button 
+                            type="button" 
+                            class="btn rounded-0 px-3 py-2" 
+                            [class.btn-dark]="language() === 'PL'" 
+                            [class.btn-outline-dark]="language() !== 'PL'" 
+                            (click)="setLanguage('PL')"> 
+ 
+                            PL 
+ 
+                        </button> 
+ 
+                        <button 
+                            type="button" 
+                            class="btn rounded-0 px-3 py-2" 
+                            [class.btn-dark]="language() === 'EN'" 
+                            [class.btn-outline-dark]="language() !== 'EN'" 
+                            (click)="setLanguage('EN')"> 
+ 
+                            EN 
+ 
+                        </button> 
+ 
+                    </div> 
+
+                    <div> 
+ 
+                        <span 
+                            class="text-uppercase fw-bold d-block mb-1" 
+                            style=" 
+                                color: #bfa130; 
+                                letter-spacing: 2.5px; 
+                                font-size: 0.65rem; 
+                            "> 
+
+                            @if (language() === 'PL') { 
+                                Dokumenty 
+                            } @else { 
+                                Documents 
+                            }
+
+                        </span> 
+ 
+                        <h2 class="h4 fw-light text-dark mb-0"> 
+ 
+                            @if (language() === 'PL') { 
+                                Moje dokumenty 
+                            } @else { 
+                                My documents 
+                            } 
+ 
+                        </h2> 
+ 
+                    </div> 
+ 
+                </div> 
+ 
+                <!-- CLOSE -->
+
+                <button 
+                    type="button" 
+                    class="btn-close shadow-none flex-shrink-0" 
+                    [attr.aria-label]="language() === 'PL' ? 'Zamknij' : 'Close'" 
+                    (click)="closeModal()"> 
+                </button> 
+ 
+            </div> 
+ 
+            <div class="p-4 p-md-5 overflow-auto"> 
+ 
+                @if (language() === 'PL') { 
+ 
+                    <p 
+                        class="text-secondary lh-lg mb-4" 
+                        style="font-size: 0.95rem;"> 
+ 
+                        Dziękuję za odwiedzenie mojej strony. Jeśli chcesz 
+                        dowiedzieć się więcej o moim wykształceniu, 
+                        umiejętnościach, projektach oraz zainteresowaniach 
+                        związanych z IT, zapraszam do zapoznania się z moimi 
+                        dokumentami. 
+ 
+                    </p> 
+ 
+                    <p 
+                        class="text-secondary lh-lg mb-4" 
+                        style="font-size: 0.95rem;"> 
+ 
+                        Przygotowałem moje CV oraz list motywacyjny, 
+                        w których znajdziesz więcej informacji na mój temat 
+                        oraz o moim dotychczasowym rozwoju w kierunku 
+                        tworzenia oprogramowania. 
+ 
+                    </p> 
+ 
+                    <p 
+                        class="text-secondary lh-lg mb-0" 
+                        style="font-size: 0.95rem;"> 
+ 
+                        Zachęcam do zapoznania się z dokumentami, jeśli chcesz 
+                        lepiej poznać moje umiejętności i profil zawodowy. 
+ 
+                    </p> 
+ 
+                } @else { 
+ 
+                    <p 
+                        class="text-secondary lh-lg mb-4" 
+                        style="font-size: 0.95rem;"> 
+ 
+                        Thank you for visiting my website. If you'd like to 
+                        learn more about my education, skills, projects, and 
+                        interests in IT, feel free to take a look at my 
+                        documents. 
+ 
+                    </p> 
+ 
+                    <p 
+                        class="text-secondary lh-lg mb-4" 
+                        style="font-size: 0.95rem;"> 
+ 
+                        I've prepared my CV and cover letter, where you can 
+                        find more information about me and my development 
+                        towards software development. 
+ 
+                    </p> 
+ 
+                    <p 
+                        class="text-secondary lh-lg mb-0" 
+                        style="font-size: 0.95rem;"> 
+ 
+                        Feel free to take a look if you'd like to learn more 
+                        about my skills and professional profile. 
+ 
+                    </p> 
+ 
+                } 
+ 
+            </div> 
+ 
+            <div 
+                class="border-top p-4 p-md-5"> 
+ 
+                <div 
+                    class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-3"> 
+ 
+                    <span 
+                        class="text-secondary text-center text-sm-start" 
+                        style="font-size: 0.7rem; letter-spacing: 1px;"> 
+ 
+                        @if (language() === 'PL') { 
+                            Dostępne dokumenty 
+                        } @else { 
+                            Available documents 
+                        } 
+ 
+                    </span> 
+ 
+                    <div 
+                        class="d-flex flex-column flex-sm-row gap-2 flex-shrink-0"> 
+ 
+                        <!-- CV -->
+
+                        <a 
+                            [href]="language() === 'PL' 
+                                ? 'assets/documents/CV_Waligora_PL.pdf' 
+                                : 'assets/documents/CV_Waligora_EN.pdf'"
+                            [attr.download]="language() === 'PL' 
+                                ? 'CV_Waligora_PL.pdf' 
+                                : 'CV_Waligora_EN.pdf'"
+                            class="btn text-uppercase fw-semibold text-dark bg-white border border-dark rounded-0 shadow-none px-4 py-3 text-decoration-none"> 
+ 
+                            @if (language() === 'PL') { 
+                                Pobierz CV 
+                            } @else { 
+                                Download CV 
+                            } 
+ 
+                        </a> 
+
+                        <a 
+                            [href]="language() === 'PL' 
+                                ? 'assets/documents/Cover_Letter_Waligora_PL.pdf' 
+                                : 'assets/documents/Cover_Letter_Waligora_EN.pdf'"
+                            [attr.download]="language() === 'PL' 
+                                ? 'Cover_Letter_Waligora_PL.pdf' 
+                                : 'Cover_Letter_Waligora_EN.pdf'"
+                            class="btn text-uppercase fw-semibold text-white rounded-0 shadow-none px-4 py-3 text-decoration-none" 
+                            style="background-color: #1a1a1a;"> 
+ 
+                            @if (language() === 'PL') { 
+                                Pobierz list motywacyjny 
+                            } @else { 
+                                Download Cover Letter 
+                            } 
+ 
+                        </a> 
+ 
+                    </div> 
+ 
+                </div> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
 }
-

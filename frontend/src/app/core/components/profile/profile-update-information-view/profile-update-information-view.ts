@@ -20,23 +20,21 @@ export class ProfileUpdateInformationView {
 
   close = output<void>();
 
-  error = input<string|null>(null);
+  error = input<string | null>(null);
 
   updateInformationForm = this.fb.nonNullable.group
-  (
-    {
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      dateOfBirth: ['', [Validators.required, pastDateValidator]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]]
-    }
-  )
-  onlyNumbers(event: Event)
-  {
+    (
+      {
+        firstName: ['', [Validators.required]],
+        lastName: ['', [Validators.required]],
+        dateOfBirth: ['', [Validators.required, pastDateValidator]],
+        phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]]
+      }
+    )
+  onlyNumbers(event: Event) {
     onlyNumbers(event);
   }
-  ngOnInit()
-  {
+  ngOnInit() {
     this.updateInformationForm.patchValue({
       firstName: this.profile()?.firstName,
       lastName: this.profile()?.lastName,
@@ -47,8 +45,7 @@ export class ProfileUpdateInformationView {
 
   save = output<UserInformationUpdateRequestDTO>();
 
-  saveUpdateInformationdModal()
-  {
+  saveUpdateInformationdModal() {
     const request = this.updateInformationForm.getRawValue();
     this.save.emit(request);
   }

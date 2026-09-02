@@ -1,8 +1,5 @@
 <div class="container py-5">
 
-    <!-- ===================== -->
-    <!-- HEADER -->
-    <!-- ===================== -->
 
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
 
@@ -19,9 +16,6 @@
             </h2>
 
         </div>
-
-
-        <!-- ADD WATCH -->
 
         @if (profile()?.role === "ADMIN" && profile()) {
 
@@ -42,27 +36,12 @@
 
     </div>
 
-
-    <!-- ===================== -->
-    <!-- FILTER FORM -->
-    <!-- ===================== -->
-
     <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 mb-5">
 
         <form
             [formGroup]="filterForm"
             (ngSubmit)="search()">
-
-
-            <!-- ===================== -->
-            <!-- BASIC FILTERS -->
-            <!-- ===================== -->
-
             <div class="row g-4">
-
-
-                <!-- MANUFACTURER -->
-
                 <div class="col-12 col-md-4">
 
                     <label
@@ -81,9 +60,6 @@
                         placeholder="e.g. Rolex">
 
                 </div>
-
-
-                <!-- MODEL -->
 
                 <div class="col-12 col-md-4">
 
@@ -104,9 +80,6 @@
 
                 </div>
 
-
-                <!-- PRICE FROM -->
-
                 <div class="col-6 col-md-2">
 
                     <label
@@ -125,9 +98,6 @@
                         placeholder="From">
 
                 </div>
-
-
-                <!-- PRICE TO -->
 
                 <div class="col-6 col-md-2">
 
@@ -149,11 +119,6 @@
                 </div>
 
             </div>
-
-
-            <!-- ===================== -->
-            <!-- ADVANCED FILTER BUTTON -->
-            <!-- ===================== -->
 
             <div class="mt-4 pt-2 border-top border-light">
 
@@ -187,19 +152,11 @@
 
             </div>
 
-
-            <!-- ===================== -->
-            <!-- ADVANCED FILTERS -->
-            <!-- ===================== -->
-
             <div
                 class="advanced-filters"
                 [class.expanded]="advancedFilters()">
 
                 <div class="row g-4 pt-3">
-
-
-                    <!-- YEAR FROM -->
 
                     <div class="col-6 col-md-3">
 
@@ -220,9 +177,6 @@
 
                     </div>
 
-
-                    <!-- YEAR TO -->
-
                     <div class="col-6 col-md-3">
 
                         <label
@@ -241,9 +195,6 @@
                             placeholder="e.g. 2026">
 
                     </div>
-
-
-                    <!-- GENDER -->
 
                     <div class="col-12 col-md-3">
 
@@ -279,9 +230,6 @@
 
                     </div>
 
-
-                    <!-- MOVEMENT TYPE -->
-
                     <div class="col-12 col-md-3">
 
                         <label
@@ -315,9 +263,6 @@
                         </select>
 
                     </div>
-
-
-                    <!-- STATUS -->
 
                     <div class="col-12 col-md-4">
 
@@ -353,9 +298,6 @@
 
                     </div>
 
-
-                    <!-- WATCH TYPE -->
-
                     <div class="col-12 col-md-4">
 
                         <label
@@ -389,9 +331,6 @@
                         </select>
 
                     </div>
-
-
-                    <!-- BRANCH -->
 
                     <div class="col-12 col-md-4">
 
@@ -431,11 +370,6 @@
 
             </div>
 
-
-            <!-- ===================== -->
-            <!-- BUTTONS -->
-            <!-- ===================== -->
-
             <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
 
                 <button
@@ -464,20 +398,9 @@
 
     </div>
 
-
-    <!-- ===================== -->
-    <!-- RESULTS -->
-    <!-- ===================== -->
-
     <div id="section"></div>
 
-
     <div>
-
-
-        <!-- ===================== -->
-        <!-- RESULTS HEADER -->
-        <!-- ===================== -->
 
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
 
@@ -501,15 +424,7 @@
 
             </div>
 
-
-            <!-- ===================== -->
-            <!-- SORTING + COUNT -->
-            <!-- ===================== -->
-
             <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
-
-
-                <!-- SORTING -->
 
                 <div class="d-flex align-items-center gap-2">
 
@@ -544,9 +459,6 @@
 
                 </div>
 
-
-                <!-- COUNT -->
-
                 <p
                     class="text-secondary small text-uppercase mb-0 text-end"
                     style="letter-spacing: 1.5px; font-size: 0.7rem;">
@@ -562,11 +474,6 @@
             </div>
 
         </div>
-
-
-        <!-- ===================== -->
-        <!-- WATCH LIST -->
-        <!-- ===================== -->
 
         <div class="row g-4">
 
@@ -589,11 +496,6 @@
             }
 
         </div>
-
-
-        <!-- ===================== -->
-        <!-- NO RESULTS -->
-        <!-- ===================== -->
 
         @if (watches().length === 0) {
 
@@ -621,11 +523,6 @@
         }
 
     </div>
-
-
-    <!-- ===================== -->
-    <!-- PAGINATION -->
-    <!-- ===================== -->
 
     <app-pagination-buttons
         [currentPage]="currentPage()"

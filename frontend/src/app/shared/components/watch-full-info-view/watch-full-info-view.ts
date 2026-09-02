@@ -182,7 +182,6 @@ closePhotoZoom() {
         this.isLogged = true;
       },
       error: erorr => {
-        console.log("blad");
         this.isLogged = false;
       }
     });
@@ -196,7 +195,6 @@ closePhotoZoom() {
         this.watchFullInfo.set(response)
       },
       error: error => {
-        console.log("blad");
       }
     })
 
@@ -273,7 +271,6 @@ closePhotoZoom() {
 
     this.watchesService.updateWatch(id, request).subscribe({
       next: response => {
-        console.log(response);
         this.watchUpdated.emit();
         this.cancel();
         this.watchReload(id);
@@ -292,7 +289,6 @@ closePhotoZoom() {
 
     this.watchesService.updateWatchStatus(id, request).subscribe({
       next: response => {
-        console.log(response);
         this.watchUpdated.emit();
         this.cancel();
         this.watchReload(id);
@@ -309,11 +305,8 @@ closePhotoZoom() {
       branchId: value.branchId!
     };
 
-    console.log(request);
-
     this.watchesService.updateWatchBranch(id, request).subscribe({
       next: response => {
-        console.log(response);
         this.watchUpdated.emit();
         this.cancel();
         this.watchReload(id);
@@ -332,7 +325,6 @@ closePhotoZoom() {
 
     this.watchesService.updateWatchSerialNumber(id, request).subscribe({
       next: response => {
-        console.log(response);
         this.watchUpdated.emit();
         this.cancel();
         this.watchReload(id);

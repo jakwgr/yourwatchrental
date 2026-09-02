@@ -52,7 +52,6 @@ export class AdminWatches {
 
     this.watchesService.getWatches(0, 10, filter).subscribe({
       next: response => {
-        console.log('NOWA ODPOWIEDŹ:', response.content);
         this.watches.set(response.content);
       },
       error: error => {

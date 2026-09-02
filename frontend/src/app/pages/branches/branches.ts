@@ -66,7 +66,6 @@ export class Branches {
     this.branchesService.getBranches(this.criteriaForm.getRawValue()).subscribe(
         response => {
           this.branches.set(response);
-          console.log(response)
         }
     )
   }
@@ -94,7 +93,6 @@ export class Branches {
     this.branchesService.getBranches(this.criteriaForm.getRawValue()).subscribe(
         response => {
           this.branches.set(response);
-          console.log(response)
         }
     )
   })

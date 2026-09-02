@@ -2,68 +2,61 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-0 shadow-lg p-4 p-md-5 bg-white">
 
-        <div class="modal-header border-0 pb-0">
-            <h5 class="modal-title text-uppercase fw-light h4 text-dark" style="letter-spacing: 1px;">
-                Change Email Address
-            </h5>
-            <button type="button" class="btn-close shadow-none rounded-0" aria-label="Close" (click)="close.emit()"></button>
-        </div>
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title text-uppercase fw-light h4 text-dark" style="letter-spacing: 1px;">
+                    Change Email Address
+                </h5>
+                <button type="button" class="btn-close shadow-none rounded-0" aria-label="Close"
+                    (click)="close.emit()"></button>
+            </div>
 
-        <div class="modal-body py-4">
-            @if (error()) {
+            <div class="modal-body py-4">
+                @if (error()) {
                 <app-small-error-view [message]="error()!" />
-            }
+                }
 
-            <form [formGroup]="changeEmailForm">
-                <div class="mb-3">
-                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                        New Email
-                    </label>
-                    <input
-                        type="email"
-                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                        formControlName="email"
-                        placeholder="new@example.com">
-                        <app-form-error
-                        [control]="changeEmailForm.controls.email"> </app-form-error>
-                </div>
+                <form [formGroup]="changeEmailForm">
+                    <div class="mb-3">
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            New Email
+                        </label>
+                        <input type="email"
+                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="email" placeholder="new@example.com">
+                        <app-form-error [control]="changeEmailForm.controls.email"> </app-form-error>
+                    </div>
 
-                <div class="mb-4">
-                    <label class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
-                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                        formControlName="password"
-                        placeholder="••••••••">
-                        <app-form-error
-                        [control]="changeEmailForm.controls.password"> </app-form-error>
-                </div>
+                    <div class="mb-4">
+                        <label class="form-label text-uppercase text-secondary fw-medium mb-1"
+                            style="font-size: 0.65rem; letter-spacing: 1.5px;">
+                            Password
+                        </label>
+                        <input type="password"
+                            class="form-control text-dark shadow-none py-2 px-3 border-0 rounded-0 border-bottom fw-semibold"
+                            style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+                            formControlName="password" placeholder="••••••••">
+                        <app-form-error [control]="changeEmailForm.controls.password"> </app-form-error>
+                    </div>
 
-                <div class="d-flex gap-2 mt-4">
-                    <button
-                        type="button"
-                        class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 shadow-none flex-grow-1"
-                        style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                        (click)="saveChangeEmailModal()"
-                        [disabled]="changeEmailForm.invalid">
-                        Change
-                    </button>
-                    <button
-                        type="button"
-                        class="btn text-uppercase fw-semibold py-2 px-4 text-dark bg-transparent border border-dark rounded-0 shadow-none"
-                        style="letter-spacing: 0.1em; font-size: 0.70rem;"
-                        (click)="close.emit()">
-                        Close
-                    </button>
-                </div>
-            </form>
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="button"
+                            class="btn text-uppercase fw-semibold py-2 px-4 text-white rounded-0 shadow-none flex-grow-1"
+                            style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
+                            (click)="saveChangeEmailModal()" [disabled]="changeEmailForm.invalid">
+                            Change
+                        </button>
+                        <button type="button"
+                            class="btn text-uppercase fw-semibold py-2 px-4 text-dark bg-transparent border border-dark rounded-0 shadow-none"
+                            style="letter-spacing: 0.1em; font-size: 0.70rem;" (click)="close.emit()">
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </div>
-
     </div>
-</div>
 
 </div>

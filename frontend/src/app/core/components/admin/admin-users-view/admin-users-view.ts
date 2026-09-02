@@ -44,48 +44,34 @@ export class AdminUsersView {
   buttonVanish: boolean = false;
   saveType?: number | null = null;
 
-
-  // ERRORY -------------------------------------
-
   informationError = signal<string | null>(null);
   emailError = signal<string | null>(null);
   statusError = signal<string | null>(null);
   roleError = signal<string | null>(null);
   passwordError = signal<string | null>(null);
 
-
-  // OPCJE -------------------------------------
-
   roleOptions = Object.values(role);
   statusOptions = Object.values(userStatus);
 
-
-  // FORMULARZ -------------------------------------
-
   adminUserUpdate = this.fb.nonNullable.group({
-firstName: ['', Validators.required],
-lastName: ['', Validators.required],
-dateOfBirth: ['', [Validators.required, pastDateValidator]],
-phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
-email: ['', [Validators.required, Validators.email]],
-password: ['', [Validators.required, Validators.minLength(5)]],
-role: ['', Validators.required],
-status: ['', Validators.required],
-newPassword: ['', [Validators.required, Validators.minLength(5)]],
-newPassword1: ['', [Validators.required, Validators.minLength(5)]]
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    dateOfBirth: ['', [Validators.required, pastDateValidator]],
+    phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(5)]],
+    role: ['', Validators.required],
+    status: ['', Validators.required],
+    newPassword: ['', [Validators.required, Validators.minLength(5)]],
+    newPassword1: ['', [Validators.required, Validators.minLength(5)]]
   });
-
-
-  // KONSTRUKTOR -------------------------------------
-
-  onlyNumbers(event: Event)
-  {
+  onlyNumbers(event: Event) {
     onlyNumbers(event);
   }
 
   formatPhoneNumber(phone: string): string {
-  return `+48 ${phone.slice(0, 3)}-${phone.slice(3, 6)}-${phone.slice(6, 9)}`;
-}
+    return `+48 ${phone.slice(0, 3)}-${phone.slice(3, 6)}-${phone.slice(6, 9)}`;
+  }
 
   constructor() {
     effect(() => {
@@ -103,11 +89,7 @@ newPassword1: ['', [Validators.required, Validators.minLength(5)]]
     });
   }
 
-
-  // OTWIERANIE EDYCJI -------------------------------------
-
-  updateInformation()
-  {
+  updateInformation() {
     this.informationError.set(null);
 
     this.changeInfomationAdmin.set(true);
@@ -116,8 +98,7 @@ newPassword1: ['', [Validators.required, Validators.minLength(5)]]
   }
 
 
-  updatePassword()
-  {
+  updatePassword() {
     this.passwordError.set(null);
 
     this.changeInfomationAdmin.set(true);
@@ -126,8 +107,7 @@ newPassword1: ['', [Validators.required, Validators.minLength(5)]]
   }
 
 
-  updateEmail()
-  {
+  updateEmail() {
     this.emailError.set(null);
 
     this.changeInfomationAdmin.set(true);
@@ -136,8 +116,7 @@ newPassword1: ['', [Validators.required, Validators.minLength(5)]]
   }
 
 
-  updateStatus()
-  {
+  updateStatus() {
     this.statusError.set(null);
 
     this.changeInfomationAdmin.set(true);
@@ -146,8 +125,7 @@ newPassword1: ['', [Validators.required, Validators.minLength(5)]]
   }
 
 
-  updateRole()
-  {
+  updateRole() {
     this.roleError.set(null);
 
     this.changeInfomationAdmin.set(true);
@@ -155,51 +133,40 @@ newPassword1: ['', [Validators.required, Validators.minLength(5)]]
     this.saveType = 4;
   }
 
+  cancel() {
+    const profile = this.profile();
 
-  // ANULOWANIE -------------------------------------
+    this.adminUserUpdate.patchValue({
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      phoneNumber: profile.phoneNumber,
+      dateOfBirth: profile.dateOfBirth,
+      email: profile.email,
+      status: profile.status,
+      role: profile.role,
+      newPassword: '',
+      newPassword1: ''
+    });
 
-cancel()
-{
-  const profile = this.profile();
+    this.changeInfomationAdmin.set(false);
+    this.saveType = null;
+    this.buttonVanish = false;
 
-  this.adminUserUpdate.patchValue({
-    firstName: profile.firstName,
-    lastName: profile.lastName,
-    phoneNumber: profile.phoneNumber,
-    dateOfBirth: profile.dateOfBirth,
-    email: profile.email,
-    status: profile.status,
-    role: profile.role,
-    newPassword: '',
-    newPassword1: ''
-  });
+    this.informationError.set(null);
+    this.emailError.set(null);
+    this.statusError.set(null);
+    this.roleError.set(null);
+    this.passwordError.set(null);
+  }
 
-  this.changeInfomationAdmin.set(false);
-  this.saveType = null;
-  this.buttonVanish = false;
-
-  this.informationError.set(null);
-  this.emailError.set(null);
-  this.statusError.set(null);
-  this.roleError.set(null);
-  this.passwordError.set(null);
-}
-
-  // ZAPIS -------------------------------------
-
-  save(id: string)
-  {
+  save(id: string) {
     const value = this.adminUserUpdate.getRawValue();
 
     if (this.saveType == null) {
       return;
     }
 
-
-    // INFORMACJE -------------------------------------
-
-    else if (this.saveType == 1)
-    {
+    else if (this.saveType == 1) {
       this.informationError.set(null);
 
       const request: UserInformationUpdateRequestDTO = {
@@ -211,8 +178,6 @@ cancel()
 
       this.adminService.updateUserInformation(id, request).subscribe({
         next: response => {
-          console.log('sukces', response);
-
           this.profileUpdated.emit();
           this.cancel();
         },
@@ -225,11 +190,7 @@ cancel()
       });
     }
 
-
-    // EMAIL -------------------------------------
-
-    else if (this.saveType == 2)
-    {
+    else if (this.saveType == 2) {
       this.emailError.set(null);
 
       const request: UserEmailUpdateAdminRequestDTO = {
@@ -238,8 +199,6 @@ cancel()
 
       this.adminService.updateUserEmail(id, request).subscribe({
         next: response => {
-          console.log('sukces', response);
-
           this.profileUpdated.emit();
           this.cancel();
         },
@@ -252,11 +211,7 @@ cancel()
       });
     }
 
-
-    // STATUS -------------------------------------
-
-    else if (this.saveType == 3)
-    {
+    else if (this.saveType == 3) {
       this.statusError.set(null);
 
       const request: UserStatusChangeRequestDTO = {
@@ -265,8 +220,6 @@ cancel()
 
       this.adminService.updateUserStatus(id, request).subscribe({
         next: response => {
-          console.log('sukces', response);
-
           this.profileUpdated.emit();
           this.cancel();
         },
@@ -279,11 +232,7 @@ cancel()
       });
     }
 
-
-    // ROLA -------------------------------------
-
-    else if (this.saveType == 4)
-    {
+    else if (this.saveType == 4) {
       this.roleError.set(null);
 
       const request: UserRoleChangeRequestDTO = {
@@ -292,8 +241,6 @@ cancel()
 
       this.adminService.updateUserRole(id, request).subscribe({
         next: response => {
-          console.log('sukces', response);
-
           this.profileUpdated.emit();
           this.cancel();
         },
@@ -306,11 +253,7 @@ cancel()
       });
     }
 
-
-    // HASŁO -------------------------------------
-
-    else if (this.saveType == 5)
-    {
+    else if (this.saveType == 5) {
       this.passwordError.set(null);
 
       const request: UserPasswordUpdateAdminRequestDTO = {
@@ -320,8 +263,6 @@ cancel()
 
       this.adminService.updateUserPassword(id, request).subscribe({
         next: response => {
-          console.log('sukces', response);
-
           this.profileUpdated.emit();
           this.cancel();
         },

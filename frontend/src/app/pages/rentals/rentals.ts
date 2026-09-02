@@ -60,11 +60,6 @@ export class Rentals {
   private adminService = inject(AdminService);
   private fb = inject(FormBuilder);
 
-
-  // =========================
-  // DANE
-  // =========================
-
   watches = signal<WatchCardResponseDTO[]>([]);
 
   branches = signal<BranchResponseDTO[]>([]);
@@ -77,19 +72,9 @@ export class Rentals {
 
   watch = signal<WatchFullInfoResponseDTO | null>(null);
 
-
-  // =========================
-  // PAGINACJA
-  // =========================
-
   currentPage = signal<number>(0);
 
   totalPages = signal<number>(0);
-
-
-  // =========================
-  // PARAMETRY
-  // =========================
 
   admin = input(false);
 
@@ -105,31 +90,11 @@ export class Rentals {
 
   role = role;
 
-
-  // =========================
-  // WSZYSTKIE WYPOŻYCZENIA
-  // =========================
-
   showAll = signal<boolean>(false);
-
-
-  // =========================
-  // FILTRY ZAAWANSOWANE
-  // =========================
 
   advancedFilters = signal<boolean>(false);
 
-
-  // =========================
-  // SORTOWANIE
-  // =========================
-
   sort = signal<string>('createdAt,desc');
-
-
-  // =========================
-  // FORMULARZ
-  // =========================
 
   rentalFilterForm = this.fb.group({
 
@@ -165,11 +130,6 @@ export class Rentals {
 
   });
 
-
-  // =========================
-  // OPCJE SELECTÓW
-  // =========================
-
   rentalStatusOptions =
     Object.values(RentalStatus);
 
@@ -187,11 +147,6 @@ export class Rentals {
 
   paymentMethodLabel =
     PaymentMethodLabel;
-
-
-  // =========================
-  // POKAŻ WSZYSTKIE
-  // =========================
 
   showAllRentals() {
 
@@ -216,11 +171,6 @@ export class Rentals {
 
   }
 
-
-  // =========================
-  // RELOAD
-  // =========================
-
   reloadRental() {
 
     this.profileService.getMyProfile().subscribe({
@@ -230,34 +180,15 @@ export class Rentals {
         this.profile.set(profile);
 
 
-        // =========================
-        // ID Z URL
-        // =========================
-
         const id =
           this.route.snapshot.paramMap.get('id');
 
         this.paramId.set(id);
 
-
-        // =========================
-        // SORTOWANIE
-        // =========================
-
         const sortValue =
           this.sort();
 
-
-        // =========================
-        // ADMIN
-        // =========================
-
         if (profile.role === role.ADMIN) {
-
-
-          // =========================
-          // KONKRETNE WYPOŻYCZENIE
-          // =========================
 
           if (this.isRentalId()) {
 
@@ -297,11 +228,6 @@ export class Rentals {
 
             return;
           }
-
-
-          // =========================
-          // WYPOŻYCZENIA ZEGARKA
-          // =========================
 
           if (this.isWatchId()) {
 
@@ -376,11 +302,6 @@ export class Rentals {
             return;
           }
 
-
-          // =========================
-          // WYPOŻYCZENIA UŻYTKOWNIKA
-          // =========================
-
           if (id) {
 
             const filter:
@@ -450,14 +371,6 @@ export class Rentals {
             return;
           }
 
-
-          // =========================
-          // ADMIN
-          // =========================
-          // all=true → wszystkie
-          // all=false → moje
-          // =========================
-
           if (this.showAll()) {
 
             const filter =
@@ -503,10 +416,6 @@ export class Rentals {
             const filter =
               this.getFilter();
 
-
-            // Admin domyślnie pobiera
-            // swoje wypożyczenia
-
             filter.userId =
               profile.id;
 
@@ -550,11 +459,6 @@ export class Rentals {
           return;
         }
 
-
-        // =========================
-        // ZWYKŁY UŻYTKOWNIK
-        // =========================
-
         if (this.isRentalId()) {
 
           const rentalId =
@@ -593,11 +497,6 @@ export class Rentals {
 
           return;
         }
-
-
-        // =========================
-        // ZWYKŁY UŻYTKOWNIK
-        // =========================
 
         const filter =
           this.getFilter();
@@ -655,11 +554,6 @@ export class Rentals {
 
   }
 
-
-  // =========================
-  // POBRANIE FILTRA
-  // =========================
-
   private getFilter():
     RentalFilterRequestDTO {
 
@@ -703,61 +597,31 @@ export class Rentals {
 
   }
 
-
-  // =========================
-  // INIT
-  // =========================
-
   ngOnInit() {
 
     this.route.queryParamMap.subscribe(params => {
-
-
-      // =========================
-      // WATCH
-      // =========================
 
       this.isWatchId.set(
         params.get('watch') === 'true'
       );
 
 
-      // =========================
-      // RENTAL ID
-      // =========================
-
       this.isRentalId.set(
         params.get('isRentalId') === 'true'
       );
-
 
       this.rentalId.set(
         params.get('rentalId')
       );
 
-
-      // =========================
-      // ALL
-      // =========================
-
       this.showAll.set(
         params.get('all') === 'true'
       );
-
-
-      // =========================
-      // SORTOWANIE
-      // =========================
 
       this.sort.set(
         params.get('sort')
         ?? 'createdAt,desc'
       );
-
-
-      // =========================
-      // FILTRY
-      // =========================
 
       this.rentalFilterForm.patchValue({
 
@@ -803,11 +667,6 @@ export class Rentals {
 
       });
 
-
-      // =========================
-      // OTWARCIE FILTRÓW
-      // =========================
-
       if (
 
         params.get('branchId') ||
@@ -828,19 +687,9 @@ export class Rentals {
 
       }
 
-
-      // =========================
-      // POBRANIE DANYCH
-      // =========================
-
       this.reloadRental();
 
     });
-
-
-    // =========================
-    // ZEGARKI
-    // =========================
 
     this.watchesService
       .getWatches()
@@ -864,11 +713,6 @@ export class Rentals {
         }
 
       });
-
-
-    // =========================
-    // ODDZIAŁY
-    // =========================
 
     this.branchesService
       .getBranches()
@@ -894,11 +738,6 @@ export class Rentals {
       });
 
   }
-
-
-  // =========================
-  // ENUMY Z URL
-  // =========================
 
   private getRentalStatus(
     value: string | null
@@ -959,11 +798,6 @@ export class Rentals {
 
   }
 
-
-  // =========================
-  // FILTRY ZAAWANSOWANE
-  // =========================
-
   toggleAdvancedFilters() {
 
     this.advancedFilters.update(
@@ -971,11 +805,6 @@ export class Rentals {
     );
 
   }
-
-
-  // =========================
-  // SORTOWANIE
-  // =========================
 
   changeSort(
     event: Event
@@ -1011,11 +840,6 @@ export class Rentals {
 
   }
 
-
-  // =========================
-  // SZUKANIE
-  // =========================
-
   searchRentals() {
 
     const filter =
@@ -1041,23 +865,12 @@ export class Rentals {
 
       }
     );
-
-
-    // =========================
-    // WATCH
-    // =========================
-
     if (this.isWatchId()) {
 
       queryParams['watch'] =
         'true';
 
     }
-
-
-    // =========================
-    // RENTAL ID
-    // =========================
 
     if (this.isRentalId()) {
 
@@ -1077,11 +890,6 @@ export class Rentals {
 
     }
 
-
-    // =========================
-    // ALL
-    // =========================
-
     if (this.showAll()) {
 
       queryParams['all'] =
@@ -1089,29 +897,14 @@ export class Rentals {
 
     }
 
-
-    // =========================
-    // SORT
-    // =========================
-
     queryParams['sort'] =
       this.sort();
-
-
-    // =========================
-    // PIERWSZA STRONA
-    // =========================
 
     queryParams['page'] =
       '0';
 
 
     this.currentPage.set(0);
-
-
-    // =========================
-    // URL
-    // =========================
 
     this.router.navigate([], {
 
@@ -1123,16 +916,7 @@ export class Rentals {
 
   }
 
-
-  // =========================
-  // RESET FILTRÓW
-  // =========================
-
   resetFilters() {
-
-  // =========================
-  // RESET FORMULARZA
-  // =========================
 
   this.rentalFilterForm.reset({
 
@@ -1158,33 +942,13 @@ export class Rentals {
 
   });
 
-
-  // =========================
-  // RESET STANU
-  // =========================
-
   this.advancedFilters.set(false);
 
   this.currentPage.set(0);
 
-
-  // =========================
-  // WYŁĄCZ "WSZYSTKIE"
-  // =========================
-
   this.showAll.set(false);
 
-
-  // =========================
-  // DOMYŚLNE SORTOWANIE
-  // =========================
-
   this.sort.set('createdAt,desc');
-
-
-  // =========================
-  // POWRÓT DO MOICH WYPOŻYCZEŃ
-  // =========================
 
   this.router.navigate(
     ['/rentals'],
@@ -1197,11 +961,6 @@ export class Rentals {
   );
 
 }
-
-
-  // =========================
-  // PAGINACJA
-  // =========================
 
   previousPage() {
 

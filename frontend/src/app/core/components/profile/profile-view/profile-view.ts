@@ -42,43 +42,32 @@ export class ProfileView {
 
   @Output() changeEmail = new EventEmitter<UserEmailUpdateRequestDTO>();
 
-
-  // ERRORY -------------------------------------
-
-  emailError = signal<string|null>(null);
-  passwordError = signal<string|null>(null);
-  informationError = signal<string|null>(null);
-  softDeleteError = signal<string|null>(null);
-
-
-  // EMAIL -------------------------------------
+  emailError = signal<string | null>(null);
+  passwordError = signal<string | null>(null);
+  informationError = signal<string | null>(null);
+  softDeleteError = signal<string | null>(null);
 
   showChangeEmailModal = signal(false);
 
-  openChangeEmailModal()
-  {
+  openChangeEmailModal() {
     this.emailError.set('');
     this.showChangeEmailModal.set(true);
     document.body.style.overflow = 'hidden';
   }
 
-  closeChangeEmailModal()
-  {
+  closeChangeEmailModal() {
     this.emailError.set('');
     this.showChangeEmailModal.set(false);
     document.body.style.overflow = '';
   }
-formatPhoneNumber(phone: string): string {
-  return `+48 ${phone.slice(0, 3)}-${phone.slice(3, 6)}-${phone.slice(6, 9)}`;
-}
-  saveEmail(request: UserEmailUpdateRequestDTO)
-  {
+  formatPhoneNumber(phone: string): string {
+    return `+48 ${phone.slice(0, 3)}-${phone.slice(3, 6)}-${phone.slice(6, 9)}`;
+  }
+  saveEmail(request: UserEmailUpdateRequestDTO) {
     this.emailError.set('');
 
     this.profileService.updateMyEmail(request).subscribe({
       next: response => {
-        console.log('sukces', response);
-
         this.emailError.set('');
         this.closeChangeEmailModal();
       },
@@ -91,33 +80,25 @@ formatPhoneNumber(phone: string): string {
     });
   }
 
-
-  // HASŁO -------------------------------------
-
   showChangePasswordModal = signal(false);
 
-  openChangePasswordModal()
-  {
+  openChangePasswordModal() {
     this.passwordError.set('');
     document.body.style.overflow = 'hidden';
     this.showChangePasswordModal.set(true);
   }
 
-  closeChangePasswordModal()
-  {
+  closeChangePasswordModal() {
     this.passwordError.set('');
     document.body.style.overflow = '';
     this.showChangePasswordModal.set(false);
   }
 
-  savePassword(request: UserPasswordUpdateRequestDTO)
-  {
+  savePassword(request: UserPasswordUpdateRequestDTO) {
     this.passwordError.set('');
 
     this.profileService.updateMyPassword(request).subscribe({
       next: response => {
-        console.log('sukces', response);
-
         this.passwordError.set('');
         this.closeChangePasswordModal();
       },
@@ -130,33 +111,25 @@ formatPhoneNumber(phone: string): string {
     });
   }
 
-
-  // INFORMACJE -------------------------------------
-
   showUpdateInformationModal = signal(false);
 
-  openUpdateInformationModal()
-  {
+  openUpdateInformationModal() {
     this.informationError.set('');
     document.body.style.overflow = 'hidden';
     this.showUpdateInformationModal.set(true);
   }
 
-  closeUpdateInformationModal()
-  {
+  closeUpdateInformationModal() {
     this.informationError.set('');
     document.body.style.overflow = '';
     this.showUpdateInformationModal.set(false);
   }
 
-  updateInformation(request: UserInformationUpdateRequestDTO)
-  {
+  updateInformation(request: UserInformationUpdateRequestDTO) {
     this.informationError.set('');
 
     this.profileService.updateMyInformation(request).subscribe({
       next: response => {
-        console.log('sukces', response);
-
         this.informationError.set('');
         this.closeUpdateInformationModal();
       },
@@ -169,33 +142,25 @@ formatPhoneNumber(phone: string): string {
     });
   }
 
-
-  // USUWANIE KONTA -------------------------------------
-
   showSoftDeleteAccountModal = signal(false);
 
-  openSoftDeleteInformationModal()
-  {
+  openSoftDeleteInformationModal() {
     document.body.style.overflow = 'hidden';
     this.softDeleteError.set('');
     this.showSoftDeleteAccountModal.set(true);
   }
 
-  closeSoftDeleteInformationModal()
-  {
+  closeSoftDeleteInformationModal() {
     document.body.style.overflow = '';
     this.softDeleteError.set('');
     this.showSoftDeleteAccountModal.set(false);
   }
 
-  softDelete(request: UserSoftDeleteRequestDTO)
-  {
+  softDelete(request: UserSoftDeleteRequestDTO) {
     this.softDeleteError.set('');
 
     this.profileService.softDeleteMyAccount(request).subscribe({
       next: response => {
-        console.log('sukces', response);
-
         this.softDeleteError.set('');
       },
 

@@ -1,6 +1,4 @@
 <div class="card border-0 shadow-sm h-100 overflow-hidden bg-white rounded-0 transition-all">
-
-    <!-- Top section / Image or visual accent -->
     <div class="position-relative bg-white p-4 text-center border-bottom border-light overflow-hidden">
 
         @if (watchPhoto()) {
@@ -15,8 +13,6 @@
         </div>
         }
 
-
-        <!-- Branch -->
         <span class="badge text-uppercase tracking-widest px-2 py-1 bg-dark text-white fw-normal rounded-0"
             style="font-size: 0.65rem; letter-spacing: 1px;">
             {{ watch().branchName }}
@@ -33,7 +29,6 @@
         </div>
     </div>
 
-    <!-- Main card content -->
     <div class="card-body d-flex flex-column justify-content-between p-4">
 
         <div class="text-center mb-4">
@@ -46,7 +41,6 @@
             </div>
         </div>
 
-        <!-- Action button -->
         <button type="button"
             class="btn w-100 text-uppercase fw-semibold py-2 text-white transition-all rounded-0"
             style="background-color: #1a1a1a; letter-spacing: 0.15em; font-size: 0.75rem;"
@@ -57,7 +51,6 @@
     </div>
 </div>
 
-<!-- Modal / Detailed view -->
 @if (showFullInfoModal()) {
 <app-watch-full-info-view
     [watch]="watch()"

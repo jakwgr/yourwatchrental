@@ -72,14 +72,12 @@ export class BranchCreate {
 
     this.branchesService.createBranch(request).subscribe({
       next: response => {
-        console.log(response);
         this.successModal.set(true);
       },
       error: err => {
         const error = err.error;
 
         this.branchesError.set(error.message);
-        console.log(this.branchesError())
       }
     });
   }

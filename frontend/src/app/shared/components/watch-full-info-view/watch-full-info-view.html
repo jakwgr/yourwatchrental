@@ -1,20 +1,13 @@
-<!-- Main modal wrapper (backdrop) blocking background interaction and page scrolling -->
 <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center p-3"
     style="background-color: rgba(0, 0, 0, 0.6); z-index: 1050; backdrop-filter: blur(3px); overflow: hidden;">
-
-    <!-- Modal container with height limit, scrolling and relative positioning for the close button -->
     <div class="bg-white shadow-lg p-4 p-md-5 rounded-0 position-relative w-100"
         style="max-width: 1050px; max-height: 90vh; overflow-y: auto;">
-
-        <!-- Close button (X) in the top right corner -->
         <button type="button" class="btn-close position-absolute top-0 end-0 m-4 shadow-none" aria-label="Close"
             (click)="closeModal()">
         </button>
 
         <form [formGroup]="watchUpdate">
             @if (watchFullInfo(); as watch) {
-
-            <!-- Top header / Title -->
             <div class="mb-4 pe-4">
                 <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
                     style="color: #bfa130; letter-spacing: 2px; font-size: 0.70rem;">
@@ -43,8 +36,6 @@
             </div>
 
             <div class="border-top pt-3">
-
-                <!-- Row 1: Reference number and serial number -->
                 <div class="row">
                     <div class="col-6 mb-3">
                         <span class="text-uppercase text-secondary fw-medium d-block mb-1"
@@ -80,8 +71,6 @@
                         }
                     </div>
                 </div>
-
-                <!-- Description -->
                 <div class="mb-3">
                     <span class="text-uppercase text-secondary fw-medium d-block mb-1"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -97,8 +86,6 @@
                     <span class="text-dark">{{ watch.description }}</span>
                     }
                 </div>
-
-                <!-- Row 2: Movement and production year -->
                 <div class="row">
                     <div class="col-6 mb-3">
                         <span class="text-uppercase text-secondary fw-medium d-block mb-1"
@@ -134,8 +121,6 @@
                         }
                     </div>
                 </div>
-
-                <!-- Row 3: Price per day and condition -->
                 <div class="row">
                     <div class="col-6 mb-3">
                         <span class="text-uppercase text-secondary fw-medium d-block mb-1"
@@ -176,8 +161,6 @@
                         }
                     </div>
                 </div>
-
-                <!-- Row 4: Gender and movement type -->
                 <div class="row">
                     <div class="col-6 mb-3">
                         <span class="text-uppercase text-secondary fw-medium d-block mb-1"
@@ -223,8 +206,6 @@
                         }
                     </div>
                 </div>
-
-                <!-- Row 5: Status and watch type -->
                 <div class="row">
                     <div class="col-6 mb-3">
                         <span class="text-uppercase text-secondary fw-medium d-block mb-1"
@@ -280,8 +261,6 @@
                         }
                     </div>
                 </div>
-
-                <!-- Branch -->
                 <div class="mb-4">
                     <span class="text-uppercase text-secondary fw-medium d-block mb-1"
                         style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -305,8 +284,6 @@
                 </div>
             </div>
 
-
-            <!-- Photos -->
             @if (watch.photos && watch.photos.length > 0) {
             <div class="mb-4">
 
@@ -336,7 +313,6 @@
                 </div>
                 }
 
-                <!-- Photo zoom -->
                 @if (showPhotoZoom()) {
                 <app-watch-photo-zoom-component [photoUrl]="watch.photos[selectedPhotoIndex()].photoUrl"
                     [alt]="watch.photos[selectedPhotoIndex()].description || watch.model" (close)="closePhotoZoom()">
@@ -345,8 +321,6 @@
             </div>
             }
 
-
-            <!-- Calendar -->
             <div class="mb-4">
                 <app-watch-calendar [watch]="watch" [isDatePicker]="false"></app-watch-calendar>
             </div>
@@ -356,8 +330,6 @@
             <app-small-error-view [message]="watchesError()!" />
             }
 
-
-            <!-- Action buttons -->
             <div class="d-flex flex-column gap-2 mt-4 pt-3">
 
                 @if (isLogged)

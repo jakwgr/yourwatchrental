@@ -78,11 +78,6 @@ export class Watches implements OnInit {
 
   private profileService = inject(ProfileService);
 
-
-  // =========================
-  // OPCJE FILTRÓW
-  // =========================
-
   genderOptions =
     Object.values(WatchGender);
 
@@ -107,10 +102,6 @@ export class Watches implements OnInit {
   watchTypeLabels =
     WatchTypeLabel;
 
-
-  // =========================
-  // FORMULARZ
-  // =========================
 
   filterForm = this.fb.group({
 
@@ -149,11 +140,6 @@ export class Watches implements OnInit {
 
   });
 
-
-  // =========================
-  // SIGNALS
-  // =========================
-
   watchSerial =
     signal<string | null>(null);
 
@@ -182,17 +168,8 @@ export class Watches implements OnInit {
     signal<number>(0);
 
 
-  // =========================
-  // SORTOWANIE
-  // =========================
-
   sort =
     signal<string>('yearOfProduction,desc');
-
-
-  // =========================
-  // FILTRY ZAAWANSOWANE
-  // =========================
 
   toggleAdvancedFilters() {
 
@@ -201,11 +178,6 @@ export class Watches implements OnInit {
     );
 
   }
-
-
-  // =========================
-  // ZMIANA SORTOWANIA
-  // =========================
 
   changeSort(event: Event) {
 
@@ -216,10 +188,6 @@ export class Watches implements OnInit {
     this.sort.set(
       select.value
     );
-
-
-    // Po zmianie sortowania
-    // wracamy na pierwszą stronę
 
     this.currentPage.set(0);
 
@@ -238,11 +206,6 @@ export class Watches implements OnInit {
     });
 
   }
-
-
-  // =========================
-  // BRANCHES
-  // =========================
 
   branchesGenerate() {
 
@@ -270,11 +233,6 @@ export class Watches implements OnInit {
       });
 
   }
-
-
-  // =========================
-  // RESET FILTRÓW
-  // =========================
 
   resetFilters() {
 
@@ -331,12 +289,6 @@ export class Watches implements OnInit {
 
     this.currentPage.set(0);
 
-
-    /*
-     * Resetujemy tylko filtry.
-     * Sortowanie zostaje takie jak wybrane.
-     */
-
     this.router.navigate([], {
 
       relativeTo: this.route,
@@ -352,20 +304,9 @@ export class Watches implements OnInit {
     });
 
   }
-
-
-  // =========================
-  // INIT
-  // =========================
-
   ngOnInit() {
 
     this.route.queryParams.subscribe(params => {
-
-
-      // =========================
-      // HISTORY STATE
-      // =========================
 
       const editWatchPhotos =
         history.state.editWatchPhotos;
@@ -388,16 +329,6 @@ export class Watches implements OnInit {
       this.watchSerial.set(
         watchSerial
       );
-
-
-      // =========================
-      // SORTOWANIE
-      // =========================
-
-
-      // =========================
-      // ODCZYT FILTRÓW Z URL
-      // =========================
 
       this.filterForm.patchValue({
 
@@ -448,10 +379,6 @@ export class Watches implements OnInit {
       });
 
 
-      // =========================
-      // EDYCJA ZDJĘĆ
-      // =========================
-
       if (
         this.editWatchPhotos() !== undefined &&
         this.watchId() !== undefined
@@ -466,11 +393,6 @@ export class Watches implements OnInit {
 
       }
 
-
-      // =========================
-      // ODCZYT STRONY
-      // =========================
-
       const page =
         params['page']
           ? Number(params['page'])
@@ -480,12 +402,6 @@ export class Watches implements OnInit {
       this.currentPage.set(
         page
       );
-
-
-      // =========================
-      // AUTOMATYCZNE OTWARCIE
-      // FILTRÓW ZAAWANSOWANYCH
-      // =========================
 
       if (
 
@@ -509,17 +425,7 @@ export class Watches implements OnInit {
 
       }
 
-
-      // =========================
-      // POBRANIE ZEGARKÓW
-      // =========================
-
       this.loadWatches();
-
-
-      // =========================
-      // PROFIL
-      // =========================
 
       this.profileService
         .getMyProfile()
@@ -547,18 +453,10 @@ export class Watches implements OnInit {
     });
 
 
-    // =========================
-    // BRANCHES
-    // =========================
-
     this.branchesGenerate();
 
   }
 
-
-  // =========================
-  // POBIERANIE ZEGARKÓW
-  // =========================
 
   loadWatches() {
 
@@ -605,29 +503,16 @@ export class Watches implements OnInit {
 
   }
 
-
-  // =========================
-  // SZUKANIE
-  // =========================
-
   search() {
 
     const filter =
       this.filterForm.getRawValue();
-
-
-    // Zaczynamy od pierwszej strony
 
     this.currentPage.set(0);
 
 
     const queryParams:
       Record<string, string | number> = {};
-
-
-    // =========================
-    // FILTRY
-    // =========================
 
     Object.entries(filter).forEach(
       ([key, value]) => {
@@ -645,25 +530,10 @@ export class Watches implements OnInit {
       }
     );
 
-
-    // =========================
-    // SORT
-    // =========================
-
     queryParams['sort'] =
       this.sort();
 
-
-    // =========================
-    // STRONA
-    // =========================
-
     queryParams['page'] = 0;
-
-
-    // =========================
-    // URL
-    // =========================
 
     this.router.navigate([], {
 
@@ -674,11 +544,6 @@ export class Watches implements OnInit {
     });
 
   }
-
-
-  // =========================
-  // POPRZEDNIA STRONA
-  // =========================
 
   previousPage() {
 
@@ -709,11 +574,6 @@ export class Watches implements OnInit {
 
   }
 
-
-  // =========================
-  // NASTĘPNA STRONA
-  // =========================
-
   nextPage() {
 
     if (
@@ -743,11 +603,6 @@ export class Watches implements OnInit {
     this.loadWatches();
 
   }
-
-
-  // =========================
-  // STRONA W URL
-  // =========================
 
   private updatePageInUrl(
     page: number

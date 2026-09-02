@@ -157,8 +157,6 @@ export class WatchCreate {
 
     this.watchesService.createWatch(request).subscribe({
       next: response => {
-        console.log('Utworzono zegarek:', response);
-
         this.watchForm.reset();
         this.successModal.set(true);
         this.watchCreated.set(response);

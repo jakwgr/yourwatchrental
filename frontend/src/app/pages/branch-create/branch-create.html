@@ -1,11 +1,7 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
-            
-            <!-- Added position-relative class so the absolute button is positioned relative to the card -->
             <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 position-relative">
-                
-                <!-- X button in the top-right corner -->
                 <button 
                     type="button" 
                     class="btn-close position-absolute top-0 end-0 m-4 shadow-none" 
@@ -13,7 +9,6 @@
                     (click)="onClose()">
                 </button>
 
-                <!-- Header -->
                 <div class="mb-4">
                     <span class="text-uppercase tracking-widest small fw-bold d-block mb-1" style="color: #bfa130; letter-spacing: 2px; font-size: 0.75rem;">
                         Management
@@ -26,11 +21,8 @@
                 @if (branchesError()) {
                 <app-small-error-view [message]="branchesError()!" />
                 }
-
-                <!-- Form -->
                 <form [formGroup]="branchForm" (ngSubmit)="createBranch()">
 
-                    <!-- City -->
                     <div class="mb-4">
                         <label for="city" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                             City
@@ -47,8 +39,6 @@
                             <div class="text-danger small mt-1" style="font-size: 0.7rem;">City is required.</div>
                         }
                     </div>
-
-                    <!-- Name -->
                     <div class="mb-4">
                         <label for="name" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                             Name
@@ -65,8 +55,6 @@
                             <div class="text-danger small mt-1" style="font-size: 0.7rem;">Name is required.</div>
                         }
                     </div>
-
-                    <!-- Address -->
                     <div class="mb-4">
                         <label for="address" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                             Address
@@ -83,8 +71,6 @@
                             <div class="text-danger small mt-1" style="font-size: 0.7rem;">Address is required.</div>
                         }
                     </div>
-
-                    <!-- Phone number -->
                     <div class="mb-4">
                         <label for="phoneNumber" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                             Phone Number
@@ -106,8 +92,6 @@
                             }
                         }
                     </div>
-
-                    <!-- Email -->
                     <div class="mb-5">
                         <label for="email" class="form-label text-uppercase text-secondary fw-medium mb-1" style="font-size: 0.65rem; letter-spacing: 1.5px;">
                             Email
@@ -128,8 +112,6 @@
                             }
                         }
                     </div>
-
-                    <!-- Save button -->
                     <div>
                         <button
                             type="submit"
@@ -142,8 +124,6 @@
                     </div>
 
                 </form>
-
-                <!-- SUCCESS MODAL AFTER SAVING -->
                 @if (successModal()) {
                 <div class="position-fixed top-0 start-0 w-100 vh-100 bg-white bg-opacity-95 d-flex flex-column justify-content-center align-items-center p-4 text-center "
                     style="z-index: 1050; backdrop-filter: blur(2px);">

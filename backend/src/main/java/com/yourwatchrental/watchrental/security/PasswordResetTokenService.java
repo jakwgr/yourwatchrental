@@ -110,9 +110,6 @@ public class PasswordResetTokenService {
 
     public void forgotPassword(String email) {
 
-        System.out.println("========== FORGOT PASSWORD ==========");
-        System.out.println("EMAIL: " + email);
-
         Optional<User> optionalUser = userRepository.findByEmail(email);
 
         if (optionalUser.isEmpty()) {
@@ -122,11 +119,7 @@ public class PasswordResetTokenService {
 
         User user = optionalUser.get();
 
-        System.out.println("USER FOUND: " + user.getId());
-
         String token = generateToken(user);
-
-        System.out.println("TOKEN: " + token);
 
         String resetUrl = frontendUrl
                 + "/reset-password?userId="
@@ -137,15 +130,10 @@ public class PasswordResetTokenService {
                 StandardCharsets.UTF_8
         );
 
-        System.out.println("RESET URL: " + resetUrl);
-
-        // Na razie bez wysyłania maila
         // emailService.sendPasswordResetEmail(
         //         user.getEmail(),
         //         resetUrl
         // );
-
-        System.out.println("=====================================");
     }
 
     public void resetPassword(UserPasswordResetRequest request) {

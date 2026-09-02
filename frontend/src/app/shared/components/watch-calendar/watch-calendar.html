@@ -1,7 +1,5 @@
 <div class="calendar bg-white border border-dark shadow-sm p-3 p-md-4 w-100">
 
-  <!-- Header -->
-
   <div class="calendar-header d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
 
     <button
@@ -33,9 +31,6 @@
     </button>
 
   </div>
-
-  <!-- Weekdays -->
-
   <div
     class="weekdays text-secondary text-uppercase fw-semibold text-center mb-2"
     style="
@@ -54,8 +49,6 @@
     <div>Sun</div>
 
   </div>
-
-  <!-- Days -->
 
   <div
     class="days"
@@ -96,8 +89,6 @@
 
   </div>
 
-  <!-- Reset -->
-
   @if (isDatePicker()) {
 
     <div class="mt-4 pt-3 border-top">
@@ -119,8 +110,6 @@
 
   }
 
-  <!-- Legend -->
-
   <div class="mt-4 pt-3 border-top">
 
     <div
@@ -133,7 +122,6 @@
 
       @if (isDatePicker()) {
 
-        <!-- Available -->
         <div class="d-flex align-items-center gap-2">
           <span
             class="d-inline-block border border-secondary"
@@ -152,7 +140,6 @@
         </div>
 
 
-        <!-- Selectable -->
         <div class="d-flex align-items-center gap-2">
           <span
             class="d-inline-block"
@@ -171,8 +158,6 @@
           </span>
         </div>
 
-
-        <!-- Selected -->
         <div class="d-flex align-items-center gap-2">
           <span
             class="d-inline-block"
@@ -192,8 +177,6 @@
 
       }
 
-
-      <!-- Rented -->
       <div class="d-flex align-items-center gap-2">
         <span
           class="d-inline-block"
@@ -211,8 +194,6 @@
         </span>
       </div>
 
-
-      <!-- Past -->
       <div class="d-flex align-items-center gap-2">
         <span
           class="d-inline-block"

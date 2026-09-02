@@ -36,15 +36,9 @@ export class BranchesInfoView {
   branchOptions = Object.values(BranchStatus);
   branchLabel = BranchStatusLabel;
 
-
-  // FORMATOWANIE TELEFONU
-
   formatPhoneNumber(phone: string): string {
     return phone.replace(/\B(?=(\d{3})+(?!\d))/g, '-');
   }
-
-
-  // FORMULARZE
 
   private fb = inject(FormBuilder);
 
@@ -66,15 +60,9 @@ export class BranchesInfoView {
     status: ['', Validators.required]
   });
 
-
-  // TYLKO CYFRY
-
   onlyNumbers(event: Event) {
     onlyNumbers(event);
   }
-
-
-  // USTAWIENIE DANYCH W FORMULARZU
 
   constructor() {
     effect(() => {
@@ -93,9 +81,6 @@ export class BranchesInfoView {
       });
     });
   }
-
-
-  // RESET FORMULARZY
 
   resetForms() {
     const branch = this.branch();
@@ -119,9 +104,6 @@ export class BranchesInfoView {
     this.branchUpdateStatus.markAsUntouched();
   }
 
-
-  // EDYCJA INFORMACJI
-
   showUpdate = signal(false);
 
   closeUpdate() {
@@ -138,9 +120,6 @@ export class BranchesInfoView {
     this.buttonVanish = true;
   }
 
-
-  // EDYCJA STATUSU
-
   showUpdateStatus = signal(false);
 
   closeUpdateStatus() {
@@ -156,9 +135,6 @@ export class BranchesInfoView {
     this.saveType = 2;
     this.buttonVanish = true;
   }
-
-
-  // ZAPIS
 
   save(id: string) {
 
@@ -207,13 +183,8 @@ export class BranchesInfoView {
         });
     }
   }
-
-
-  // ANULOWANIE
-
   cancel() {
 
-    // PRZYWRACA ORYGINALNE DANE
     this.resetForms();
 
     this.saveType = null;

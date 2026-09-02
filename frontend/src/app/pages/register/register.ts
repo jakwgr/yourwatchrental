@@ -57,7 +57,6 @@ registerError = signal<string | null>(null);
 
     this.authService.register(register).subscribe({
       next: response => {
-        console.log('suckes', response);
         this.router.navigate(['/login']);
       },
       error: err => {

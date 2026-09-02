@@ -1,16 +1,10 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
-
-            <!-- Main card with relative positioning -->
             <div class="card border border-light shadow-sm p-4 p-md-5 bg-white rounded-0 position-relative">
-
-                <!-- Close button in the top-right corner -->
-                <button type="button" class="btn-close position-absolute top-0 end-0 m-4 shadow-none"
-                    aria-label="Close" (click)="onClose()">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-4 shadow-none" aria-label="Close"
+                    (click)="onClose()">
                 </button>
-
-                <!-- Header -->
                 <div class="mb-4">
                     <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
                         style="color: #bfa130; letter-spacing: 2px; font-size: 0.75rem;">
@@ -25,11 +19,8 @@
                 <app-small-error-view [message]="watchesError()!" />
                 }
 
-
-                <!-- Form -->
                 <form [formGroup]="watchForm" (ngSubmit)="createWatch()">
 
-                    <!-- Manufacturer -->
                     <div class="mb-4">
                         <label for="manufacturer" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -39,12 +30,9 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;" formControlName="manufacturer"
                             placeholder="e.g. Rolex" maxlength="255">
-                        <app-form-error
-                            [control]="watchForm.controls.manufacturer"
-                        />
+                        <app-form-error [control]="watchForm.controls.manufacturer" />
                     </div>
 
-                    <!-- Model -->
                     <div class="mb-4">
                         <label for="model" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -54,12 +42,9 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;" formControlName="model"
                             placeholder="e.g. Submariner" maxlength="255">
-                        <app-form-error
-                            [control]="watchForm.controls.model"
-                        />
+                        <app-form-error [control]="watchForm.controls.model" />
                     </div>
 
-                    <!-- Reference number -->
                     <div class="mb-4">
                         <label for="referenceNumber" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -69,12 +54,9 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;" formControlName="referenceNumber"
                             placeholder="e.g. 126610LN" maxlength="255">
-                        <app-form-error
-                            [control]="watchForm.controls.referenceNumber"
-                        />
+                        <app-form-error [control]="watchForm.controls.referenceNumber" />
                     </div>
 
-                    <!-- Serial number -->
                     <div class="mb-4">
                         <label for="serialNumber" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -84,12 +66,9 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;" formControlName="serialNumber"
                             placeholder="Serial number" maxlength="255">
-                        <app-form-error
-                            [control]="watchForm.controls.serialNumber"
-                        />
+                        <app-form-error [control]="watchForm.controls.serialNumber" />
                     </div>
 
-                    <!-- Movement -->
                     <div class="mb-4">
                         <label for="movement" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -99,18 +78,14 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;" formControlName="movement"
                             placeholder="e.g. Calibre 3235" maxlength="255">
-                        <app-form-error
-                            [control]="watchForm.controls.movement"
-                        />
+                        <app-form-error [control]="watchForm.controls.movement" />
                     </div>
 
-                    <!-- Description (optional) -->
                     <div class="mb-4">
                         <label for="description" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
                             Description
-                            <span class="text-muted fw-normal lowercase"
-                                style="font-size: 0.85em;">(optional)</span>
+                            <span class="text-muted fw-normal lowercase" style="font-size: 0.85em;">(optional)</span>
                         </label>
                         <textarea id="description"
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
@@ -119,7 +94,6 @@
                         </textarea>
                     </div>
 
-                    <!-- Year of production -->
                     <div class="mb-4">
                         <label for="yearOfProduction" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -129,12 +103,9 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;" formControlName="yearOfProduction"
                             placeholder="e.g. 2023">
-                        <app-form-error
-                            [control]="watchForm.controls.yearOfProduction"
-                        />
+                        <app-form-error [control]="watchForm.controls.yearOfProduction" />
                     </div>
 
-                    <!-- Price per day -->
                     <div class="mb-4">
                         <label for="pricePerDay" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -144,12 +115,9 @@
                             class="form-control bg-transparent text-dark shadow-none py-2 px-0 border-0 rounded-0 border-bottom"
                             style="border-color: #dee2e6 !important;" formControlName="pricePerDay"
                             placeholder="e.g. 150">
-                        <app-form-error
-                            [control]="watchForm.controls.pricePerDay"
-                        />
+                        <app-form-error [control]="watchForm.controls.pricePerDay" />
                     </div>
 
-                    <!-- Condition -->
                     <div class="mb-4">
                         <label for="condition" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -163,12 +131,9 @@
                             <option [value]="condition">{{ conditionLabels[condition] }}</option>
                             }
                         </select>
-                        <app-form-error
-                            [control]="watchForm.controls.condition"
-                        />
+                        <app-form-error [control]="watchForm.controls.condition" />
                     </div>
 
-                    <!-- Gender -->
                     <div class="mb-4">
                         <label for="gender" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -182,12 +147,9 @@
                             <option [value]="gender">{{ genderLabels[gender] }}</option>
                             }
                         </select>
-                        <app-form-error
-                            [control]="watchForm.controls.gender"
-                        />
+                        <app-form-error [control]="watchForm.controls.gender" />
                     </div>
 
-                    <!-- Movement type -->
                     <div class="mb-4">
                         <label for="movementType" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -201,12 +163,9 @@
                             <option [value]="movementType">{{ movementTypeLabels[movementType] }}</option>
                             }
                         </select>
-                        <app-form-error
-                            [control]="watchForm.controls.movementType"
-                        />
+                        <app-form-error [control]="watchForm.controls.movementType" />
                     </div>
 
-                    <!-- Status -->
                     <div class="mb-4">
                         <label for="status" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -220,12 +179,9 @@
                             <option [value]="status">{{ statusLabels[status] }}</option>
                             }
                         </select>
-                        <app-form-error
-                            [control]="watchForm.controls.status"
-                        />
+                        <app-form-error [control]="watchForm.controls.status" />
                     </div>
 
-                    <!-- Watch type -->
                     <div class="mb-4">
                         <label for="watchType" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -239,12 +195,9 @@
                             <option [value]="watchType">{{ watchTypeLabels[watchType] }}</option>
                             }
                         </select>
-                        <app-form-error
-                            [control]="watchForm.controls.watchType"
-                        />
+                        <app-form-error [control]="watchForm.controls.watchType" />
                     </div>
 
-                    <!-- Branch -->
                     <div class="mb-5">
                         <label for="branchId" class="form-label text-uppercase text-secondary fw-medium mb-1"
                             style="font-size: 0.65rem; letter-spacing: 1.5px;">
@@ -258,12 +211,9 @@
                             <option [value]="branch.id">{{ branch.name }} — {{ branch.city }}</option>
                             }
                         </select>
-                        <app-form-error
-                            [control]="watchForm.controls.branchId"
-                        />
+                        <app-form-error [control]="watchForm.controls.branchId" />
                     </div>
 
-                    <!-- Save button -->
                     <div>
                         <button type="submit" [disabled]="watchForm.invalid" [class.opacity-50]="watchForm.invalid"
                             class="btn text-uppercase fw-semibold py-3 text-white rounded-0 transition-all shadow-none w-100"
@@ -274,7 +224,6 @@
 
                 </form>
 
-                <!-- SUCCESS MODAL -->
                 @if (successModal()) {
                 <div class="position-fixed top-0 start-0 w-100 vh-100 bg-white bg-opacity-95 d-flex flex-column justify-content-center align-items-center p-4 text-center"
                     style="z-index: 1050; backdrop-filter: blur(2px);">
