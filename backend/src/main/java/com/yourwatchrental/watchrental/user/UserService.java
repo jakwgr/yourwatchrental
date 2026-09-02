@@ -199,8 +199,7 @@ public class UserService {
         if(!request.newPassword().equals(request.newPassword1())) {
             throw new UserUpdateNotSamePasswordException(user.getId());
         }
-        if(!request.newPassword().equals(user.getPassword()))
-        {
+        if (encoder.matches(request.newPassword(), user.getPassword())) {
             throw new UserUpdateSamePasswordException();
         }
         user.setPassword(encoder.encode(request.newPassword()));
