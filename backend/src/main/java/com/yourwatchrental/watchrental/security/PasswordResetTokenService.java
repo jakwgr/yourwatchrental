@@ -130,10 +130,10 @@ public class PasswordResetTokenService {
                 StandardCharsets.UTF_8
         );
 
-        // emailService.sendPasswordResetEmail(
-        //         user.getEmail(),
-        //         resetUrl
-        // );
+         emailService.sendPasswordResetEmail(
+                 user.getEmail(),
+                 resetUrl
+         );
     }
 
     public void resetPassword(UserPasswordResetRequest request) {

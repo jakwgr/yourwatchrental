@@ -120,17 +120,10 @@ export const routes: Routes = [
         path: 'watches',
         component: Watches
       },
-
       {
         path: 'watches/create',
         component: WatchCreate
       },
-
-      {
-        path: 'watches/:id',
-        component: WatchDetails
-      }
-
     ]
   },
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, input, Output, signal } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { FormBuilder, FormControl, Validators, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -53,12 +53,14 @@ export class ProfileView {
     this.emailError.set('');
     this.showChangeEmailModal.set(true);
     document.body.style.overflow = 'hidden';
+    history.pushState({ modal: true }, '', window.location.href);
   }
 
   closeChangeEmailModal() {
     this.emailError.set('');
     this.showChangeEmailModal.set(false);
     document.body.style.overflow = '';
+    history.back();
   }
   formatPhoneNumber(phone: string): string {
     return `+48 ${phone.slice(0, 3)}-${phone.slice(3, 6)}-${phone.slice(6, 9)}`;
@@ -86,12 +88,14 @@ export class ProfileView {
     this.passwordError.set('');
     document.body.style.overflow = 'hidden';
     this.showChangePasswordModal.set(true);
+    history.pushState({ modal: true }, '', window.location.href);
   }
 
   closeChangePasswordModal() {
     this.passwordError.set('');
     document.body.style.overflow = '';
     this.showChangePasswordModal.set(false);
+    history.back();
   }
 
   savePassword(request: UserPasswordUpdateRequestDTO) {
@@ -117,12 +121,14 @@ export class ProfileView {
     this.informationError.set('');
     document.body.style.overflow = 'hidden';
     this.showUpdateInformationModal.set(true);
+    history.pushState({ modal: true }, '', window.location.href);
   }
 
   closeUpdateInformationModal() {
     this.informationError.set('');
     document.body.style.overflow = '';
     this.showUpdateInformationModal.set(false);
+    history.back();
   }
 
   updateInformation(request: UserInformationUpdateRequestDTO) {
@@ -148,12 +154,14 @@ export class ProfileView {
     document.body.style.overflow = 'hidden';
     this.softDeleteError.set('');
     this.showSoftDeleteAccountModal.set(true);
+    history.pushState({ modal: true }, '', window.location.href);
   }
 
   closeSoftDeleteInformationModal() {
     document.body.style.overflow = '';
     this.softDeleteError.set('');
     this.showSoftDeleteAccountModal.set(false);
+    history.back();
   }
 
   softDelete(request: UserSoftDeleteRequestDTO) {
@@ -171,4 +179,35 @@ export class ProfileView {
       }
     });
   }
+
+  @HostListener('window:popstate')
+onPopState() {
+  if (this.showChangeEmailModal()) {
+    this.emailError.set('');
+    this.showChangeEmailModal.set(false);
+    document.body.style.overflow = '';
+    return;
+  }
+
+  if (this.showChangePasswordModal()) {
+    this.passwordError.set('');
+    this.showChangePasswordModal.set(false);
+    document.body.style.overflow = '';
+    return;
+  }
+
+  if (this.showUpdateInformationModal()) {
+    this.informationError.set('');
+    this.showUpdateInformationModal.set(false);
+    document.body.style.overflow = '';
+    return;
+  }
+
+  if (this.showSoftDeleteAccountModal()) {
+    this.softDeleteError.set('');
+    this.showSoftDeleteAccountModal.set(false);
+    document.body.style.overflow = '';
+    return;
+  }
+}
 }

@@ -72,8 +72,7 @@ public class RentalService {
 
 
     @Transactional
-    public RentalResponseDTO createRental(RentalRequestDTO request)
-    {
+    public RentalResponseDTO createRental(RentalRequestDTO request) {
         Watch watch = watchRepository.findByIdWithLock(request.watchId())
                 .orElseThrow(() -> new WatchNotFoundException(request.watchId()));
 
@@ -83,26 +82,21 @@ public class RentalService {
         User user = userRepository.findById(securityUtil.getCurrentUserId())
                 .orElseThrow(() -> new UserNotFoundException(securityUtil.getCurrentUserId()));
 
-        if(watch.getStatus() == Status.UNAVAILABLE ||
+        if (watch.getStatus() == Status.UNAVAILABLE ||
                 watch.getStatus() == Status.DISABLED ||
-                watch.getStatus() == Status.IN_SERVICE)
-        {
+                watch.getStatus() == Status.IN_SERVICE) {
             throw new RentalWatchNotAvailableException();
         }
-        if(isWatchRented(request.watchId(), request.startDate(), request.endDate()))
-        {
+        if (isWatchRented(request.watchId(), request.startDate(), request.endDate())) {
             throw new RentalWatchNotAvailableException();
         }
-        if(request.startDate().isAfter(request.endDate()))
-        {
+        if (request.startDate().isAfter(request.endDate())) {
             throw new RentalBadDateRangeException(null);
         }
-        if(!request.startDate().isAfter(LocalDate.now()))
-        {
+        if (!request.startDate().isAfter(LocalDate.now())) {
             throw new RentalBadDateRangeException(null);
         }
-        if(request.endDate().isAfter(request.startDate().plusDays(20)))
-        {
+        if (request.endDate().isAfter(request.startDate().plusDays(20))) {
             throw new RentalBadDateRangeException(null);
         }
 
@@ -112,13 +106,10 @@ public class RentalService {
         PaymentStatus status;
         RentalStatus rentalStatus;
 
-        if(request.paymentMethod() == PaymentMethod.CASH)
-        {
+        if (request.paymentMethod() == PaymentMethod.CASH) {
             status = PaymentStatus.ON_SPOT;
             rentalStatus = RentalStatus.CONFIRMED;
-        }
-        else
-        {
+        } else {
             status = PaymentStatus.PENDING;
             rentalStatus = RentalStatus.PENDING;
         }
@@ -137,7 +128,9 @@ public class RentalService {
 
         RentalResponseDTO response = rentalMapper.toResponseDTO(rentalRepository.save(rental));
 
-//        emailService.sendEmail("yourwatchrental@interia.pl", response);
+        emailService.sendEmail("yourwatchrental@interia.pl", response);
+        emailService.sendRentalConfirmationEmail(user.getEmail(), response);
+
         return response;
     }
 

@@ -1,5 +1,6 @@
 package com.yourwatchrental.watchrental.user;
 
+import com.yourwatchrental.watchrental.email.EmailService;
 import com.yourwatchrental.watchrental.security.JwUtil;
 import com.yourwatchrental.watchrental.security.SecurityUtil;
 import com.yourwatchrental.watchrental.user.dto.request.UserInformationUpdateRequestDTO;
@@ -45,6 +46,8 @@ public class UserServiceTest {
     private SecurityUtil securityUtil;
     @InjectMocks
     private UserService userService;
+    @Mock
+    private EmailService emailService;
 
     UserRequestDTO requestDTO = new UserRequestDTO(
             "Jan",

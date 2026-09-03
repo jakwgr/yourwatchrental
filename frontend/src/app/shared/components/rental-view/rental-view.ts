@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, HostListener, inject, input, output, signal } from '@angular/core';
 import { RentalResponseDTO } from '../../../core/models/rentals/rental-response.dto';
 import { PaymentStatus } from '../../../core/models/rentals/payment-status';
 import { RentalStatus } from '../../../core/models/rentals/rental-status';
@@ -64,11 +64,20 @@ export class RentalView {
 
   openRentalModal() {
     this.rentalViewModal.set(true);
+    history.pushState({ modal: true }, '', window.location.href);
   }
 
 
   closeRentalModal() {
     this.rentalViewModal.set(false);
+    history.back();
   }
 
+  @HostListener('window:popstate')
+onPopState() {
+  if (this.rentalViewModal()) {
+    this.rentalViewModal.set(false);
+    return;
+  }
+}
 }

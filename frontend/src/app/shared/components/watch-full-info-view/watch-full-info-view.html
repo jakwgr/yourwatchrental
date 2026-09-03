@@ -1,7 +1,7 @@
 <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center p-3"
-    style="background-color: rgba(0, 0, 0, 0.6); z-index: 1050; backdrop-filter: blur(3px); overflow: hidden;">
+    style="background-color: rgba(0, 0, 0, 0.6); z-index: 1050; backdrop-filter: blur(3px);" >
     <div class="bg-white shadow-lg p-4 p-md-5 rounded-0 position-relative w-100"
-        style="max-width: 1050px; max-height: 90vh; overflow-y: auto;">
+        style="max-width: 1050px; max-height: 90vh; overflow-y: auto;" id="overflow">
         <button type="button" class="btn-close position-absolute top-0 end-0 m-4 shadow-none" aria-label="Close"
             (click)="closeModal()">
         </button>
@@ -77,14 +77,32 @@
                         Description
                     </span>
                     @if(this.saveType != null && this.saveType === 1)
-                    {
-                    <input type="text"
-                        class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold justify"
-                        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
-                        formControlName="description">
-                    } @else {
-                    <span class="text-dark">{{ watch.description }}</span>
-                    }
+{
+    <input
+        type="text"
+        class="form-control text-dark shadow-none py-1 px-2 border-0 rounded-0 border-bottom fw-semibold justify"
+        style="background-color: rgba(0, 0, 0, 0.03); border-color: #adb5bd !important;"
+        formControlName="description">
+}
+@else {
+    <div>
+        <div
+            class="text-dark description-text"
+            [class.description-collapsed]="!showFullDescription()">
+            {{ watch.description }}
+        </div>
+
+        @if (watch.description && watch.description.length > 150) {
+            <button
+                type="button"
+                class="btn btn-link p-0 mt-1 shadow-none fw-semibold text-decoration-none"
+                style="color: #d4af37;"
+                (click)="showFullDescription.set(!showFullDescription())">
+                {{ showFullDescription() ? 'Show less' : 'Show more' }}
+            </button>
+        }
+    </div>
+}
                 </div>
                 <div class="row">
                     <div class="col-6 mb-3">
@@ -372,8 +390,7 @@
                     <button type="button"
                         class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none w-100"
                         style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                        [class.disabledButton]="buttonVanish" [routerLink]="['/rentals', watchFullInfo()?.id]"
-                        [queryParams]="{ watch: 'true' }">
+                        [class.disabledButton]="buttonVanish" (click)="goToRentals()">
                         View Rentals
                     </button>
 
@@ -397,12 +414,11 @@
                 @else {
                 <button type="button" class="btn text-uppercase fw-semibold py-2 text-white rounded-0 shadow-none w-100"
                     style="background-color: #1a1a1a; letter-spacing: 0.1em; font-size: 0.70rem;"
-                    [routerLink]="['/login']">
+                    (click)="goToLogin()">
                     Log in to Rent
                 </button>
                 }
 
-                <!-- Red close button at the bottom -->
                 <button type="button" class="btn btn-danger btn-sm rounded-0 w-100 mt-2 shadow-none"
                     [class.disabledButton]="buttonVanish" (click)="closeModal()">
                     Close

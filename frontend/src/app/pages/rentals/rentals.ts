@@ -148,28 +148,37 @@ export class Rentals {
   paymentMethodLabel =
     PaymentMethodLabel;
 
-  showAllRentals() {
+ showAllRentals() {
 
-    this.showAll.set(true);
+  this.showAll.set(true);
+  this.currentPage.set(0);
 
-    this.currentPage.set(0);
+  this.rentalFilterForm.reset({
+    rentalStatus: null,
+    paymentStatus: null,
+    paymentMethod: null,
+    userId: null,
+    watchId: null,
+    branchId: null,
+    startDateFrom: '',
+    startDateTo: '',
+    endDateFrom: '',
+    endDateTo: ''
+  });
 
+  this.advancedFilters.set(false);
 
-    this.router.navigate([], {
+  this.router.navigate(['/rentals'], {
 
-      relativeTo: this.route,
+    queryParams: {
+      all: 'true',
+      sort: this.sort(),
+      page: 0
+    }
 
-      queryParams: {
-        all: 'true',
-        sort: this.sort(),
-        page: 0
-      },
+  });
 
-      queryParamsHandling: 'merge'
-
-    });
-
-  }
+}
 
   reloadRental() {
 
@@ -869,7 +878,6 @@ export class Rentals {
 
       queryParams['watch'] =
         'true';
-
     }
 
     if (this.isRentalId()) {

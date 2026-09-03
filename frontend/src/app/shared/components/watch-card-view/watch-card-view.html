@@ -1,4 +1,4 @@
-<div class="card border-0 shadow-sm h-100 overflow-hidden bg-white rounded-0 transition-all">
+<div class="card border-0 shadow-sm h-100 overflow-hidden bg-white rounded-0 transition-all" (click)="openFullInfoModal()" style="cursor: pointer;">
     <div class="position-relative bg-white p-4 text-center border-bottom border-light overflow-hidden">
 
         @if (watchPhoto()) {
@@ -56,6 +56,7 @@
     [watch]="watch()"
     (close)="closeFullInfoModal()"
     (watchUpdated)="onWatchUpdated()"
-    [editWatchPhotos]="editWatchPhotos()">
+    [editWatchPhotos]="editWatchPhotos()"
+    style="overflow: hidden;">
 </app-watch-full-info-view>
 }

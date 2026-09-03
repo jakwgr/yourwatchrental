@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output, Query, signal } from '@angular/core';
+import { Component, effect, HostListener, inject, input, output, signal } from '@angular/core';
 import { WatchCardResponseDTO } from '../../../core/models/watches/watch-card-response.dto';
 import { WatchesService } from '../../../core/services/watches/watches-service';
 import { ProfileService } from '../../../core/services/profile/profile-service';
@@ -18,16 +18,23 @@ import { WatchStatusUpdateRequestDTO } from '../../../core/models/watches/watch-
 import { WatchBranchUpdateRequestDTO } from '../../../core/models/watches/watch-branch-update-request.dto';
 import { WatchSerialNumberUpdateRequestDTO } from '../../../core/models/watches/watch-serial-number-update-request.dto';
 import { WatchPhotosView } from '../watch-photos-view/watch-photos-view';
-import { routes } from '../../../app.routes';
-import { Router, RouterLink, RouterState } from '@angular/router';
-import { inputIcon } from '@primeuix/themes/aura/datepicker';
+import { Router, RouterLink } from '@angular/router';
 import { FormError } from '../form-error/form-error';
 import { SmallErrorView } from '../small-error-view/small-error-view';
 import { WatchPhotoZoomComponent } from '../watch-photo-zoom-component/watch-photo-zoom-component';
 
 @Component({
   selector: 'app-watch-full-info-view',
-  imports: [FormsModule, WatchCalendar, ReactiveFormsModule, WatchPhotosView, RouterLink, FormError, SmallErrorView, WatchPhotoZoomComponent],
+  imports: [
+    FormsModule,
+    WatchCalendar,
+    ReactiveFormsModule,
+    WatchPhotosView,
+    RouterLink,
+    FormError,
+    SmallErrorView,
+    WatchPhotoZoomComponent
+  ],
   templateUrl: './watch-full-info-view.html',
   styleUrl: './watch-full-info-view.css',
 })
@@ -36,23 +43,20 @@ export class WatchFullInfoView {
   private branchesService = inject(BranchesService);
   private router = inject(Router);
 
-
   watch = input.required<WatchCardResponseDTO>();
   editWatchPhotos = input.required<boolean>();
 
   branchOptions = signal<BranchResponseDTO[]>([]);
-watchesError = signal<string | null>(null);
+  watchesError = signal<string | null>(null);
 
   private watchesService = inject(WatchesService);
   private profileService = inject(ProfileService);
-  public isLogged: boolean = false;
 
-  
-  date: Date | null = null;
+  public isLogged: boolean = false;
 
   profile = signal<UserResponseDTO | null>(null);
   watchFullInfo = signal<WatchFullInfoResponseDTO | null>(null);
-selectedPhotoIndex = signal(0);
+  selectedPhotoIndex = signal(0);
 
   close = output<null>();
   watchUpdated = output<void>();
@@ -62,7 +66,7 @@ selectedPhotoIndex = signal(0);
 
   movementTypeOptions = Object.values(WatchMovementType);
   movementTypeLabels = WatchMovementTypeLabel;
-  
+
   statusOptions = Object.values(WatchStatus);
   statusLabels = WatchStatusLabel;
 
@@ -78,65 +82,71 @@ selectedPhotoIndex = signal(0);
   buttonVanish: boolean = false;
   saveType?: number | null = null;
 
+  showPhotoZoom = signal(false);
+  showPhotosModal = signal(false);
+  showFullModal = signal(false);
+
   watchUpdate = this.fb.group({
-  manufacturer: ['', [
-    Validators.required
-  ]],
+    manufacturer: ['', [
+      Validators.required
+    ]],
 
-  model: ['', [
-    Validators.required
-  ]],
+    model: ['', [
+      Validators.required
+    ]],
 
-  referenceNumber: ['', [
-    Validators.required
-  ]],
+    referenceNumber: ['', [
+      Validators.required
+    ]],
 
-  movement: ['', [
-    Validators.required
-  ]],
+    movement: ['', [
+      Validators.required
+    ]],
 
-  description: [''],
+    description: [''],
 
-  yearOfProduction: [null as number | null, [
-    Validators.required,
-    Validators.min(0),
-    Validators.max(new Date().getFullYear())
-  ]],
+    yearOfProduction: [null as number | null, [
+      Validators.required,
+      Validators.min(0),
+      Validators.max(new Date().getFullYear())
+    ]],
 
-  pricePerDay: [null as number | null, [
-    Validators.required,
-    Validators.min(0)
-  ]],
+    pricePerDay: [null as number | null, [
+      Validators.required,
+      Validators.min(0)
+    ]],
 
-  condition: [null as WatchCondition | null, [
-    Validators.required
-  ]],
+    condition: [null as WatchCondition | null, [
+      Validators.required
+    ]],
 
-  gender: [null as WatchGender | null, [
-    Validators.required
-  ]],
+    gender: [null as WatchGender | null, [
+      Validators.required
+    ]],
 
-  movementType: [null as WatchMovementType | null, [
-    Validators.required
-  ]],
+    movementType: [null as WatchMovementType | null, [
+      Validators.required
+    ]],
 
-  watchType: [null as WatchType | null, [
-    Validators.required
-  ]],
+    watchType: [null as WatchType | null, [
+      Validators.required
+    ]],
 
-  status: [null as WatchStatus | null, [
-    Validators.required
-  ]],
+    status: [null as WatchStatus | null, [
+      Validators.required
+    ]],
 
-  branchId: ['', [
-    Validators.required
-  ]],
+    branchId: ['', [
+      Validators.required
+    ]],
 
-  serialNumber: ['', [
-    Validators.required
-  ]]
-});
-  
+    serialNumber: ['', [
+      Validators.required
+    ]]
+  });
+
+  showFullDescription = signal(false);
+
   constructor() {
     effect(() => {
       const watch = this.watchFullInfo();
@@ -153,35 +163,26 @@ selectedPhotoIndex = signal(0);
         gender: watch?.gender,
         movementType: watch?.movementType,
         watchType: watch?.watchType,
-
         status: watch?.status,
-
         branchId: watch?.branch.id,
-
         serialNumber: watch?.serialNumber
       });
-    })
-  };
+    });
+  }
+ngOnDestroy() {
+  document.documentElement.style.overflow = '';
 
-showPhotoZoom = signal(false);
-
-openPhotoZoom() {
-  this.showPhotoZoom.set(true);
 }
-
-closePhotoZoom() {
-  this.showPhotoZoom.set(false);
-}
-
   ngOnInit() {
+    document.documentElement.style.overflow = 'hidden';
+    history.pushState({ modal: true }, '', window.location.href);
 
-    document.body.style.overflow = 'hidden';
     this.profileService.getMyProfile().subscribe({
       next: response => {
         this.profile.set(response);
         this.isLogged = true;
       },
-      error: erorr => {
+      error: () => {
         this.isLogged = false;
       }
     });
@@ -192,166 +193,210 @@ closePhotoZoom() {
 
     this.watchesService.getWatch(this.watch().id).subscribe({
       next: response => {
-        this.watchFullInfo.set(response)
-      },
-      error: error => {
+        this.watchFullInfo.set(response);
       }
-    })
+    });
 
-    if(this.editWatchPhotos() != undefined && this.editWatchPhotos() === true)
-    {
-        this.openPhotosModal();
+    if (this.editWatchPhotos() === true) {
+      this.openPhotosModal();
     }
   }
 
-  ngOnDestroy() {
-  document.body.style.overflow = '';
-}
+  openPhotoZoom() {
+    this.showPhotoZoom.set(true);
+    history.pushState({ modal: true }, '', window.location.href);
+  }
+
+  closePhotoZoom() {
+    history.back();
+  }
+
+  openPhotosModal() {
+    this.showPhotosModal.set(true);
+    history.pushState({ modal: true }, '', window.location.href);
+  }
+
+  closePhotosModal() {
+    history.back();
+  }
 
   updateInformation() {
     this.changeInfomationAdmin.set(true);
     this.buttonVanish = true;
     this.saveType = 1;
   }
+
   updateStatus() {
     this.changeInfomationAdmin.set(true);
     this.buttonVanish = true;
     this.saveType = 2;
   }
+
   updateBranch() {
     this.changeInfomationAdmin.set(true);
     this.buttonVanish = true;
     this.saveType = 3;
   }
+
   updateSerialNumber() {
     this.changeInfomationAdmin.set(true);
     this.buttonVanish = true;
     this.saveType = 4;
   }
+
   cancel() {
     this.changeInfomationAdmin.set(false);
     this.saveType = null;
     this.buttonVanish = false;
-  this.watchesError.set(null);
-
+    this.watchesError.set(null);
   }
 
-  watchReload(id:string)
-  {
+  watchReload(id: string) {
     this.watchesService.getWatch(id).subscribe({
-    next: response => {
-    this.watchFullInfo.set(response);
-  }
-});
+      next: response => {
+        this.watchFullInfo.set(response);
+      }
+    });
   }
 
   save(id: string) {
-  this.watchesError.set(null);
+    this.watchesError.set(null);
 
-  const value = this.watchUpdate.getRawValue();
+    const value = this.watchUpdate.getRawValue();
 
-  if (this.saveType == null) {
-    return;
+    if (this.saveType == null) {
+      return;
+    }
+
+    if (this.saveType === 1) {
+      const request: WatchUpdateRequestDTO = {
+        manufacturer: value.manufacturer!,
+        model: value.model!,
+        referenceNumber: value.referenceNumber!,
+        movement: value.movement!,
+        description: value.description!,
+        yearOfProduction: value.yearOfProduction!,
+        pricePerDay: value.pricePerDay!,
+        condition: value.condition!,
+        gender: value.gender!,
+        movementType: value.movementType!,
+        watchType: value.watchType!
+      };
+
+      this.watchesService.updateWatch(id, request).subscribe({
+        next: () => {
+          this.watchUpdated.emit();
+          this.cancel();
+          this.watchReload(id);
+        },
+        error: err => {
+          const error = JSON.parse(err.error);
+          this.watchesError.set(error.message);
+        }
+      });
+    }
+
+    if (this.saveType === 2) {
+      const request: WatchStatusUpdateRequestDTO = {
+        status: value.status!
+      };
+
+      this.watchesService.updateWatchStatus(id, request).subscribe({
+        next: () => {
+          this.watchUpdated.emit();
+          this.cancel();
+          this.watchReload(id);
+        },
+        error: err => {
+          const error = JSON.parse(err.error);
+          this.watchesError.set(error.message);
+        }
+      });
+    }
+
+    if (this.saveType === 3) {
+      const request: WatchBranchUpdateRequestDTO = {
+        branchId: value.branchId!
+      };
+
+      this.watchesService.updateWatchBranch(id, request).subscribe({
+        next: () => {
+          this.watchUpdated.emit();
+          this.cancel();
+          this.watchReload(id);
+        },
+        error: err => {
+          const error = JSON.parse(err.error);
+          this.watchesError.set(error.message);
+        }
+      });
+    }
+
+    if (this.saveType === 4) {
+      const request: WatchSerialNumberUpdateRequestDTO = {
+        serialNumber: value.serialNumber!
+      };
+
+      this.watchesService.updateWatchSerialNumber(id, request).subscribe({
+        next: () => {
+          this.watchUpdated.emit();
+          this.cancel();
+          this.watchReload(id);
+        },
+        error: err => {
+          this.watchesError.set(err.error.message);
+        }
+      });
+    }
   }
 
-  else if (this.saveType == 1) {
-    const request: WatchUpdateRequestDTO = {
-      manufacturer: value.manufacturer!,
-      model: value.model!,
-      referenceNumber: value.referenceNumber!,
-      movement: value.movement!,
-      description: value.description!,
-      yearOfProduction: value.yearOfProduction!,
-      pricePerDay: value.pricePerDay!,
-      condition: value.condition!,
-      gender: value.gender!,
-      movementType: value.movementType!,
-      watchType: value.watchType!
-    };
+goToRentals() {
+    this.router.navigate(
+        ['/rentals', this.watchFullInfo()?.id],
+        {
+            queryParams: { watch: 'true' },
+            replaceUrl: true
+        }
+    );
+}
 
-    this.watchesService.updateWatch(id, request).subscribe({
-      next: response => {
-        this.watchUpdated.emit();
-        this.cancel();
-        this.watchReload(id);
-      },
-      error: err => {
-        const error = JSON.parse(err.error);
-        this.watchesError.set(error.message);
-      }
-    });
-  }
 
-  else if (this.saveType == 2) {
-    const request: WatchStatusUpdateRequestDTO = {
-      status: value.status!
-    };
-
-    this.watchesService.updateWatchStatus(id, request).subscribe({
-      next: response => {
-        this.watchUpdated.emit();
-        this.cancel();
-        this.watchReload(id);
-      },
-      error: err => {
-        const error = JSON.parse(err.error);
-        this.watchesError.set(error.message);
-      }
-    });
-  }
-
-  else if (this.saveType == 3) {
-    const request: WatchBranchUpdateRequestDTO = {
-      branchId: value.branchId!
-    };
-
-    this.watchesService.updateWatchBranch(id, request).subscribe({
-      next: response => {
-        this.watchUpdated.emit();
-        this.cancel();
-        this.watchReload(id);
-      },
-      error: err => {
-        const error = JSON.parse(err.error);
-        this.watchesError.set(error.message);
-      }
-    });
-  }
-
-  else if (this.saveType == 4) {
-    const request: WatchSerialNumberUpdateRequestDTO = {
-      serialNumber: value.serialNumber!
-    };
-
-    this.watchesService.updateWatchSerialNumber(id, request).subscribe({
-      next: response => {
-        this.watchUpdated.emit();
-        this.cancel();
-        this.watchReload(id);
-      },
-      error: err => {
-        this.watchesError.set(err.error.message);
-      }
-    });
-  }
+goToLogin() {
+  this.router.navigate(['/login'], {
+    replaceUrl: true
+  });
 }
 
   closeModal() {
+    history.back();
     this.close.emit(null);
+    this.showFullModal.set(true);
   }
 
-  showPhotosModal = signal(false);
+  newRental() {
+    // history.back();
 
-  openPhotosModal() {
-    this.showPhotosModal.set(true);
-  }
+    this.router.navigate(['/rentals/create', this.watch().id], {
+        replaceUrl: true
+    });
+}
 
-  closePhotosModal() {
-    this.showPhotosModal.set(false);
-  }
 
-  newRental()
-  {
-    this.router.navigate(['/rentals/create', this.watch().id]);
-  }
+  
+  @HostListener('window:popstate')
+onPopState() {
+    if (this.showPhotoZoom()) {
+        this.showPhotoZoom.set(false);
+        return;
+    }
+    else if (this.showPhotosModal()) {
+        this.showPhotosModal.set(false);
+        return;
+    } else 
+    {
+      this.close.emit(null);
+    }
+    
+}
+
 }

@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output, signal } from '@angular/core';
+import { Component, effect, HostListener, inject, input, output, signal } from '@angular/core';
 import { WatchCardResponseDTO } from '../../../core/models/watches/watch-card-response.dto';
 import { WatchFullInfoView } from '../watch-full-info-view/watch-full-info-view';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -60,8 +60,17 @@ editWatchPhotos = input<boolean>(false);
   showFullInfoModal = signal(false);
   closeFullInfoModal() {
     this.showFullInfoModal.set(false);
+    document.body.style.overflow = '';
   }
   openFullInfoModal() {
     this.showFullInfoModal.set(true);
-  }
+    document.body.style.overflow = 'hidden';
+}
+// @HostListener('window:popstate', ['$event'])
+// onPopState(event: PopStateEvent) {
+//     if (this.showFullInfoModal()) {
+//         this.showFullInfoModal.set(false);
+//         return;
+//     }
+// }
 }

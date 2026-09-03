@@ -11,13 +11,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
 
-    provideRouter(
-      routes,
-      withInMemoryScrolling({
-        scrollPositionRestoration: 'top',
-        anchorScrolling: 'enabled'
-      })
-    ),
+    provideRouter(routes),
 
     provideHttpClient(
       withInterceptors([authInterceptor, httpErrorInterceptor])

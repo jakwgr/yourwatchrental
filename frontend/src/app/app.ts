@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
-import { NavigationError, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, NavigationError, Router, RouterOutlet } from '@angular/router';
 import { Navbar } from './shared/components/navbar-view/navbar-view';
 import { FooterView } from './shared/components/footer-view/footer-view';
 import { WelcomeCookie } from './shared/components/welcome-cookie/welcome-cookie';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,18 @@ constructor() {
       ]);
 
     }
+
+      this.router.events
+    .pipe(
+      filter(event => event instanceof NavigationEnd)
+    )
+    .subscribe(() => {
+
+      if (history.state?.modal) {
+        return;
+      }
+      window.scrollTo(0, 0);
+    });
 
   });
 }

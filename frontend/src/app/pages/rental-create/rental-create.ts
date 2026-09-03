@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, HostListener, inject, output, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WatchesService } from '../../core/services/watches/watches-service';
 import { WatchFullInfoResponseDTO } from '../../core/models/watches/watch-full-info-response.dto';
@@ -13,30 +13,36 @@ import { RentalRequestDTO } from '../../core/models/rentals/rental-request.dto';
 import { SmallErrorView } from '../../shared/components/small-error-view/small-error-view';
 import { PortfolioProjectAlert1 } from '../../shared/components/portfolio-project-alert-1/portfolio-project-alert-1';
 
-// import {}
-
 @Component({
   selector: 'app-rental-create',
-  imports: [WatchCalendar,
+  imports: [
+    WatchCalendar,
     ReactiveFormsModule,
-    DatePipe, SmallErrorView, PortfolioProjectAlert1],
+    DatePipe,
+    SmallErrorView,
+    PortfolioProjectAlert1
+  ],
   providers: [DatePipe],
   templateUrl: './rental-create.html',
   styleUrl: './rental-create.css',
 })
 export class RentalCreate {
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private watchesService = inject(WatchesService);
   private fb = inject(FormBuilder);
   private rentalsService = inject(RentalsService);
   private datePipe = inject(DatePipe);
+
+  isCreatingRental = signal(false);
   rentalError = signal<string | null>(null);
   fullPrice = signal<number>(-1);
 
   paymentMethodOptions = Object.values(PaymentMethod);
 
   watchInfo = signal<WatchFullInfoResponseDTO | null>(null);
+
   isDatePicker: any;
 
   datePickerStartDate = signal<Date | null>(null);
@@ -58,19 +64,24 @@ export class RentalCreate {
   }
 
   reloadSummary(type: boolean) {
-    if (type === false) { this.closeRentalModal(); }
+    if (type === false) {
+      this.closeRentalModal();
+    }
   }
+
   closeRentalError() {
     this.rentalError.set(null);
   }
+
   getWatchInfo() {
     const watch = this.route.snapshot.paramMap.get('id');
+
     if (watch != null) {
       this.watchesService.getWatch(watch).subscribe(
         response => {
           this.watchInfo.set(response);
         }
-      )
+      );
     }
     else {
       this.router.navigate(['/']);
@@ -115,22 +126,37 @@ export class RentalCreate {
     }
 
     this.showRentalModal.set(true);
+
+    history.pushState(
+      { rentalModal: true },
+      '',
+      window.location.href
+    );
   }
 
   closeRentalModal() {
     this.showRentalModal.set(false);
   }
 
+  @HostListener('window:popstate')
+  onPopState() {
+    if (this.showRentalModal()) {
+      this.showRentalModal.set(false);
+    }
+  }
+
   rentalForm = this.fb.group({
-    paymentMethod: [PaymentMethod.CASH, Validators.required]
-  })
+    paymentMethod: [
+      PaymentMethod.CASH,
+      Validators.required
+    ]
+  });
 
   ngOnInit() {
     this.getWatchInfo();
   }
 
   createRental() {
-
     if (
       this.rentalForm.invalid ||
       this.datePickerStartDate() === null ||
@@ -140,6 +166,8 @@ export class RentalCreate {
       return;
     }
 
+    this.isCreatingRental.set(true);
+
     const value = this.rentalForm.getRawValue();
 
     const rentalRequest: RentalRequestDTO = {
@@ -147,37 +175,44 @@ export class RentalCreate {
         this.datePickerStartDate(),
         'yyyy-MM-dd'
       )!,
+
       endDate: this.datePipe.transform(
         this.datePickerEndDate(),
         'yyyy-MM-dd'
       )!,
+
       paymentMethod: value.paymentMethod!,
       watchId: this.watchInfo()!.id
     };
 
     this.rentalsService.createRental(rentalRequest).subscribe({
+
       next: response => {
         this.router.navigate(['/rentals'], {
           queryParams: {
             isRentalId: 'true',
             rentalId: response.id
           }
-        }
-        );
+        });
       },
 
       error: err => {
+
+        this.isCreatingRental.set(false);
+
         this.closeRentalModal();
 
         let message = 'Nie udało się utworzyć wypożyczenia.';
 
         if (err.error?.message) {
           message = err.error.message;
-        } else if (typeof err.error === 'string') {
+        }
+        else if (typeof err.error === 'string') {
           try {
             const error = JSON.parse(err.error);
             message = error.message ?? message;
-          } catch {
+          }
+          catch {
             message = err.error;
           }
         }
@@ -190,7 +225,7 @@ export class RentalCreate {
         this.datePickerEndDate.set(null);
         this.amoutOfDays.set(0);
         this.fullPrice.set(-1);
-        
+
         this.rentalError.set(message);
       }
     });

@@ -1,4 +1,5 @@
-<div class="slider-container position-relative overflow-hidden" style="height: calc(100vh - 98px);">
+<div class="slider-container position-relative overflow-hidden w-100" style="height: calc(100vh - 98px);"
+    (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd($event)">
 
     <div class="slider-track d-flex h-100" [style.transform]="'translateX(-' + (currentIndex() * 33.333333) + '%)'">
 
@@ -15,19 +16,19 @@
 
                     <div class="col-12 col-lg-7">
 
-                        <div class="text-uppercase fw-semibold mb-3">
+                        <div class="text-uppercase fw-semibold mb-2 small">
                             {{ slide.eyebrow }}
                         </div>
 
-                        <h1 class="display-2 fw-bold mb-4">
+                        <h1 class="display-4 display-lg-2 fw-bold mb-3">
                             {{ slide.title }}
                         </h1>
 
-                        <p class="fs-5 mb-4">
+                        <p class="fs-6 fs-lg-5 mb-4 text-truncate-mobile">
                             {{ slide.description }}
                         </p>
 
-                        <a [routerLink]="slide.buttonLink" class="btn btn-light btn-lg px-4">
+                        <a [routerLink]="slide.buttonLink" class="btn btn-light btn-md btn-lg-lg px-4">
                             {{ slide.buttonText }}
                         </a>
 
@@ -43,7 +44,14 @@
 
     </div>
 
-    <div class="position-absolute bottom-0 start-50 translate-middle-x
+    <div class="position-absolute start-50 translate-middle-x d-flex flex-column align-items-center" style="bottom: 60px; z-index: 10; pointer-events: none;">
+        <span class="text-uppercase tracking-widest text-light opacity-75 mb-1" style="font-size: 0.55rem; letter-spacing: 0.15em;">
+            Scroll
+        </span>
+        <div class="css-arrow-down"></div>
+    </div>
+
+    <!-- <div class="position-absolute bottom-0 start-50 translate-middle-x
                d-flex gap-3 mb-4" style="z-index: 10;">
 
         @for (slide of slides; track $index) {
@@ -54,7 +62,7 @@
 
         }
 
-    </div>
+    </div> -->
 
 </div>
 <section class="py-5 bg-white text-center border-bottom border-light">
@@ -178,156 +186,160 @@
         </div>
     </div>
 
-<section class="position-relative py-5 overflow-hidden text-center text-light bg-dark"
-    style="min-height: 400px; background-image: url('TUTAJ_WKLEJ_LINK_DO_ZDJECIA'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <section class="position-relative py-5 overflow-hidden text-center text-light bg-dark"
+        style="min-height: 400px; background-image: url('TUTAJ_WKLEJ_LINK_DO_ZDJECIA'); background-size: cover; background-position: center; background-attachment: fixed;">
 
-    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-60"></div>
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-60"></div>
 
-    <div class="container position-relative py-5 d-flex flex-column align-items-center justify-content-center"
-        style="z-index: 2; min-height: 300px;">
-        <span class="text-uppercase tracking-widest small fw-bold mb-2" style="color: #bfa130; letter-spacing: 3px;">
-            Time for Something Exceptional
-        </span>
+        <div class="container position-relative py-5 d-flex flex-column align-items-center justify-content-center"
+            style="z-index: 2; min-height: 300px;">
+            <span class="text-uppercase tracking-widest small fw-bold mb-2"
+                style="color: #bfa130; letter-spacing: 3px;">
+                Time for Something Exceptional
+            </span>
 
-        <h3 class="display-5 fw-light mb-4 font-serif" style="max-width: 700px;">
-            Your Next Watch Doesn't Have to Be Forever
-        </h3>
+            <h3 class="display-5 fw-light mb-4 font-serif" style="max-width: 700px;">
+                Your Next Watch Doesn't Have to Be Forever
+            </h3>
 
-        <p class="fs-6 fw-light mb-4 opacity-75" style="max-width: 550px;">
-            Discover exceptional timepieces available for rent and experience the luxury of wearing a watch that is
-            there
-            for you exactly when you need it.
-        </p>
+            <p class="fs-6 fw-light mb-4 opacity-75" style="max-width: 550px;">
+                Discover exceptional timepieces available for rent and experience the luxury of wearing a watch that is
+                there
+                for you exactly when you need it.
+            </p>
 
-        <a routerLink="/watches" class="btn btn-light rounded-0 text-uppercase py-3 px-5 fw-semibold transition-all"
-            style="letter-spacing: 0.15em; font-size: 0.75rem;">
-            Explore the Collection
-        </a>
-    </div>
-</section>
-
-<section class="py-5 bg-light border-top border-light">
-    <div class="container py-4">
-
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3">
-            <div>
-                <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
-                    style="color: #bfa130; letter-spacing: 2px;">
-                    COLLECTION
-                </span>
-                <h3 class="h4 fw-light text-dark mb-0 font-serif">
-                    Our watches
-                </h3>
-            </div>
-
-            <div class="d-flex flex-wrap gap-2">
-                <a type="button" class="btn btn-outline-dark rounded-0 btn-sm text-uppercase px-3"
-                    style="font-size: 0.7rem; letter-spacing: 1px;" routerLink="/watches">All</a>
-                <button type="button" class="btn btn-outline-dark rounded-0 btn-sm text-uppercase px-3"
-                    style="font-size: 0.7rem; letter-spacing: 1px;" [routerLink]="['/watches']"
-                    [queryParams]="{movementType: 'AUTOMATIC',page: 0}">Automatic</button>
-                <button type="button" class="btn btn-outline-dark rounded-0 btn-sm text-uppercase px-3"
-                    style="font-size: 0.7rem; letter-spacing: 1px;" [routerLink]="['/watches']"
-                    [queryParams]="{gender: 'MALE',page: 0}">Men's</button>
-            </div>
+            <a routerLink="/watches" class="btn btn-light rounded-0 text-uppercase py-3 px-5 fw-semibold transition-all"
+                style="letter-spacing: 0.15em; font-size: 0.75rem;">
+                Explore the Collection
+            </a>
         </div>
+    </section>
 
-        <div class="row g-4">
+    <section class="py-5 bg-light border-top border-light">
+        <div class="container py-4">
 
-            @for (watch of watches(); track watch.id) {
-            <div class="col-12 col-md-6 col-lg-4">
-                <app-watch-card [watch]="watch"></app-watch-card>
-            </div>
-            }
-
-        </div>
-
-    </div>
-</section>
-<section class="py-5 bg-white border-bottom border-light">
-    <div class="container py-4">
-        <div class="row align-items-stretch g-5">
-            <div class="col-12 col-lg-6 d-flex flex-column justify-content-center">
-                <span class="text-uppercase tracking-widest small fw-bold d-block mb-2"
-                    style="color: #bfa130; letter-spacing: 2px;">
-                    About Our Rental Service
-                </span>
-
-                <h3 class="h3 fw-light text-dark mb-4 font-serif">
-                    Luxury on Your Own Terms
-                </h3>
-
-                <p class="text-secondary fw-light leading-relaxed mb-4">
-                    We created a place for those who appreciate exceptional watches but do not want to be limited to a
-                    single
-                    timepiece. Our collection allows you to discover different watches and match them to every occasion,
-                    style, and
-                    important moment.
-                </p>
-
-                <p class="text-secondary fw-light leading-relaxed mb-4">
-                    Every watch in our collection is cared for with the utmost attention. Regular inspections,
-                    professional servicing,
-                    and thorough checks before every rental ensure that our timepieces remain in exceptional condition
-                    and are ready
-                    for their next story.
-                </p>
-
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3">
                 <div>
-                    <a routerLink="/watches" class="btn btn-outline-dark rounded-0 text-uppercase py-2 px-4"
-                        style="font-size: 0.7rem; letter-spacing: 1px;">
-                        Explore Our Collection
-                    </a>
+                    <span class="text-uppercase tracking-widest small fw-bold d-block mb-1"
+                        style="color: #bfa130; letter-spacing: 2px;">
+                        COLLECTION
+                    </span>
+                    <h3 class="h4 fw-light text-dark mb-0 font-serif">
+                        Our watches
+                    </h3>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a type="button" class="btn btn-outline-dark rounded-0 btn-sm text-uppercase px-3"
+                        style="font-size: 0.7rem; letter-spacing: 1px;" routerLink="/watches">All</a>
+                    <button type="button" class="btn btn-outline-dark rounded-0 btn-sm text-uppercase px-3"
+                        style="font-size: 0.7rem; letter-spacing: 1px;" [routerLink]="['/watches']"
+                        [queryParams]="{movementType: 'AUTOMATIC',page: 0}">Automatic</button>
+                    <button type="button" class="btn btn-outline-dark rounded-0 btn-sm text-uppercase px-3"
+                        style="font-size: 0.7rem; letter-spacing: 1px;" [routerLink]="['/watches']"
+                        [queryParams]="{gender: 'MALE',page: 0}">Men's</button>
                 </div>
             </div>
 
-            <div class="col-12 col-lg-6">
-                <div class="bg-light border border-light position-relative overflow-hidden h-100 min-vh-50">
-                    <div
-                        class="w-100 h-100 bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center text-muted small text-uppercase">
-                        <img src="\static_photos\photo_about_us.jpg" class="h-100 object-fit-cover"
-                            style="width: 100%;" />
+            <div class="row g-4">
+
+                @for (watch of watches(); track watch.id) {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <app-watch-card [watch]="watch"></app-watch-card>
+                </div>
+                }
+
+            </div>
+
+        </div>
+    </section>
+    <section class="py-5 bg-white border-bottom border-light">
+        <div class="container py-4">
+            <div class="row align-items-stretch g-5">
+                <div class="col-12 col-lg-6 d-flex flex-column justify-content-center">
+                    <span class="text-uppercase tracking-widest small fw-bold d-block mb-2"
+                        style="color: #bfa130; letter-spacing: 2px;">
+                        About Our Rental Service
+                    </span>
+
+                    <h3 class="h3 fw-light text-dark mb-4 font-serif">
+                        Luxury on Your Own Terms
+                    </h3>
+
+                    <p class="text-secondary fw-light leading-relaxed mb-4">
+                        We created a place for those who appreciate exceptional watches but do not want to be limited to
+                        a
+                        single
+                        timepiece. Our collection allows you to discover different watches and match them to every
+                        occasion,
+                        style, and
+                        important moment.
+                    </p>
+
+                    <p class="text-secondary fw-light leading-relaxed mb-4">
+                        Every watch in our collection is cared for with the utmost attention. Regular inspections,
+                        professional servicing,
+                        and thorough checks before every rental ensure that our timepieces remain in exceptional
+                        condition
+                        and are ready
+                        for their next story.
+                    </p>
+
+                    <div>
+                        <a routerLink="/watches" class="btn btn-outline-dark rounded-0 text-uppercase py-2 px-4"
+                            style="font-size: 0.7rem; letter-spacing: 1px;">
+                            Explore Our Collection
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="bg-light border border-light position-relative overflow-hidden h-100 min-vh-50">
+                        <div
+                            class="w-100 h-100 bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center text-muted small text-uppercase">
+                            <img src="\static_photos\photo_about_us.jpg" class="h-100 object-fit-cover"
+                                style="width: 100%;" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<section class="py-5 bg-white text-center mt-4">
-    <div class="container py-3">
-        <span class="text-uppercase tracking-widest small text-dark opacity-75 d-block mb-4"
-            style="letter-spacing: 2px; font-size: 0.7rem;">
-            BRANDS AVAILABLE IN OUR COLLECTION
-        </span>
+    </section>
+    <section class="py-5 bg-white text-center mt-4">
+        <div class="container py-3">
+            <span class="text-uppercase tracking-widest small text-dark opacity-75 d-block mb-4"
+                style="letter-spacing: 2px; font-size: 0.7rem;">
+                BRANDS AVAILABLE IN OUR COLLECTION
+            </span>
 
-        <div class="row align-items-center justify-content-center g-5">
-            <div class="col-6 col-md-3">
-                <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
-                    style="letter-spacing: 2px; font-family: serif;">
-                    Rolex
-                </h5>
-            </div>
+            <div class="row align-items-center justify-content-center g-5">
+                <div class="col-6 col-md-3">
+                    <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
+                        style="letter-spacing: 2px; font-family: serif;">
+                        Rolex
+                    </h5>
+                </div>
 
-            <div class="col-6 col-md-3">
-                <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
-                    style="letter-spacing: 2px; font-family: serif;">
-                    Patek Philippe
-                </h5>
-            </div>
+                <div class="col-6 col-md-3">
+                    <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
+                        style="letter-spacing: 2px; font-family: serif;">
+                        Patek Philippe
+                    </h5>
+                </div>
 
-            <div class="col-6 col-md-3">
-                <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
-                    style="letter-spacing: 2px; font-family: serif;">
-                    Cartier
-                </h5>
-            </div>
+                <div class="col-6 col-md-3">
+                    <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
+                        style="letter-spacing: 2px; font-family: serif;">
+                        Cartier
+                    </h5>
+                </div>
 
-            <div class="col-6 col-md-3">
-                <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
-                    style="letter-spacing: 2px; font-family: serif;">
-                    Omega
-                </h5>
+                <div class="col-6 col-md-3">
+                    <h5 class="fw-bold text-uppercase text-dark opacity-75 m-0 manufacturer-bottom"
+                        style="letter-spacing: 2px; font-family: serif;">
+                        Omega
+                    </h5>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>

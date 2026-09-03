@@ -1,5 +1,6 @@
 package com.yourwatchrental.watchrental.user;
 
+import com.yourwatchrental.watchrental.email.EmailService;
 import com.yourwatchrental.watchrental.security.JwUtil;
 import com.yourwatchrental.watchrental.security.SecurityUtil;
 import com.yourwatchrental.watchrental.user.dto.request.*;
@@ -37,9 +38,11 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder encoder;
     private final SecurityUtil securityUtil;
+    private final EmailService emailService;
 
     private static final Pattern UUID_PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
 
+    @Transactional
     public UserResponseDTO registerUser(UserRequestDTO request)
     {
         if(userRepository.existsByEmailIgnoreCase(request.email())) throw new UserEmailUsedException();
@@ -50,10 +53,16 @@ public class UserService {
         user.setStatus(UserStatus.ACTIVE);
         User createdUser = userRepository.save(user);
 
+        emailService.sendWelcomeEmail(
+                createdUser.getEmail(),
+                createdUser.getFirstName()
+        );
+
 
         return userMapper.toResponseDTO(createdUser);
     }
 
+    @Transactional
     public String authenticateUser(UserLoginRequestDTO request)
     {
         User user = userRepository.findByEmail(request.email())
@@ -80,6 +89,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public Page<UserResponseDTO> getUsers(
             UserFilterCriteriaRequestDTO criteria,
             Pageable pageable)
