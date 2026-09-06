@@ -38,7 +38,7 @@ export class RentalCreate {
   isCreatingRental = signal(false);
   rentalError = signal<string | null>(null);
   fullPrice = signal<number>(-1);
-
+private scrollPosition = 0;
   paymentMethodOptions = Object.values(PaymentMethod);
 
   watchInfo = signal<WatchFullInfoResponseDTO | null>(null);
@@ -117,33 +117,55 @@ export class RentalCreate {
   showRentalModal = signal(false);
 
   openRentalModal() {
-    if (
-      this.datePickerStartDate() === null ||
-      this.datePickerEndDate() === null ||
-      this.amoutOfDays() <= 0
-    ) {
-      return;
-    }
-
-    this.showRentalModal.set(true);
-
-    history.pushState(
-      { rentalModal: true },
-      '',
-      window.location.href
-    );
+  if (
+    this.datePickerStartDate() === null ||
+    this.datePickerEndDate() === null ||
+    this.amoutOfDays() <= 0
+  ) {
+    return;
   }
+
+  this.scrollPosition = window.scrollY;
+
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${this.scrollPosition}px`;
+  document.body.style.width = '100%';
+
+  this.showRentalModal.set(true);
+
+  history.pushState(
+    { rentalModal: true },
+    '',
+    window.location.href
+  );
+}
 
   closeRentalModal() {
-    this.showRentalModal.set(false);
-  }
+  this.showRentalModal.set(false);
+
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+
+  window.scrollTo({
+    top: this.scrollPosition,
+    behavior: 'instant'
+  });
+}
 
   @HostListener('window:popstate')
-  onPopState() {
-    if (this.showRentalModal()) {
-      this.showRentalModal.set(false);
-    }
+onPopState() {
+  if (this.showRentalModal()) {
+    this.closeRentalModal();
   }
+}
+
+ngOnDestroy() {
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+}
 
   rentalForm = this.fb.group({
     paymentMethod: [
