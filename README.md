@@ -262,15 +262,7 @@ The backend and frontend can therefore be cloned and run from the same repositor
 
 ### Admin panel
 
-![Admin panel](screenshots/admin-panel.png)
-
-### Watch management
-
-![Watch management](screenshots/watch-management.png)
-
-### Rental management
-
-![Rental management](screenshots/rental-management.png)
+![Admin panel](screenshots/admin.png)
 
 ---
 
