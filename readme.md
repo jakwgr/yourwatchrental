@@ -479,7 +479,7 @@ The production version is hosted on a Linux VPS.
 
 Nginx is used as the web server and handles HTTPS and incoming web traffic. The Spring Boot application runs separately and communicates with the PostgreSQL database.
 
-The production setup consists of:
+The production setup consists of: 
 
 ```text
 Internet
