@@ -234,38 +234,6 @@ The backend and frontend can therefore be cloned and run from the same repositor
 
 ---
 
-## Screenshots
-
-### Home page
-
-![Home page](screenshots/home.png)
-
-### Watch catalogue
-
-![Watch catalogue](screenshots/catalogue.png)
-
-### Watch details
-
-![Watch details](screenshots/watch-details.png)
-
-### Availability calendar
-
-![Availability calendar](screenshots/availability.png)
-
-### Rental process
-
-![Rental process](screenshots/rental.png)
-
-### User rentals
-
-![User rentals](screenshots/user-rentals.png)
-
-### Admin panel
-
-![Admin panel](screenshots/admin.png)
-
----
-
 ## Running the project locally
 
 ### What you need
